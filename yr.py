@@ -1,18 +1,24 @@
 """
 Set up our weather reports.
 """
-# Import project stuff.
-from general_classes import *
-
-# Import libraries.
 import datetime as dt
-from bs4 import BeautifulSoup
-import requests
 import os
 
+import requests
+from bs4 import BeautifulSoup
 
-# Class for storing a forecast from Yr.
+from general_classes import (
+    Forecast,
+    Place,
+    ForecastInterval,
+    Variable,
+    WindVariable,
+)
+
+
 class YrForecast(Forecast):
+    """ Class for storing a forecast from Yr. """
+
     def __init__(
         self,
         forecast_type: str,
@@ -29,12 +35,15 @@ class YrForecast(Forecast):
         self.sunset = sunset
 
 
-# Class for storing Yr data.
 class YrData:
+    """ Class for storing Yr data. """
 
     website = "http://yr.no/en"
     xml_path = "yr_xml_forecasts/"
-    cite_text = "Weather forecast from Yr, delivered by the Norwegian Meteorological Institute and the NRK"
+    cite_text = (
+        "Weather forecast from Yr, delivered by the Norwegian "
+        + "Meteorological Institute and the NRK"
+    )
 
     def __init__(self, date: dt.datetime, place: Place):
         self.name = f"Yr data for {place.name}"
@@ -44,10 +53,14 @@ class YrData:
         self.long_range_forecast = YrData.create_forecast(place, "lr")
         self.hour_by_hour_forecast = YrData.create_forecast(place, "hbh")
 
-    # Method for retrieving a Yr xml file.  Returns the file name.
-    # - Forecast type can be long range 'lr' or hour by hour 'hbh'
     @staticmethod
     def yr_get_xml_file(place: Place, forecast_type: str):
+        """
+        Method for retrieving a Yr xml file.  Returns the file name.
+
+        Forecast type can be long range 'lr' or hour by hour 'hbh'
+        """
+
         if forecast_type == "lr":
             url = f"{place.yr_url}forecast.xml"
             file_name = f"{YrData.xml_path}{place.name}_lr_forecast.xml"
@@ -58,18 +71,18 @@ class YrData:
             raise Exception(f"{forecast_type} is not a valid forecast type.")
 
         source = requests.get(url).text
-        with open(file_name, "w", newline="") as f:
-            f.write(source)
+        with open(file_name, "w", newline="") as file:
+            file.write(source)
 
         print(f"Got {forecast_type} for {place.name}")
         return file_name, forecast_type, place
 
-    # Method for producing  a Yr forecast from a Yr xml files soup.
     @staticmethod
     def yr_xml_to_forecast(file_name, forecast_type, place) -> YrForecast:
+        """ Method for producing  a Yr forecast from a Yr xml files soup. """
 
-        with open(file_name) as f:
-            source = f.read()
+        with open(file_name) as file:
+            source = file.read()
 
         soup = BeautifulSoup(source, "xml")
 
@@ -88,7 +101,9 @@ class YrData:
         intervals = []
 
         for interval in soup.find_all("time"):
-            start_time = dt.datetime.strptime(interval["from"], "%Y-%m-%dT%H:%M:%S")
+            start_time = dt.datetime.strptime(
+                interval["from"], "%Y-%m-%dT%H:%M:%S"
+            )
             end_time = dt.datetime.strptime(interval["to"], "%Y-%m-%dT%H:%M:%S")
 
             precip_value = float(interval.find("precipitation")["value"])
@@ -105,15 +120,27 @@ class YrData:
                 ),
             }
 
-            intervals.append(ForecastInterval(start_time, end_time, interval_variables))
+            intervals.append(
+                ForecastInterval(start_time, end_time, interval_variables)
+            )
 
         # print(f"Yr forecast of {file_name} updated.")
         return YrForecast(
-            forecast_type, place, updated_at, valid_until, sunrise, sunset, intervals
+            forecast_type,
+            place,
+            updated_at,
+            valid_until,
+            sunrise,
+            sunset,
+            intervals,
         )
 
     @staticmethod
     def create_forecast(place: Place, forecast_type: str) -> YrForecast:
+        """
+        Creates a forecast.
+        """
+
         if forecast_type == "lr":
             file_name = f"{YrData.xml_path}{place.name}_lr_forecast.xml"
         elif forecast_type == "hbh":
@@ -127,9 +154,12 @@ class YrData:
         # print(f"Created {forecast_type} for {place.name}")
         return YrData.yr_xml_to_forecast(file_name, forecast_type, place)
 
-    # Method for retrieving the Yr long range forecasts.
-    # - These forecasts are in 6 hour intervals for the next 9 days.
     def update_long_range_forecast(self):
+        """
+        Method for retrieving the Yr long range forecasts.
+
+        These forecasts are in 6 hour intervals for the next 9 days.
+        """
 
         if dt.datetime.now() >= self.long_range_forecast.valid_until:
             print(f"Updating lr forecast for {self.name}")
@@ -140,13 +170,14 @@ class YrData:
                 forecast_file_name, forecast_type, place
             )
         else:
-            # print(f"Forecast is still valid. Valid until {self.long_range_forecast.valid_until}")
+            # print("Forecast is still valid. Valid until " +
+            # f"{self.long_range_forecast.valid_until}")
             pass
 
         return
 
-    # Method for retrieving the Yr hour by hour forecasts.
     def update_hour_by_hour_forecast(self):
+        """ Method for retrieving the Yr hour by hour forecasts. """
 
         if dt.datetime.now() >= self.hour_by_hour_forecast.valid_until:
             # print(f"Updating hbh forecast for {self.name}")
@@ -157,14 +188,16 @@ class YrData:
                 forecast_file_name, forecast_type, place
             )
         else:
-            # print(f"Forecast is still valid. Valid until {self.hour_by_hour_forecast.valid_until}")
+            # print("Forecast is still valid. Valid until " +
+            # f"{self.hour_by_hour_forecast.valid_until}")
             pass
 
         return
 
-    # Method for creating a text report.
     # TODO: overwrite this in weather data.
     def yr_create_text_report(self) -> str:
+        """ Method for creating a text report. """
+
         text = ""
 
         text += f"Yr forecast for {self.place.name}\n"
@@ -181,13 +214,22 @@ class YrData:
         else:
             text += "\n"
             text += f"Tomorrow - {tomorrows_intervals[0].start_time.date()}\n"
-            text += f"Sunrise: {tomorrows_forecast.sunrise.time()}    Sunset: {tomorrows_forecast.sunset.time()}\n"
+            text += (
+                f"Sunrise: {tomorrows_forecast.sunrise.time()}    "
+                + "Sunset: {tomorrows_forecast.sunset.time()}\n"
+            )
 
             for interval in tomorrows_intervals:
                 text += f"{interval.start_time.time()} "
-                text += "{} ".format(str(interval.variables_dict["precipitation"]))
-                text += "{} \n".format(str(interval.variables_dict["temperature"]))
-                text += "         {} ".format(str(interval.variables_dict["wind"]))
+                text += "{} ".format(
+                    str(interval.variables_dict["precipitation"])
+                )
+                text += "{} \n".format(
+                    str(interval.variables_dict["temperature"])
+                )
+                text += "         {} ".format(
+                    str(interval.variables_dict["wind"])
+                )
                 text += "\n"
 
         text += "\n"
@@ -202,13 +244,20 @@ class YrData:
 
         else:
             text += f"Saturday - {saturdays_intervals[0].start_time.date()}\n"
-            # text += f"Sunrise: {saturdays_forecast.sunrise.time()}    Sunset: {saturdays_forecast.sunset.time()}\n"
+            # text += f"Sunrise: {saturdays_forecast.sunrise.time()}    "
+            # + "Sunset: {saturdays_forecast.sunset.time()}\n"
 
             for interval in saturdays_intervals:
                 text += f"{interval.start_time.time()} "
-                text += "{} ".format(str(interval.variables_dict["precipitation"]))
-                text += "{} \n".format(str(interval.variables_dict["temperature"]))
-                text += "         {} ".format(str(interval.variables_dict["wind"]))
+                text += "{} ".format(
+                    str(interval.variables_dict["precipitation"])
+                )
+                text += "{} \n".format(
+                    str(interval.variables_dict["temperature"])
+                )
+                text += "         {} ".format(
+                    str(interval.variables_dict["wind"])
+                )
                 text += "\n"
 
         text += "\n"
@@ -223,13 +272,20 @@ class YrData:
 
         else:
             text += f"Sunday - {sundays_intervals[0].start_time.date()}\n"
-            # text += f"Sunrise: {sundays_forecast.sunrise.time()}    Sunset: {sundays_forecast.sunset.time()}\n"
+            # text += f"Sunrise: {sundays_forecast.sunrise.time()}    "
+            # + "Sunset: {sundays_forecast.sunset.time()}\n"
 
             for interval in sundays_intervals:
                 text += f"{interval.start_time.time()} "
-                text += "{} ".format(str(interval.variables_dict["precipitation"]))
-                text += "{} \n".format(str(interval.variables_dict["temperature"]))
-                text += "         {} ".format(str(interval.variables_dict["wind"]))
+                text += "{} ".format(
+                    str(interval.variables_dict["precipitation"])
+                )
+                text += "{} \n".format(
+                    str(interval.variables_dict["temperature"])
+                )
+                text += "         {} ".format(
+                    str(interval.variables_dict["wind"])
+                )
                 text += "\n"
 
         return text
