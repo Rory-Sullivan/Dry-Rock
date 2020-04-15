@@ -1,4 +1,6 @@
 .vscode/
+reports/
+yr_xml_forecasts/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
