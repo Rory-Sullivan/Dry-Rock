@@ -1,26 +1,22 @@
 """
-Collects weather data from websites for various locations, collates the data and emails a report to a list of users.
+Updates our local xml data files and the html report.
 """
-# Import project files.
-from general_classes import Place
-from weather_data import WeatherData
-from manage_places import get_places
-from email_stuff import get_addresses, send_email
-
-# Import libraries.
 import datetime as dt
 
+from general_classes import Place
+from manage_places import get_places
+from weather_data import WeatherData
 
 # Get a time for this run.
-now = dt.datetime.now()
-print(f"Collecting weather data at {now}")
+NOW = dt.datetime.now()
+print(f"Collecting weather data at {NOW}")
 
 # Get places we are going to check.
 if __name__ == "__main__":
-    places = get_places()
+    PLACES = get_places()
 # For testing purposes we will just use Dublin.
 else:
-    places = [
+    PLACES = [
         Place(
             "Dublin",
             "Ireland/Leinster/Dublin",
@@ -28,18 +24,8 @@ else:
         )
     ]
 
-# Get data.
-current_data = WeatherData(now, places)
 
-#  Update text report.
-current_data.update_text_report()
+CURRENT_DATA = WeatherData(NOW, PLACES)
 
 
-# Update the html report.
-current_data.update_html_report()
-
-
-# We will not send an email if we are testing the code.
-if __name__ == "__main__":
-    addresses = get_addresses()
-    send_email(addresses)
+CURRENT_DATA.update_html_report()
