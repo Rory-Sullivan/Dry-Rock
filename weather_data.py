@@ -3,6 +3,7 @@ Code for handling the gathering of our weather data and creation of reports to
 be emailed.
 """
 import datetime as dt
+import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -13,6 +14,8 @@ class WeatherData:
     """ Class for gathering and storing all of our weather data. """
 
     reports_path = "reports/"
+    if not os.path.isdir(reports_path):
+        os.mkdir(reports_path)
 
     def __init__(self, date: dt.datetime, places: list):
 

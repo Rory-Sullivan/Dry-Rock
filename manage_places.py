@@ -49,6 +49,3 @@ def get_places():
 
 if __name__ == "__main__":
     create_csv()
-    # places = get_places()
-    # for place in places:
-    #     print(f"{place.name} {place.yr_link}")

@@ -40,6 +40,9 @@ class YrData:
 
     website = "http://yr.no/en"
     xml_path = "yr_xml_forecasts/"
+    if not os.path.isdir(xml_path):
+        os.mkdir(xml_path)
+
     cite_text = (
         "Weather forecast from Yr, delivered by the Norwegian "
         + "Meteorological Institute and the NRK"
