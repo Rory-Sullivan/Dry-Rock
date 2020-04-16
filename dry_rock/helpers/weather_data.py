@@ -13,7 +13,7 @@ from helpers.yr import YrData
 class WeatherData:
     """ Class for gathering and storing all of our weather data. """
 
-    reports_path = "../data/output/reports/"
+    reports_path = "./data/output/reports/"
     if not os.path.isdir(reports_path):
         os.mkdir(reports_path)
 
@@ -160,7 +160,7 @@ class WeatherData:
         # Set up our environment.
         env = Environment(
             loader=FileSystemLoader(
-                "templates"
+                "./dry_rock/templates"
             ),  # Loads templates from our templates directory.
             autoescape=select_autoescape(),  # Enable auto escaping.
             trim_blocks=True,  # Stops blocks from rendering a blank line.
