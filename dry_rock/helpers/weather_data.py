@@ -52,7 +52,7 @@ class WeatherData:
     def update_html_report(self):
         """ Updates the data in our html file. """
 
-        file_name = f"{WeatherData.reports_path}html_report.html"
+        file_name = f"{WeatherData.reports_path}index.html"
 
         # Set up our variables to make them easy to use in our template.
         context = []
