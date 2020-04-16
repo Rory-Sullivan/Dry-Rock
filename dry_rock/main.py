@@ -6,7 +6,6 @@ import datetime as dt
 from manage_places import get_places
 from weather_data import WeatherData
 
-
 NOW = dt.datetime.now()
 print(f"Collecting weather data at {NOW}")
 
