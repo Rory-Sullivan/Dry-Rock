@@ -7,7 +7,7 @@ import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from helpers.yr import YrData  # pylint: disable=no-name-in-module,import-error
+from helpers.yr import YrData
 
 
 class WeatherData:
