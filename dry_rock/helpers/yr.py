@@ -7,7 +7,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from general_classes import (
+from helpers.general_classes import (
     Forecast,
     Place,
     ForecastInterval,
@@ -39,7 +39,7 @@ class YrData:
     """ Class for storing Yr data. """
 
     website = "http://yr.no/en"
-    xml_path = "yr_xml_forecasts/"
+    xml_path = "../data/output/yr_xml_forecasts/"
     if not os.path.isdir(xml_path):
         os.mkdir(xml_path)
 

@@ -11,7 +11,7 @@ setup(
     author_email="codingrory@gmail.com",
     url="https://github.com/Rory-Sullivan/Dry-Rock",
     packages=["dry_rock"],  # same as name
-    install_requires=["beautifulsoup4", "requests", "lxml"],
+    install_requires=["beautifulsoup4", "requests", "lxml", "jinja2"],
     extras_require={
         "dev": ["eslint", "pycodestyle", "black"],
         "test": ["coverage"],

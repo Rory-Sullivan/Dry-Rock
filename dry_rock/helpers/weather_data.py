@@ -7,13 +7,13 @@ import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from yr import YrData
+from helpers.yr import YrData
 
 
 class WeatherData:
     """ Class for gathering and storing all of our weather data. """
 
-    reports_path = "reports/"
+    reports_path = "../data/output/reports/"
     if not os.path.isdir(reports_path):
         os.mkdir(reports_path)
 

@@ -2,13 +2,13 @@
 Functions for managing the places we will check.
 """
 import csv
-from general_classes import Place
+from helpers.general_classes import Place
 
 
 def create_csv():
     """ Add places to CSV file """
 
-    with open("places.csv", "w", newline="") as file:
+    with open("../data/input/places.csv", "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["name", "location", "yr_link"])
         writer.writerow(
@@ -38,7 +38,7 @@ def get_places():
     """ Returns list of places in SV file. """
 
     places = []
-    with open("places.csv", "r") as file:
+    with open("../data/input/places.csv", "r") as file:
         csv_file = csv.DictReader(file)
         for row in csv_file:
             place = Place(row["name"], row["location"], row["yr_link"])
