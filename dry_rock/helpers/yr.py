@@ -7,7 +7,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from helpers.general_classes import (
+from helpers.general_classes import (  # pylint: disable=no-name-in-module,import-error # noqa: E501
     Forecast,
     Place,
     ForecastInterval,
