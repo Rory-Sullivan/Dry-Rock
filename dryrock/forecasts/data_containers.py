@@ -1,5 +1,5 @@
 """
-Sets up our general classes and methods.
+Classes for holding different pieces of data related to weather forecasts.
 """
 import datetime as dt
 
@@ -20,7 +20,9 @@ class Place:
 
 
 class Variable:
-    """ Class for storing weather variables, e.g. temperature, rain, etc. """
+    """
+    Stores data for weather variables, e.g. rain, temperature.
+    """
 
     def __init__(self, name: str, value: float, unit: str):
         self.name = name
@@ -32,7 +34,9 @@ class Variable:
 
 
 class WindVariable(Variable):
-    """ Subclass for wind variable.  Includes a wind direction attribute. """
+    """
+    Special variable class for storing wind data.
+    """
 
     def __init__(self, value: float, unit: str, direction: str):
         super().__init__("Wind", value, unit)
@@ -64,7 +68,9 @@ class WindVariable(Variable):
 
 
 class ForecastInterval:
-    """ Class for storing an interval of a forecast. """
+    """
+    Stores information for an interval of a forecast, contains variables.
+    """
 
     def __init__(
         self, start_time: dt.datetime, end_time: dt.datetime, variables: dict
@@ -83,8 +89,7 @@ class ForecastInterval:
 
 class Forecast:
     """
-    Class for storing a forecast.  This is a group of intervals with some other
-    data.
+    Class for storing a forecast.  This is a group of forecast intervals.
     """
 
     def __init__(

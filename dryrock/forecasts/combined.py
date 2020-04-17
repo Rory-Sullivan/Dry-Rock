@@ -1,12 +1,12 @@
 """
-Code for handling the gathering of our weather data and creation of reports.
+Code for handling the gathering of our weather data.
 """
 import datetime as dt
 import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from dryrock.helpers.yr import YrData
+from dryrock.forecasts.yr import YrData
 
 
 class WeatherData:

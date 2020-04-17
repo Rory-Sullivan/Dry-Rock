@@ -7,7 +7,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from dryrock.helpers.general_classes import (
+from dryrock.forecasts.data_containers import (
     Forecast,
     Place,
     ForecastInterval,
