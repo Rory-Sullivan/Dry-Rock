@@ -4,8 +4,8 @@ Updates our local xml data files and the html report.
 import os
 import datetime as dt
 
-from dryrock.helpers.manage_places import get_places
-from dryrock.helpers.weather_data import WeatherData
+from dryrock.places.manage_places import get_places
+from dryrock.forecasts.combined import WeatherData
 
 if __name__ == "__main__":
 

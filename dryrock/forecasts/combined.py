@@ -146,7 +146,7 @@ class WeatherData:
 
         # Set up our environment.
         env = Environment(
-            loader=FileSystemLoader("./dryrock/templates"),
+            loader=FileSystemLoader("./dryrock/reports/templates"),
             autoescape=select_autoescape(),  # Enable auto escaping.
             trim_blocks=True,  # Stops blocks from rendering a blank line.
             lstrip_blocks=True,  # Strips whitespace from in front of a block.
