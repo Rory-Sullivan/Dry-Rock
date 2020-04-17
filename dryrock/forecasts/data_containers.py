@@ -3,20 +3,7 @@ Classes for holding different pieces of data related to weather forecasts.
 """
 import datetime as dt
 
-
-class Place:
-    """
-    Stores information for a place, create places from ./data/input/places.csv
-    """
-
-    def __init__(self, name: str, location: str, yr_link: str):
-        self.name = name
-        self.location = location
-        self.yr_url = f"http://www.yr.no/place/{location}/"
-        self.yr_link = yr_link
-
-    def __str__(self):
-        return self.name
+from dryrock.places import Place
 
 
 class Variable:

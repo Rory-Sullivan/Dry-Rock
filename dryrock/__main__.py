@@ -6,10 +6,9 @@ import datetime as dt
 
 from dryrock.places.manage_places import get_places
 from dryrock.forecasts.combined import WeatherData
+from dryrock.config import OUTPUT_PATH
 
 if __name__ == "__main__":
-
-    OUTPUT_PATH = "./data/output/"
 
     if not os.path.isdir(OUTPUT_PATH):
         os.mkdir(OUTPUT_PATH)
