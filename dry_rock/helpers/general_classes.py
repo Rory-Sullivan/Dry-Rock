@@ -139,12 +139,8 @@ class Forecast:
     def sundays_intervals(self):
         """ Get intervals for the next Sunday. """
 
-        next_sunday = dt.date.today() + dt.timedelta(
-            days=1
-        )  # Ensures we move to the next week.
-        while (
-            next_sunday.weekday() != 6
-        ):  # Relevant number for the day we want.
+        next_sunday = dt.date.today() + dt.timedelta(days=1)
+        while next_sunday.weekday() != 6:
             next_sunday += dt.timedelta(days=1)
         return self.get_relevant_intervals(next_sunday)
 

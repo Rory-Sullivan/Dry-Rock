@@ -1,5 +1,7 @@
 """
 Functions for managing the places we will check.
+
+Update the list of places below and run this file to update the CSV file.
 """
 import csv
 from helpers.general_classes import Place
@@ -35,7 +37,7 @@ def create_csv():
 
 
 def get_places():
-    """ Returns list of places in SV file. """
+    """ Returns list of places in CSV file. """
 
     places = []
     with open("./data/input/places.csv", "r") as file:

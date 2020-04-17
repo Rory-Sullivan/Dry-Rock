@@ -1,19 +1,18 @@
 """
-Code for handling the gathering of our weather data and creation of reports to
-be emailed.
+Code for handling the gathering of our weather data and creation of reports.
 """
 import datetime as dt
 import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from helpers.yr import YrData
+from .yr import YrData
 
 
 class WeatherData:
     """ Class for gathering and storing all of our weather data. """
 
-    reports_path = "./data/output/reports/"
+    reports_path = "./data/output/webpages/"
     if not os.path.isdir(reports_path):
         os.mkdir(reports_path)
 
@@ -36,21 +35,8 @@ class WeatherData:
 
             self.yr_data_for_places[place.name] = yr_data_for_place
 
-    def update_text_report(self):
-        """ Updates the data in our txt file. """
-
-        file_name = f"{WeatherData.reports_path}text_report.txt"
-
-        with open(file_name, "w") as file:
-
-            for place in self.places:
-                yr_data_for_place = self.yr_data_for_places[place.name]
-                text_report = yr_data_for_place.yr_create_text_report()
-                file.write(text_report)
-        return
-
     def update_html_report(self):
-        """ Updates the data in our html file. """
+        """ Updates index.html """
 
         file_name = f"{WeatherData.reports_path}index.html"
 
@@ -159,9 +145,7 @@ class WeatherData:
 
         # Set up our environment.
         env = Environment(
-            loader=FileSystemLoader(
-                "./dry_rock/templates"
-            ),  # Loads templates from our templates directory.
+            loader=FileSystemLoader("./dry_rock/templates"),
             autoescape=select_autoescape(),  # Enable auto escaping.
             trim_blocks=True,  # Stops blocks from rendering a blank line.
             lstrip_blocks=True,  # Strips whitespace from in front of a block.
@@ -175,8 +159,6 @@ class WeatherData:
 
         with open(file_name, "w") as file:
             file.write(output)
-
-        return
 
 
 # For testing our code.
