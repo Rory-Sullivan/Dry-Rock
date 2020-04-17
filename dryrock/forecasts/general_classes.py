@@ -5,14 +5,15 @@ import datetime as dt
 
 
 class Place:
-    """ Class for storing our places. """
+    """
+    Stores information for a place, create places from ./data/input/places.csv
+    """
 
     def __init__(self, name: str, location: str, yr_link: str):
         self.name = name
         self.location = location
-        self.yr_url = f"http://www.yr.no/place/{location}/"  # For retrieving
-        # weather data.
-        self.yr_link = yr_link  # For linking to in report.
+        self.yr_url = f"http://www.yr.no/place/{location}/"
+        self.yr_link = yr_link
 
     def __str__(self):
         return self.name
