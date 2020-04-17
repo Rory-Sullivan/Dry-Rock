@@ -4,7 +4,7 @@ Functions for managing the places we will check.
 Update the list of places below and run this file to update the CSV file.
 """
 import csv
-from helpers.general_classes import Place
+from dryrock.helpers.general_classes import Place
 
 
 def create_csv():

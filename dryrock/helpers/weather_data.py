@@ -6,17 +6,13 @@ import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from .yr import YrData
+from dryrock.helpers.yr import YrData
 
 
 class WeatherData:
     """ Class for gathering and storing all of our weather data. """
 
-    reports_path = "./data/output/webpages/"
-    if not os.path.isdir(reports_path):
-        os.mkdir(reports_path)
-
-    def __init__(self, date: dt.datetime, places: list):
+    def __init__(self, date: dt.datetime, places: list, output_path):
 
         self.date = date
         self.places = places
@@ -24,8 +20,10 @@ class WeatherData:
         # Collect information from Yr.
         self.yr_data_for_places = {}
 
+        self.reports_path = output_path + "webpages/"
+
         for place in self.places:
-            yr_data_for_place = YrData(date, place)
+            yr_data_for_place = YrData(date, place, output_path)
 
             # ------------------------------------------------------------------
             # Set which forecast we want to use.
@@ -38,7 +36,10 @@ class WeatherData:
     def update_html_report(self):
         """ Updates index.html """
 
-        file_name = f"{WeatherData.reports_path}index.html"
+        if not os.path.isdir(self.reports_path):
+            os.mkdir(self.reports_path)
+
+        file_name = f"{self.reports_path}index.html"
 
         # Set up our variables to make them easy to use in our template.
         context = []
@@ -145,7 +146,7 @@ class WeatherData:
 
         # Set up our environment.
         env = Environment(
-            loader=FileSystemLoader("./dry_rock/templates"),
+            loader=FileSystemLoader("./dryrock/templates"),
             autoescape=select_autoescape(),  # Enable auto escaping.
             trim_blocks=True,  # Stops blocks from rendering a blank line.
             lstrip_blocks=True,  # Strips whitespace from in front of a block.
@@ -162,18 +163,18 @@ class WeatherData:
 
 
 # For testing our code.
-if __name__ == "__main__":
-    from general_classes import Place
+# if __name__ == "__main__":
+#     from general_classes import Place
 
-    TEST_WEATHER_DATA = WeatherData(
-        dt.datetime.now(),
-        [
-            Place(
-                "Dublin",
-                "Ireland/Leinster/Dublin",
-                "https://www.yr.no/en/forecast/daily-table/2-2964574",
-            )
-        ],
-    )
+#     TEST_WEATHER_DATA = WeatherData(
+#         dt.datetime.now(),
+#         [
+#             Place(
+#                 "Dublin",
+#                 "Ireland/Leinster/Dublin",
+#                 "https://www.yr.no/en/forecast/daily-table/2-2964574",
+#             )
+#         ],
+#     )
 
-    TEST_WEATHER_DATA.update_html_report()
+#     TEST_WEATHER_DATA.update_html_report()

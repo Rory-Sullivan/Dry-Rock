@@ -4,18 +4,22 @@ Updates our local xml data files and the html report.
 import os
 import datetime as dt
 
-from helpers.manage_places import get_places
-from helpers.weather_data import WeatherData
+from dryrock.helpers.manage_places import get_places
+from dryrock.helpers.weather_data import WeatherData
 
-if not os.path.isdir("./data/output/"):
-    os.mkdir("./data/output/")
+if __name__ == "__main__":
 
-NOW = dt.datetime.now()
-print(f"Collecting weather data at {NOW}")
+    OUTPUT_PATH = "./data/output/"
 
-PLACES = get_places()
+    if not os.path.isdir(OUTPUT_PATH):
+        os.mkdir(OUTPUT_PATH)
 
-CURRENT_DATA = WeatherData(NOW, PLACES)
+    NOW = dt.datetime.now()
+    print(f"Collecting weather data at {NOW}")
 
-CURRENT_DATA.update_html_report()
-print("Done")
+    PLACES = get_places()
+
+    CURRENT_DATA = WeatherData(NOW, PLACES, OUTPUT_PATH)
+
+    CURRENT_DATA.update_html_report()
+    print("Done")

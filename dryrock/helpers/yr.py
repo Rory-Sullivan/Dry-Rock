@@ -7,7 +7,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from helpers.general_classes import (
+from dryrock.helpers.general_classes import (
     Forecast,
     Place,
     ForecastInterval,
@@ -39,37 +39,38 @@ class YrData:
     """ Class for storing Yr data. """
 
     website = "http://yr.no/en"
-    xml_path = "./data/output/yr_xml_forecasts/"
-    if not os.path.isdir(xml_path):
-        os.mkdir(xml_path)
 
     cite_text = (
         "Weather forecast from Yr, delivered by the Norwegian "
         + "Meteorological Institute and the NRK"
     )
 
-    def __init__(self, date: dt.datetime, place: Place):
+    def __init__(self, date: dt.datetime, place: Place, output_path: str):
         self.name = f"Yr data for {place.name}"
         self.date = date
         self.place = place
 
-        self.long_range_forecast = YrData.create_forecast(place, "lr")
-        self.hour_by_hour_forecast = YrData.create_forecast(place, "hbh")
+        self.xml_path = output_path + "yr_xml_forecasts/"
 
-    @staticmethod
-    def yr_get_xml_file(place: Place, forecast_type: str):
+        self.long_range_forecast = self.create_forecast(place, "lr")
+        self.hour_by_hour_forecast = self.create_forecast(place, "hbh")
+
+    def yr_get_xml_file(self, place: Place, forecast_type: str):
         """
         Method for retrieving a Yr xml file.  Returns the file name.
 
         Forecast type can be long range 'lr' or hour by hour 'hbh'
         """
 
+        if not os.path.isdir(self.xml_path):
+            os.mkdir(self.xml_path)
+
         if forecast_type == "lr":
             url = f"{place.yr_url}forecast.xml"
-            file_name = f"{YrData.xml_path}{place.name}_lr_forecast.xml"
+            file_name = f"{self.xml_path}{place.name}_lr_forecast.xml"
         elif forecast_type == "hbh":
             url = f"{place.yr_url}forecast_hour_by_hour.xml"
-            file_name = f"{YrData.xml_path}{place.name}_hbh_forecast.xml"
+            file_name = f"{self.xml_path}{place.name}_hbh_forecast.xml"
         else:
             raise Exception(f"{forecast_type} is not a valid forecast type.")
 
@@ -138,21 +139,20 @@ class YrData:
             intervals,
         )
 
-    @staticmethod
-    def create_forecast(place: Place, forecast_type: str) -> YrForecast:
+    def create_forecast(self, place: Place, forecast_type: str) -> YrForecast:
         """
         Creates a forecast.
         """
 
         if forecast_type == "lr":
-            file_name = f"{YrData.xml_path}{place.name}_lr_forecast.xml"
+            file_name = f"{self.xml_path}{place.name}_lr_forecast.xml"
         elif forecast_type == "hbh":
-            file_name = f"{YrData.xml_path}{place.name}_hbh_forecast.xml"
+            file_name = f"{self.xml_path}{place.name}_hbh_forecast.xml"
         else:
             raise Exception(f"{forecast_type} is not a valid forecast type.")
 
         if not os.path.isfile(file_name):
-            YrData.yr_get_xml_file(place, forecast_type)
+            self.yr_get_xml_file(place, forecast_type)
 
         # print(f"Created {forecast_type} for {place.name}")
         return YrData.yr_xml_to_forecast(file_name, forecast_type, place)
@@ -166,7 +166,7 @@ class YrData:
 
         if dt.datetime.now() >= self.long_range_forecast.valid_until:
             print(f"Updating lr forecast for {self.name}")
-            forecast_file_name, forecast_type, place = YrData.yr_get_xml_file(
+            forecast_file_name, forecast_type, place = self.yr_get_xml_file(
                 self.place, "lr"
             )
             self.long_range_forecast = self.yr_xml_to_forecast(
@@ -184,7 +184,7 @@ class YrData:
 
         if dt.datetime.now() >= self.hour_by_hour_forecast.valid_until:
             # print(f"Updating hbh forecast for {self.name}")
-            forecast_file_name, forecast_type, place = YrData.yr_get_xml_file(
+            forecast_file_name, forecast_type, place = self.yr_get_xml_file(
                 self.place, "hbh"
             )
             self.hour_by_hour_forecast = self.yr_xml_to_forecast(
@@ -196,99 +196,3 @@ class YrData:
             pass
 
         return
-
-    # TODO: overwrite this in weather data.
-    def yr_create_text_report(self) -> str:
-        """ Method for creating a text report. """
-
-        text = ""
-
-        text += f"Yr forecast for {self.place.name}\n"
-        text += f"Updated at : {self.long_range_forecast.updated_at}\n"
-
-        # Add text for tomorrows forecast.
-        # tomorrows_forecast = self.hour_by_hour_forecast
-        tomorrows_forecast = self.long_range_forecast
-        tomorrows_intervals = tomorrows_forecast.tomorrows_intervals
-
-        if len(tomorrows_intervals) == 0:
-            text += "No forecast for tomorrow.\n"
-
-        else:
-            text += "\n"
-            text += f"Tomorrow - {tomorrows_intervals[0].start_time.date()}\n"
-            text += (
-                f"Sunrise: {tomorrows_forecast.sunrise.time()}    "
-                + "Sunset: {tomorrows_forecast.sunset.time()}\n"
-            )
-
-            for interval in tomorrows_intervals:
-                text += f"{interval.start_time.time()} "
-                text += "{} ".format(
-                    str(interval.variables_dict["precipitation"])
-                )
-                text += "{} \n".format(
-                    str(interval.variables_dict["temperature"])
-                )
-                text += "         {} ".format(
-                    str(interval.variables_dict["wind"])
-                )
-                text += "\n"
-
-        text += "\n"
-
-        # Add text for next Saturdays forecast.
-        # saturdays_forecast = self.hour_by_hour_forecast
-        saturdays_forecast = self.long_range_forecast
-        saturdays_intervals = saturdays_forecast.saturdays_intervals
-
-        if len(saturdays_intervals) == 0:
-            text += "No forecasts for Saturday.\n"
-
-        else:
-            text += f"Saturday - {saturdays_intervals[0].start_time.date()}\n"
-            # text += f"Sunrise: {saturdays_forecast.sunrise.time()}    "
-            # + "Sunset: {saturdays_forecast.sunset.time()}\n"
-
-            for interval in saturdays_intervals:
-                text += f"{interval.start_time.time()} "
-                text += "{} ".format(
-                    str(interval.variables_dict["precipitation"])
-                )
-                text += "{} \n".format(
-                    str(interval.variables_dict["temperature"])
-                )
-                text += "         {} ".format(
-                    str(interval.variables_dict["wind"])
-                )
-                text += "\n"
-
-        text += "\n"
-
-        # Add text for next Sundays forecast.
-        # sundays_forecast = self.hour_by_hour_forecast
-        sundays_forecast = self.long_range_forecast
-        sundays_intervals = sundays_forecast.sundays_intervals
-
-        if len(sundays_intervals) == 0:
-            text += "No forecasts for Sunday.\n"
-
-        else:
-            text += f"Sunday - {sundays_intervals[0].start_time.date()}\n"
-            # text += f"Sunrise: {sundays_forecast.sunrise.time()}    "
-            # + "Sunset: {sundays_forecast.sunset.time()}\n"
-
-            for interval in sundays_intervals:
-                text += f"{interval.start_time.time()} "
-                text += "{} ".format(
-                    str(interval.variables_dict["precipitation"])
-                )
-                text += "{} \n".format(
-                    str(interval.variables_dict["temperature"])
-                )
-                text += "         {} ".format(
-                    str(interval.variables_dict["wind"])
-                )
-                text += "\n"
-
-        return text
