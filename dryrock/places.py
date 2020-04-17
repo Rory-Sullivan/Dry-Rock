@@ -2,7 +2,6 @@
 Functions for managing the places we will check.
 """
 import csv
-import os
 
 from dryrock.config import INPUT_PATH
 
