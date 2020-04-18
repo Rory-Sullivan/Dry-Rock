@@ -3,6 +3,7 @@ Set up our weather reports.
 """
 import datetime as dt
 import os
+import pathlib
 
 import requests
 from bs4 import BeautifulSoup
@@ -45,7 +46,9 @@ class YrData:
         + "Meteorological Institute and the NRK"
     )
 
-    def __init__(self, date: dt.datetime, place: Place, output_path: str):
+    def __init__(
+        self, date: dt.datetime, place: Place, output_path: pathlib.Path
+    ):
         self.name = f"Yr data for {place.name}"
         self.date = date
         self.place = place
@@ -62,30 +65,32 @@ class YrData:
         Forecast type can be long range 'lr' or hour by hour 'hbh'
         """
 
-        if not os.path.isdir(self.xml_path):
-            os.mkdir(self.xml_path)
+        if not self.xml_path.exists():
+            self.xml_path.mkdir(parents=True)
 
         if forecast_type == "lr":
             url = f"{place.yr_url}forecast.xml"
-            file_name = f"{self.xml_path}{place.name}_lr_forecast.xml"
+            file_path = self.xml_path.joinpath(f"{place.name}_lr_forecast.xml")
         elif forecast_type == "hbh":
             url = f"{place.yr_url}forecast_hour_by_hour.xml"
-            file_name = f"{self.xml_path}{place.name}_hbh_forecast.xml"
+            file_path = self.xml_path.joinpath(f"{place.name}_hbh_forecast.xml")
         else:
             raise Exception(f"{forecast_type} is not a valid forecast type.")
 
         source = requests.get(url).text
-        with open(file_name, "w", newline="") as file:
+        with open(file_path, "w", newline="") as file:
             file.write(source)
 
         print(f"Got {forecast_type} for {place.name}")
-        return file_name, forecast_type, place
+        return file_path, forecast_type, place
 
     @staticmethod
-    def yr_xml_to_forecast(file_name, forecast_type, place) -> YrForecast:
+    def yr_xml_to_forecast(
+        file_path: pathlib.Path, forecast_type, place
+    ) -> YrForecast:
         """ Method for producing  a Yr forecast from a Yr xml files soup. """
 
-        with open(file_name) as file:
+        with open(file_path) as file:
             source = file.read()
 
         soup = BeautifulSoup(source, "xml")
@@ -145,17 +150,17 @@ class YrData:
         """
 
         if forecast_type == "lr":
-            file_name = f"{self.xml_path}{place.name}_lr_forecast.xml"
+            file_path = self.xml_path.joinpath(f"{place.name}_lr_forecast.xml")
         elif forecast_type == "hbh":
-            file_name = f"{self.xml_path}{place.name}_hbh_forecast.xml"
+            file_path = self.xml_path.joinpath(f"{place.name}_hbh_forecast.xml")
         else:
             raise Exception(f"{forecast_type} is not a valid forecast type.")
 
-        if not os.path.isfile(file_name):
+        if not os.path.isfile(file_path):
             self.yr_get_xml_file(place, forecast_type)
 
         # print(f"Created {forecast_type} for {place.name}")
-        return YrData.yr_xml_to_forecast(file_name, forecast_type, place)
+        return YrData.yr_xml_to_forecast(file_path, forecast_type, place)
 
     def update_long_range_forecast(self):
         """
