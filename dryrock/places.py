@@ -38,7 +38,10 @@ def create_file():
 
 
 def get_places():
-    """Returns list of places in places.csv"""
+    """Returns list of places in places file.
+
+    Raises FileNotFoundError if file does not exist.
+    """
 
     places = []
     with open(FILE_PATH, "r") as file:
