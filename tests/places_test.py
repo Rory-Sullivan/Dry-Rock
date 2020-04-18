@@ -45,16 +45,22 @@ class TestCreateFile(unittest.TestCase):
         places.FILE_PATH = places.INPUT_PATH.joinpath("places.csv")
 
     def tearDown(self):
-        if places.FILE_PATH.exists():
+        try:
             os.remove(places.FILE_PATH)
-
-        if places.INPUT_PATH.exists():
             os.rmdir(places.INPUT_PATH)
+        except FileNotFoundError:
+            pass
 
-    def test_create_csv(self):
+    def test_file_is_created(self):
         places.create_file()
 
         self.assertTrue(places.FILE_PATH.exists())
+
+    def test_exception_raised_if_file_exists(self):
+        places.create_file()
+
+        with self.assertRaises(FileExistsError):
+            places.create_file()
 
 
 class TestGetPlaces(unittest.TestCase):

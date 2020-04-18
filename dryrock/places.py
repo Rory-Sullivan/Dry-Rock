@@ -24,25 +24,17 @@ class Place:
 
 
 def create_file():
-    """ Creates places.csv file in input location. """
+    """Creates places.csv file in input location.
 
-    if FILE_PATH.exists():
-        response = input(
-            "places.csv already exists do you wish to overwrite it? (Y/N)"
-        ).lower()
+    Raises FileExistsError if the file already exists.
+    """
 
-        if response == "y":
-            with open(FILE_PATH, "w", newline="") as file:
-                writer = csv.writer(file)
-                writer.writerow(["name", "location", "yr_link"])
+    if not INPUT_PATH.exists():
+        INPUT_PATH.mkdir(parents=True)
 
-    else:
-        if not INPUT_PATH.exists():
-            INPUT_PATH.mkdir(parents=True)
-
-        with open(FILE_PATH, "x", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(["name", "location", "yr_link"])
+    with open(FILE_PATH, "x", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["name", "location", "yr_link"])
 
 
 def add_place(place: Place):
