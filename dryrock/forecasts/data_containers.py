@@ -7,9 +7,7 @@ from dryrock.places import Place
 
 
 class Variable:
-    """
-    Stores data for weather variables, e.g. rain, temperature.
-    """
+    """Stores data for weather variables, e.g. rain, temperature."""
 
     def __init__(self, name: str, value: float, unit: str):
         self.name = name
@@ -21,9 +19,7 @@ class Variable:
 
 
 class WindVariable(Variable):
-    """
-    Special variable class for storing wind data.
-    """
+    """Special variable class for storing wind data."""
 
     def __init__(self, value: float, unit: str, direction: str):
         super().__init__("Wind", value, unit)
@@ -36,9 +32,10 @@ class WindVariable(Variable):
         )
 
     def convert_mps_to_kph(self):
-        """
-        Function for converting wind variable from meters per second to
+        """Function for converting wind variable from meters per second to
         kilometers per hour.
+
+        Will raise a value error if unit value is not 'mps' or 'kph'.
         """
 
         if self.unit == "mps":
@@ -49,9 +46,9 @@ class WindVariable(Variable):
             pass
 
         else:
-            raise Exception("Not a valid unit conversion.")
-
-        return
+            raise ValueError(
+                "Not a valid unit conversion units must be 'mps' or 'kph'."
+            )
 
 
 class ForecastInterval:

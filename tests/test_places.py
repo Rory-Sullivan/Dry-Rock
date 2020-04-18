@@ -1,4 +1,5 @@
 """Tests for our places functionality."""
+
 import unittest
 import os
 import pathlib
