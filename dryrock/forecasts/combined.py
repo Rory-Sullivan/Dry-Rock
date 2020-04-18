@@ -37,10 +37,10 @@ class WeatherData:
     def update_html_report(self):
         """ Updates index.html """
 
-        if not os.path.isdir(self.reports_path):
-            os.mkdir(self.reports_path)
+        if not self.reports_path.exists():
+            self.reports_path.mkdir(parents=True)
 
-        file_name = f"{self.reports_path}index.html"
+        file_path = self.reports_path.joinpath(f"index.html")
 
         # Set up our variables to make them easy to use in our template.
         context = []
@@ -159,7 +159,7 @@ class WeatherData:
         # Render the template.
         output = template.render(context=context, total_rains=total_rains)
 
-        with open(file_name, "w") as file:
+        with open(file_path, "w") as file:
             file.write(output)
 
 
