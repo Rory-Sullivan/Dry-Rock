@@ -37,19 +37,8 @@ def create_file():
         writer.writerow(["name", "location", "yr_link"])
 
 
-def add_place(place: Place):
-    """ Adds a place to places.csv """
-
-    if not FILE_PATH.exists():
-        create_file()
-
-    with FILE_PATH.open("a") as file:
-        writer = csv.writer(file)
-        writer.writerow([place.name, place.location, place.yr_link])
-
-
 def get_places():
-    """ Returns list of places in places.csv """
+    """Returns list of places in places.csv"""
 
     places = []
     with open(FILE_PATH, "r") as file:
@@ -59,20 +48,3 @@ def get_places():
             places.append(place)
 
     return places
-
-
-def remove_place(name):
-    """ Removes a place from places.csv """
-
-    places = get_places()
-
-    for place in places:
-        if place.name == name:
-            places.remove(place)
-
-    with open(FILE_PATH, "w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(["name", "location", "yr_link"])
-
-        for place in places:
-            writer.writerow([place.name, place.location, place.yr_link])
