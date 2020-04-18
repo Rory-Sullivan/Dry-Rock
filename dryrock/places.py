@@ -23,7 +23,7 @@ class Place:
         return self.name
 
 
-def create_csv():
+def create_file():
     """ Creates places.csv file in input location. """
 
     if FILE_PATH.exists():
@@ -49,7 +49,7 @@ def add_place(place: Place):
     """ Adds a place to places.csv """
 
     if not FILE_PATH.exists():
-        create_csv()
+        create_file()
 
     with FILE_PATH.open("a") as file:
         writer = csv.writer(file)
@@ -60,7 +60,7 @@ def get_places():
     """ Returns list of places in places.csv """
 
     places = []
-    with open("./data/input/places.csv", "r") as file:
+    with open(FILE_PATH, "r") as file:
         csv_file = csv.DictReader(file)
         for row in csv_file:
             place = Place(row["name"], row["location"], row["yr_link"])

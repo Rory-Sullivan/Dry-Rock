@@ -36,8 +36,8 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(value, expected_value)
 
 
-class TestPlaces(unittest.TestCase):
-    """Tests for creating places.csv, adding getting and removing places."""
+class TestCreateFile(unittest.TestCase):
+    """Tests for creating places.csv."""
 
     @classmethod
     def setUpClass(cls):
@@ -45,13 +45,33 @@ class TestPlaces(unittest.TestCase):
         places.FILE_PATH = places.INPUT_PATH.joinpath("places.csv")
 
     def tearDown(self):
-        os.remove(places.FILE_PATH)
-        os.rmdir(places.INPUT_PATH)
+        if places.FILE_PATH.exists():
+            os.remove(places.FILE_PATH)
+
+        if places.INPUT_PATH.exists():
+            os.rmdir(places.INPUT_PATH)
 
     def test_create_csv(self):
-        places.create_csv()
+        places.create_file()
 
         self.assertTrue(places.FILE_PATH.exists())
+
+
+class TestGetPlaces(unittest.TestCase):
+    """Tests for get_places() function."""
+
+    @classmethod
+    def setUpClass(cls):
+        places.INPUT_PATH = pathlib.Path("./tests/fixtures/")
+
+    def test_simple_case(self):
+        places.FILE_PATH = places.INPUT_PATH.joinpath("simple_places.csv")
+
+        simple_places = places.get_places()
+
+        self.assertIsInstance(simple_places, list)
+        self.assertEqual(len(simple_places), 3)
+        self.assertEqual(simple_places[0].name, "Dublin")
 
 
 if __name__ == "__main__":
