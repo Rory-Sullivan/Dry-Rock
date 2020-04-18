@@ -111,3 +111,12 @@ class TestForecast(unittest.TestCase):
         self.assertEqual(
             relevant_intervals[0].start_time, dt.datetime(2020, 1, 1, 0, 1)
         )
+
+        relevant_intervals = self.forecast.get_relevant_intervals(
+            dt.date(2020, 1, 3)
+        )
+
+        self.assertEqual(len(relevant_intervals), 3)
+        self.assertEqual(
+            relevant_intervals[0].start_time, dt.datetime(2020, 1, 3, 0, 1)
+        )
