@@ -9,11 +9,11 @@ from bs4 import BeautifulSoup
 
 from dryrock.forecasts.data_containers import (
     Forecast,
-    Place,
     ForecastInterval,
     Variable,
     WindVariable,
 )
+from dryrock.places import Place
 
 
 class YrForecast(Forecast):
@@ -50,7 +50,7 @@ class YrData:
         self.date = date
         self.place = place
 
-        self.xml_path = output_path + "yr_xml_forecasts/"
+        self.xml_path = output_path.joinpath("yr_xml_forecasts/")
 
         self.long_range_forecast = self.create_forecast(place, "lr")
         self.hour_by_hour_forecast = self.create_forecast(place, "hbh")

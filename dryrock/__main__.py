@@ -1,12 +1,12 @@
 """
 Updates our local xml data files and the html report.
 """
-import os
 import datetime as dt
+import os
 
-from dryrock.places.manage_places import get_places
-from dryrock.forecasts.combined import WeatherData
 from dryrock.config import OUTPUT_PATH
+from dryrock.forecasts.combined import WeatherData
+from dryrock.places import get_places
 
 if __name__ == "__main__":
 

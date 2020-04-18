@@ -6,6 +6,7 @@ import os
 from copy import deepcopy
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 from dryrock.forecasts.yr import YrData
 
 
@@ -20,7 +21,7 @@ class WeatherData:
         # Collect information from Yr.
         self.yr_data_for_places = {}
 
-        self.reports_path = output_path + "webpages/"
+        self.reports_path = output_path.joinpath("webpages/")
 
         for place in self.places:
             yr_data_for_place = YrData(date, place, output_path)
