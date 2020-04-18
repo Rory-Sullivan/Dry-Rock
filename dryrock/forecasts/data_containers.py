@@ -52,9 +52,7 @@ class WindVariable(Variable):
 
 
 class ForecastInterval:
-    """
-    Stores information for an interval of a forecast, contains variables.
-    """
+    """Stores information for an interval of a forecast, contains variables."""
 
     def __init__(
         self, start_time: dt.datetime, end_time: dt.datetime, variables: dict
@@ -72,9 +70,7 @@ class ForecastInterval:
 
 
 class Forecast:
-    """
-    Class for storing a forecast.  This is a group of forecast intervals.
-    """
+    """Class for storing a forecast.  This is a group of forecast intervals."""
 
     def __init__(
         self,
@@ -91,11 +87,8 @@ class Forecast:
         self.intervals = forecast_intervals
 
     def get_relevant_intervals(self, day: dt.date):
-        """
-        Returns the relevant intervals for specified day. Useful days see below.
-        """
+        """Returns the relevant intervals for specified day."""
 
-        # print(f"Getting intervals for {day}")
         relevant_date = day
         relevant_intervals = []
 
@@ -103,8 +96,6 @@ class Forecast:
             if interval.start_time.date() == relevant_date:
                 relevant_intervals.append(interval)
 
-        # if len(relevant_intervals) > 0:
-        #     print("Found some intervals")
         return relevant_intervals
 
     @property
