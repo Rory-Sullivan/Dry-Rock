@@ -79,6 +79,12 @@ class TestGetPlaces(unittest.TestCase):
         self.assertEqual(len(simple_places), 3)
         self.assertEqual(simple_places[0].name, "Dublin")
 
+    def test_exception_if_no_file(self):
+        places.FILE_PATH = places.INPUT_PATH.joinpath("nonexistent_file.csv")
+
+        with self.assertRaises(FileNotFoundError):
+            places.get_places()
+
 
 if __name__ == "__main__":
     unittest.main()
