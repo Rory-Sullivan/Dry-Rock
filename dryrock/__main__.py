@@ -7,6 +7,7 @@ import os
 from dryrock.config import OUTPUT_PATH
 from dryrock.forecasts.combined import WeatherData
 from dryrock.places import get_places
+from dryrock.reports.generate_html_reports import update_html_report
 
 if __name__ == "__main__":
 
@@ -20,5 +21,5 @@ if __name__ == "__main__":
 
     CURRENT_DATA = WeatherData(NOW, PLACES, OUTPUT_PATH)
 
-    CURRENT_DATA.update_html_report()
+    update_html_report(CURRENT_DATA, OUTPUT_PATH)
     print("Done")
