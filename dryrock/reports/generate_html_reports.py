@@ -121,7 +121,7 @@ def update_html_report(data: WeatherData, output_path: pathlib.Path):
     )
 
     # Import template.
-    template = env.get_template("report_template.html")
+    template = env.get_template("report_template.html.j2")
 
     # Render the template.
     output = template.render(context=context, total_rains=total_rains)
