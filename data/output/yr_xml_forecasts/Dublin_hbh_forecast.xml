@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<weatherdata>
+  <location>
+    <name>Dublin</name>
+    <type>Capital</type>
+    <country>Ireland</country>
+    <timezone id="Europe/Dublin" utcoffsetMinutes="60" />
+    <location altitude="17" latitude="53.33306" longitude="-6.24889" geobase="geonames" geobaseid="2964574" />
+  </location>
+  <credit>
+    <!--In order to use the free weather data from yr no, you HAVE to display 
+the following text clearly visible on your web page. The text should be a 
+link to the specified URL.-->
+    <!--Please read more about our conditions and guidelines at http://om.yr.no/verdata/  English explanation at http://om.yr.no/verdata/free-weather-data/-->
+    <link text="Weather forecast from Yr, delivered by the Norwegian Meteorological Institute and the NRK" url="http://www.yr.no/place/Ireland/Leinster/Dublin/" />
+  </credit>
+  <links>
+    <link id="xmlSource" url="http://www.yr.no/place/Ireland/Leinster/Dublin/forecast.xml" />
+    <link id="xmlSourceHourByHour" url="http://www.yr.no/place/Ireland/Leinster/Dublin/forecast_hour_by_hour.xml" />
+    <link id="overview" url="http://www.yr.no/place/Ireland/Leinster/Dublin/" />
+    <link id="hourByHour" url="http://www.yr.no/place/Ireland/Leinster/Dublin/hour_by_hour" />
+    <link id="longTermForecast" url="http://www.yr.no/place/Ireland/Leinster/Dublin/long" />
+  </links>
+  <meta>
+    <lastupdate>2020-04-20T14:26:00</lastupdate>
+    <nextupdate>2020-04-20T20:39:00</nextupdate>
+  </meta>
+  <sun rise="2020-04-20T06:13:25" set="2020-04-20T20:35:03" />
+  <forecast>
+    <tabular>
+      <time from="2020-04-20T16:00:00" to="2020-04-20T17:00:00">
+        <!-- Valid from 2020-04-20T16:00:00 to 2020-04-20T17:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T16:00:00 -->
+        <windDirection deg="68.9" code="ENE" name="East-northeast" />
+        <windSpeed mps="6.5" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1020.6" />
+      </time>
+      <time from="2020-04-20T17:00:00" to="2020-04-20T18:00:00">
+        <!-- Valid from 2020-04-20T17:00:00 to 2020-04-20T18:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T17:00:00 -->
+        <windDirection deg="63.8" code="ENE" name="East-northeast" />
+        <windSpeed mps="6.6" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1020.0" />
+      </time>
+      <time from="2020-04-20T18:00:00" to="2020-04-20T19:00:00">
+        <!-- Valid from 2020-04-20T18:00:00 to 2020-04-20T19:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T18:00:00 -->
+        <windDirection deg="59.8" code="ENE" name="East-northeast" />
+        <windSpeed mps="6.6" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1019.7" />
+      </time>
+      <time from="2020-04-20T19:00:00" to="2020-04-20T20:00:00">
+        <!-- Valid from 2020-04-20T19:00:00 to 2020-04-20T20:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T19:00:00 -->
+        <windDirection deg="62.8" code="ENE" name="East-northeast" />
+        <windSpeed mps="6.4" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1019.8" />
+      </time>
+      <time from="2020-04-20T20:00:00" to="2020-04-20T21:00:00">
+        <!-- Valid from 2020-04-20T20:00:00 to 2020-04-20T21:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T20:00:00 -->
+        <windDirection deg="68.2" code="ENE" name="East-northeast" />
+        <windSpeed mps="7.0" name="Moderate breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1020.0" />
+      </time>
+      <time from="2020-04-20T21:00:00" to="2020-04-20T22:00:00">
+        <!-- Valid from 2020-04-20T21:00:00 to 2020-04-20T22:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T21:00:00 -->
+        <windDirection deg="73.2" code="ENE" name="East-northeast" />
+        <windSpeed mps="7.1" name="Moderate breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1020.4" />
+      </time>
+      <time from="2020-04-20T22:00:00" to="2020-04-20T23:00:00">
+        <!-- Valid from 2020-04-20T22:00:00 to 2020-04-20T23:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T22:00:00 -->
+        <windDirection deg="79.6" code="E" name="East" />
+        <windSpeed mps="7.3" name="Moderate breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1020.7" />
+      </time>
+      <time from="2020-04-20T23:00:00" to="2020-04-21T00:00:00">
+        <!-- Valid from 2020-04-20T23:00:00 to 2020-04-21T00:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-20T23:00:00 -->
+        <windDirection deg="82.3" code="E" name="East" />
+        <windSpeed mps="7.3" name="Moderate breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1021.1" />
+      </time>
+      <time from="2020-04-21T00:00:00" to="2020-04-21T01:00:00">
+        <!-- Valid from 2020-04-21T00:00:00 to 2020-04-21T01:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T00:00:00 -->
+        <windDirection deg="79.8" code="E" name="East" />
+        <windSpeed mps="7.0" name="Moderate breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1021.1" />
+      </time>
+      <time from="2020-04-21T01:00:00" to="2020-04-21T02:00:00">
+        <!-- Valid from 2020-04-21T01:00:00 to 2020-04-21T02:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T01:00:00 -->
+        <windDirection deg="79.2" code="E" name="East" />
+        <windSpeed mps="6.5" name="Moderate breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1021.3" />
+      </time>
+      <time from="2020-04-21T02:00:00" to="2020-04-21T03:00:00">
+        <!-- Valid from 2020-04-21T02:00:00 to 2020-04-21T03:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T02:00:00 -->
+        <windDirection deg="79.9" code="E" name="East" />
+        <windSpeed mps="6.2" name="Moderate breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1021.2" />
+      </time>
+      <time from="2020-04-21T03:00:00" to="2020-04-21T04:00:00">
+        <!-- Valid from 2020-04-21T03:00:00 to 2020-04-21T04:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T03:00:00 -->
+        <windDirection deg="79.2" code="E" name="East" />
+        <windSpeed mps="5.6" name="Moderate breeze" />
+        <temperature unit="celsius" value="7" />
+        <pressure unit="hPa" value="1021.0" />
+      </time>
+      <time from="2020-04-21T04:00:00" to="2020-04-21T05:00:00">
+        <!-- Valid from 2020-04-21T04:00:00 to 2020-04-21T05:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T04:00:00 -->
+        <windDirection deg="76.3" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.1" name="Gentle breeze" />
+        <temperature unit="celsius" value="7" />
+        <pressure unit="hPa" value="1020.6" />
+      </time>
+      <time from="2020-04-21T05:00:00" to="2020-04-21T06:00:00">
+        <!-- Valid from 2020-04-21T05:00:00 to 2020-04-21T06:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T05:00:00 -->
+        <windDirection deg="75.6" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.7" name="Gentle breeze" />
+        <temperature unit="celsius" value="7" />
+        <pressure unit="hPa" value="1020.4" />
+      </time>
+      <time from="2020-04-21T06:00:00" to="2020-04-21T07:00:00">
+        <!-- Valid from 2020-04-21T06:00:00 to 2020-04-21T07:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T06:00:00 -->
+        <windDirection deg="72.4" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.5" name="Gentle breeze" />
+        <temperature unit="celsius" value="7" />
+        <pressure unit="hPa" value="1020.2" />
+      </time>
+      <time from="2020-04-21T07:00:00" to="2020-04-21T08:00:00">
+        <!-- Valid from 2020-04-21T07:00:00 to 2020-04-21T08:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T07:00:00 -->
+        <windDirection deg="78.6" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.5" name="Gentle breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1020.5" />
+      </time>
+      <time from="2020-04-21T08:00:00" to="2020-04-21T09:00:00">
+        <!-- Valid from 2020-04-21T08:00:00 to 2020-04-21T09:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T08:00:00 -->
+        <windDirection deg="78.2" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.1" name="Gentle breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1021.0" />
+      </time>
+      <time from="2020-04-21T09:00:00" to="2020-04-21T10:00:00">
+        <!-- Valid from 2020-04-21T09:00:00 to 2020-04-21T10:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T09:00:00 -->
+        <windDirection deg="76.1" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.6" name="Moderate breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1021.2" />
+      </time>
+      <time from="2020-04-21T10:00:00" to="2020-04-21T11:00:00">
+        <!-- Valid from 2020-04-21T10:00:00 to 2020-04-21T11:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T10:00:00 -->
+        <windDirection deg="76.2" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.8" name="Moderate breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1021.4" />
+      </time>
+      <time from="2020-04-21T11:00:00" to="2020-04-21T12:00:00">
+        <!-- Valid from 2020-04-21T11:00:00 to 2020-04-21T12:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T11:00:00 -->
+        <windDirection deg="74.6" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.7" name="Moderate breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1021.5" />
+      </time>
+      <time from="2020-04-21T12:00:00" to="2020-04-21T13:00:00">
+        <!-- Valid from 2020-04-21T12:00:00 to 2020-04-21T13:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T12:00:00 -->
+        <windDirection deg="71.7" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.5" name="Moderate breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1021.6" />
+      </time>
+      <time from="2020-04-21T13:00:00" to="2020-04-21T14:00:00">
+        <!-- Valid from 2020-04-21T13:00:00 to 2020-04-21T14:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T13:00:00 -->
+        <windDirection deg="70.0" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.9" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1021.7" />
+      </time>
+      <time from="2020-04-21T14:00:00" to="2020-04-21T15:00:00">
+        <!-- Valid from 2020-04-21T14:00:00 to 2020-04-21T15:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T14:00:00 -->
+        <windDirection deg="67.8" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.8" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1021.3" />
+      </time>
+      <time from="2020-04-21T15:00:00" to="2020-04-21T16:00:00">
+        <!-- Valid from 2020-04-21T15:00:00 to 2020-04-21T16:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T15:00:00 -->
+        <windDirection deg="65.4" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.6" name="Moderate breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1021.1" />
+      </time>
+      <time from="2020-04-21T16:00:00" to="2020-04-21T17:00:00">
+        <!-- Valid from 2020-04-21T16:00:00 to 2020-04-21T17:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T16:00:00 -->
+        <windDirection deg="61.7" code="ENE" name="East-northeast" />
+        <windSpeed mps="5.3" name="Gentle breeze" />
+        <temperature unit="celsius" value="12" />
+        <pressure unit="hPa" value="1020.8" />
+      </time>
+      <time from="2020-04-21T17:00:00" to="2020-04-21T18:00:00">
+        <!-- Valid from 2020-04-21T17:00:00 to 2020-04-21T18:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T17:00:00 -->
+        <windDirection deg="58.4" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.7" name="Gentle breeze" />
+        <temperature unit="celsius" value="12" />
+        <pressure unit="hPa" value="1020.6" />
+      </time>
+      <time from="2020-04-21T18:00:00" to="2020-04-21T19:00:00">
+        <!-- Valid from 2020-04-21T18:00:00 to 2020-04-21T19:00:00 -->
+        <symbol number="1" numberEx="1" name="Clear sky" var="01d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T18:00:00 -->
+        <windDirection deg="55.8" code="NE" name="Northeast" />
+        <windSpeed mps="4.2" name="Gentle breeze" />
+        <temperature unit="celsius" value="12" />
+        <pressure unit="hPa" value="1020.6" />
+      </time>
+      <time from="2020-04-21T19:00:00" to="2020-04-21T20:00:00">
+        <!-- Valid from 2020-04-21T19:00:00 to 2020-04-21T20:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T19:00:00 -->
+        <windDirection deg="54.8" code="NE" name="Northeast" />
+        <windSpeed mps="3.6" name="Gentle breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1020.8" />
+      </time>
+      <time from="2020-04-21T20:00:00" to="2020-04-21T21:00:00">
+        <!-- Valid from 2020-04-21T20:00:00 to 2020-04-21T21:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T20:00:00 -->
+        <windDirection deg="60.1" code="ENE" name="East-northeast" />
+        <windSpeed mps="3.5" name="Gentle breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1021.1" />
+      </time>
+      <time from="2020-04-21T21:00:00" to="2020-04-21T22:00:00">
+        <!-- Valid from 2020-04-21T21:00:00 to 2020-04-21T22:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T21:00:00 -->
+        <windDirection deg="67.4" code="ENE" name="East-northeast" />
+        <windSpeed mps="3.9" name="Gentle breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1021.6" />
+      </time>
+      <time from="2020-04-21T22:00:00" to="2020-04-21T23:00:00">
+        <!-- Valid from 2020-04-21T22:00:00 to 2020-04-21T23:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T22:00:00 -->
+        <windDirection deg="75.3" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.7" name="Gentle breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1022.1" />
+      </time>
+      <time from="2020-04-21T23:00:00" to="2020-04-22T00:00:00">
+        <!-- Valid from 2020-04-21T23:00:00 to 2020-04-22T00:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-21T23:00:00 -->
+        <windDirection deg="82.1" code="E" name="East" />
+        <windSpeed mps="5.0" name="Gentle breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1022.5" />
+      </time>
+      <time from="2020-04-22T00:00:00" to="2020-04-22T01:00:00">
+        <!-- Valid from 2020-04-22T00:00:00 to 2020-04-22T01:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T00:00:00 -->
+        <windDirection deg="85.5" code="E" name="East" />
+        <windSpeed mps="4.9" name="Gentle breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1022.9" />
+      </time>
+      <time from="2020-04-22T01:00:00" to="2020-04-22T02:00:00">
+        <!-- Valid from 2020-04-22T01:00:00 to 2020-04-22T02:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T01:00:00 -->
+        <windDirection deg="86.3" code="E" name="East" />
+        <windSpeed mps="4.6" name="Gentle breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1023.2" />
+      </time>
+      <time from="2020-04-22T02:00:00" to="2020-04-22T03:00:00">
+        <!-- Valid from 2020-04-22T02:00:00 to 2020-04-22T03:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T02:00:00 -->
+        <windDirection deg="84.7" code="E" name="East" />
+        <windSpeed mps="4.4" name="Gentle breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1023.3" />
+      </time>
+      <time from="2020-04-22T03:00:00" to="2020-04-22T04:00:00">
+        <!-- Valid from 2020-04-22T03:00:00 to 2020-04-22T04:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T03:00:00 -->
+        <windDirection deg="82.0" code="E" name="East" />
+        <windSpeed mps="4.1" name="Gentle breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1023.3" />
+      </time>
+      <time from="2020-04-22T04:00:00" to="2020-04-22T05:00:00">
+        <!-- Valid from 2020-04-22T04:00:00 to 2020-04-22T05:00:00 -->
+        <symbol number="2" numberEx="2" name="Fair" var="02n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T04:00:00 -->
+        <windDirection deg="78.9" code="E" name="East" />
+        <windSpeed mps="4.0" name="Gentle breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1023.3" />
+      </time>
+      <time from="2020-04-22T05:00:00" to="2020-04-22T06:00:00">
+        <!-- Valid from 2020-04-22T05:00:00 to 2020-04-22T06:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T05:00:00 -->
+        <windDirection deg="73.9" code="ENE" name="East-northeast" />
+        <windSpeed mps="3.8" name="Gentle breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1023.4" />
+      </time>
+      <time from="2020-04-22T06:00:00" to="2020-04-22T07:00:00">
+        <!-- Valid from 2020-04-22T06:00:00 to 2020-04-22T07:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03n" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T06:00:00 -->
+        <windDirection deg="68.7" code="ENE" name="East-northeast" />
+        <windSpeed mps="3.7" name="Gentle breeze" />
+        <temperature unit="celsius" value="7" />
+        <pressure unit="hPa" value="1023.4" />
+      </time>
+      <time from="2020-04-22T07:00:00" to="2020-04-22T08:00:00">
+        <!-- Valid from 2020-04-22T07:00:00 to 2020-04-22T08:00:00 -->
+        <symbol number="4" numberEx="4" name="Cloudy" var="04" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T07:00:00 -->
+        <windDirection deg="64.4" code="ENE" name="East-northeast" />
+        <windSpeed mps="3.5" name="Gentle breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1023.7" />
+      </time>
+      <time from="2020-04-22T08:00:00" to="2020-04-22T09:00:00">
+        <!-- Valid from 2020-04-22T08:00:00 to 2020-04-22T09:00:00 -->
+        <symbol number="4" numberEx="4" name="Cloudy" var="04" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T08:00:00 -->
+        <windDirection deg="64.0" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.3" name="Gentle breeze" />
+        <temperature unit="celsius" value="8" />
+        <pressure unit="hPa" value="1024.1" />
+      </time>
+      <time from="2020-04-22T09:00:00" to="2020-04-22T10:00:00">
+        <!-- Valid from 2020-04-22T09:00:00 to 2020-04-22T10:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T09:00:00 -->
+        <windDirection deg="63.8" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.5" name="Gentle breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1024.4" />
+      </time>
+      <time from="2020-04-22T10:00:00" to="2020-04-22T11:00:00">
+        <!-- Valid from 2020-04-22T10:00:00 to 2020-04-22T11:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T10:00:00 -->
+        <windDirection deg="59.6" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.3" name="Gentle breeze" />
+        <temperature unit="celsius" value="9" />
+        <pressure unit="hPa" value="1024.5" />
+      </time>
+      <time from="2020-04-22T11:00:00" to="2020-04-22T12:00:00">
+        <!-- Valid from 2020-04-22T11:00:00 to 2020-04-22T12:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T11:00:00 -->
+        <windDirection deg="60.3" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.4" name="Gentle breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1024.6" />
+      </time>
+      <time from="2020-04-22T12:00:00" to="2020-04-22T13:00:00">
+        <!-- Valid from 2020-04-22T12:00:00 to 2020-04-22T13:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T12:00:00 -->
+        <windDirection deg="58.8" code="ENE" name="East-northeast" />
+        <windSpeed mps="4.2" name="Gentle breeze" />
+        <temperature unit="celsius" value="10" />
+        <pressure unit="hPa" value="1024.7" />
+      </time>
+      <time from="2020-04-22T13:00:00" to="2020-04-22T14:00:00">
+        <!-- Valid from 2020-04-22T13:00:00 to 2020-04-22T14:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T13:00:00 -->
+        <windDirection deg="54.9" code="NE" name="Northeast" />
+        <windSpeed mps="4.2" name="Gentle breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1024.5" />
+      </time>
+      <time from="2020-04-22T14:00:00" to="2020-04-22T15:00:00">
+        <!-- Valid from 2020-04-22T14:00:00 to 2020-04-22T15:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T14:00:00 -->
+        <windDirection deg="53.0" code="NE" name="Northeast" />
+        <windSpeed mps="4.2" name="Gentle breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1024.3" />
+      </time>
+      <time from="2020-04-22T15:00:00" to="2020-04-22T16:00:00">
+        <!-- Valid from 2020-04-22T15:00:00 to 2020-04-22T16:00:00 -->
+        <symbol number="3" numberEx="3" name="Partly cloudy" var="03d" />
+        <precipitation value="0" />
+        <!-- Valid at 2020-04-22T15:00:00 -->
+        <windDirection deg="51.5" code="NE" name="Northeast" />
+        <windSpeed mps="3.9" name="Gentle breeze" />
+        <temperature unit="celsius" value="11" />
+        <pressure unit="hPa" value="1024.1" />
+      </time>
+    </tabular>
+  </forecast>
+  <weatherstation stno="0" sttype="" name="" distance="0" lat="0" lon="0" source="">
+    <!--Observasjoner er ikke lengre tilgjengelig i dette datasettet. Observations are no longer availble in this dataset-->
+    <symbol number="0" name="" time="2019-11-14T00:00:00Z" />
+    <temperature unit="" value="0" time="2019-11-14T00:00:00Z" />
+    <windDirection deg="0" code="" name="" time="2019-11-14T00:00:00Z" />
+    <windSpeed mps="0" name="" time="2019-11-14T00:00:00Z" />
+  </weatherstation>
+</weatherdata>
