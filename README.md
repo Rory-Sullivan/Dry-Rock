@@ -1,8 +1,8 @@
 # Dry-Rock
 
 The code behind my website
-[here](https://rory-sullivan.github.io/Dry-Rock/).  It scrapes weather
-data from several other sites and displays it in a coherent fashion.
+[here](https://rory-sullivan.github.io/Dry-Rock/). Designed to help climbers
+find some dry rock to climb on.
 
 ## Licensing notes
 
