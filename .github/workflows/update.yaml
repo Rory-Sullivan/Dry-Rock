@@ -33,7 +33,7 @@ jobs:
 
     - name: Commit
       run: |
-        git --author=${EMAIL} -a
+        git commit --author=${EMAIL} -a
 
     - name: Push
       run: |
