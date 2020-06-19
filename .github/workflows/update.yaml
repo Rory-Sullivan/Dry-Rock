@@ -36,7 +36,7 @@ jobs:
 
     - name: Commit
       run: |
-        git commit --author=$EMAIL -a -m 'AUTO COMMIT: Update at $NOW'
+        git commit --author='Auto Updater' -a -m 'AUTO COMMIT: Update at $NOW'
 
     - name: Push
       run: |
