@@ -1,9 +1,9 @@
 
 name: Python application
 
-on: push
-  #schedule:
-  #  - cron: '0 7,10,13,15,18,21 * * *'
+on:
+  schedule:
+    - cron: '0 7,10,13,15,18,21 * * *'
 
 jobs:
   update:
@@ -38,7 +38,7 @@ jobs:
       run: |
         git config user.email "no-email@auto.com"
         git config user.name "Auto Updater"
-        git commit -a -m 'AUTO COMMIT: Update at $NOW'
+        git commit -a -m "AUTO COMMIT: Update at $NOW"
 
     - name: Push
       run: |
