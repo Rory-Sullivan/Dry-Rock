@@ -31,9 +31,12 @@ jobs:
       run: |
         python -m dryrock
 
+    - name: Set current date as env variable
+        run: echo "::set-env name=NOW::$(date +'%Y-%m-%dT%H:%M:%S')"
+
     - name: Commit
       run: |
-        git commit --author=${EMAIL} -a
+        git commit --author=$EMAIL -a -m 'AUTO COMMIT: Update at $NOW'
 
     - name: Push
       run: |
