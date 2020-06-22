@@ -1,5 +1,5 @@
 
-name: Python application
+name: Update data
 
 on:
   schedule:
