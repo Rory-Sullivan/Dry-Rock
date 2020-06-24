@@ -29,16 +29,10 @@ def update_html_report(data: WeatherData, output_path: pathlib.Path):
         # ------------------------------------------------------------------
         # Set relevant forecast.
         # ------------------------------------------------------------------
-        relevant_forecast = data.yr_data_for_places[
-            place.name
-        ].long_range_forecast
+        relevant_forecast = data.yr_data_for_places[place.name].long_range_forecast
 
-        tom_intervals_for_place = deepcopy(
-            relevant_forecast.tomorrows_intervals
-        )
-        sat_intervals_for_place = deepcopy(
-            relevant_forecast.saturdays_intervals
-        )
+        tom_intervals_for_place = deepcopy(relevant_forecast.tomorrows_intervals)
+        sat_intervals_for_place = deepcopy(relevant_forecast.saturdays_intervals)
         sun_intervals_for_place = deepcopy(relevant_forecast.sundays_intervals)
 
         # Set how to display our variables.
@@ -68,9 +62,7 @@ def update_html_report(data: WeatherData, output_path: pathlib.Path):
 
                 # Display for wind.
                 interval.variables_dict["wind"].convert_mps_to_kph()
-                interval.variables_dict["wind"].value = round(
-                    interval.variables_dict["wind"].value
-                )
+                interval.variables_dict["wind"].value = round(interval.variables_dict["wind"].value)
 
                 # Calculate total rain fall.
                 total_rain += interval.variables_dict["precipitation"].value
@@ -85,9 +77,7 @@ def update_html_report(data: WeatherData, output_path: pathlib.Path):
             "name": place.name,
             "yr_link": place.yr_link,
             "cite_yr": YrData.cite_text,
-            "updated_at": relevant_forecast.updated_at.strftime(
-                "%d/%m/%y %H:%M"
-            ),
+            "updated_at": relevant_forecast.updated_at.strftime("%d/%m/%y %H:%M"),
             "sunrise_time": relevant_forecast.sunrise.strftime("%H:%M"),
             "sunset_time": relevant_forecast.sunset.strftime("%H:%M"),
             "tomorrows_date": tomorrows_date,
@@ -100,15 +90,9 @@ def update_html_report(data: WeatherData, output_path: pathlib.Path):
         context.append(info_for_place)
 
     #  Here we calculate the least rainy place for each day.
-    tom_total_rains["least rain"] = min(
-        tom_total_rains, key=tom_total_rains.get
-    )
-    sat_total_rains["least rain"] = min(
-        sat_total_rains, key=sat_total_rains.get
-    )
-    sun_total_rains["least rain"] = min(
-        sun_total_rains, key=sun_total_rains.get
-    )
+    tom_total_rains["least rain"] = min(tom_total_rains, key=tom_total_rains.get)
+    sat_total_rains["least rain"] = min(sat_total_rains, key=sat_total_rains.get)
+    sun_total_rains["least rain"] = min(sun_total_rains, key=sun_total_rains.get)
 
     total_rains = [tom_total_rains, sat_total_rains, sun_total_rains]
 
@@ -121,7 +105,7 @@ def update_html_report(data: WeatherData, output_path: pathlib.Path):
     )
 
     # Import template.
-    template = env.get_template("report_template.html.j2")
+    template = env.get_template("base.html.j2")
 
     # Render the template.
     output = template.render(context=context, total_rains=total_rains)
