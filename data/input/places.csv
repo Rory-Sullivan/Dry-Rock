@@ -1,8 +1,8 @@
-name,location,yr_link
-Dalkey (Dalkey Quarry),Ireland/Leinster/Dalkey,https://www.yr.no/en/forecast/daily-table/2-2964892/
-Glendalough,Ireland/Leinster/Glendalough,https://www.yr.no/en/forecast/daily-table/2-8642936/
-Ballycastle (Fair Head),United_Kingdom/Northern_Ireland/Ballycastle,https://www.yr.no/en/forecast/daily-table/2-2656531/
-Fanore (Ailladie),Ireland/Munster/Fanore,https://www.yr.no/en/forecast/daily-table/2-2964363/
-Inishmore,Ireland/Connacht/Inishmore~2963626,https://www.yr.no/en/forecast/daily-table/2-2963626/
-Gap of Dunloe,Ireland/Munster/Gap_of_Dunloe,https://www.yr.no/en/forecast/daily-table/2-2964501/
-Malin Beg (Donegal),Ireland/Ulster/Malin_Beg,https://www.yr.no/en/forecast/daily-table/2-2962720/
+name,climbing_area,location,yr_link
+Dalkey,,Ireland/Leinster/Dalkey,https://www.yr.no/en/forecast/daily-table/2-2964892/
+Glendalough,,Ireland/Leinster/Glendalough,https://www.yr.no/en/forecast/daily-table/2-8642936/
+Ballycastle,Fair Head,United_Kingdom/Northern_Ireland/Ballycastle,https://www.yr.no/en/forecast/daily-table/2-2656531/
+Fanore,Ailladie,Ireland/Munster/Fanore,https://www.yr.no/en/forecast/daily-table/2-2964363/
+Inishmore,,Ireland/Connacht/Inishmore~2963626,https://www.yr.no/en/forecast/daily-table/2-2963626/
+Gap of Dunloe,,Ireland/Munster/Gap_of_Dunloe,https://www.yr.no/en/forecast/daily-table/2-2964501/
+Malin Beg,Donegal,Ireland/Ulster/Malin_Beg,https://www.yr.no/en/forecast/daily-table/2-2962720/
