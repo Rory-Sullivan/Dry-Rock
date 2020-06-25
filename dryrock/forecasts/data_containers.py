@@ -15,7 +15,18 @@ class Variable:
         self.unit = unit
 
     def __str__(self):
-        return f"{self.name}: {self.value} {self.unit}"
+        return f"{self.value} {self.unit}"
+
+
+class TempVariable(Variable):
+    """Special variable class for storing temperature data."""
+
+    def __str__(self):
+        if self.unit == "celsius":
+            return f"{self.value} &deg;C"
+        if self.unit == "fahrenheit":
+            return f"{self.value} &deg;F"
+        return super().__str__()
 
 
 class WindVariable(Variable):
@@ -26,10 +37,7 @@ class WindVariable(Variable):
         self.direction = direction
 
     def __str__(self):
-        return (
-            f"{self.name}: {self.value} {self.unit} from a {self.direction} "
-            + "direction"
-        )
+        return f"{self.value} {self.unit} from a {self.direction} direction"
 
     def convert_mps_to_kph(self):
         """Function for converting wind variable from meters per second to
@@ -40,23 +48,19 @@ class WindVariable(Variable):
 
         if self.unit == "mps":
             self.unit = "kph"
-            self.value = (self.value * 360) / 100
+            self.value = ((self.value * 360) / 100).__round__(2)
 
         elif self.unit == "kph":
             pass
 
         else:
-            raise ValueError(
-                "Not a valid unit conversion units must be 'mps' or 'kph'."
-            )
+            raise ValueError("Not a valid unit conversion units must be 'mps' or 'kph'.")
 
 
 class ForecastInterval:
     """Stores information for an interval of a forecast, contains variables."""
 
-    def __init__(
-        self, start_time: dt.datetime, end_time: dt.datetime, variables: dict
-    ):
+    def __init__(self, start_time: dt.datetime, end_time: dt.datetime, variables: dict):
         self.start_time = start_time
         self.end_time = end_time
         self.duration = end_time - start_time
@@ -107,12 +111,8 @@ class Forecast:
     @property
     def saturdays_intervals(self):
         """ Get intervals for the next Saturday. """
-        next_saturday = dt.date.today() + dt.timedelta(
-            days=1
-        )  # Ensures we move to the next week.
-        while (
-            next_saturday.weekday() != 5
-        ):  # Relevant number for the day we want.
+        next_saturday = dt.date.today() + dt.timedelta(days=1)  # Ensures we move to the next week.
+        while next_saturday.weekday() != 5:  # Relevant number for the day we want.
             next_saturday += dt.timedelta(days=1)
         return self.get_relevant_intervals(next_saturday)
 

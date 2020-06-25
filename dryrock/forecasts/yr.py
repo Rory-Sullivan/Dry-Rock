@@ -12,6 +12,7 @@ from dryrock.forecasts.data_containers import (
     Forecast,
     ForecastInterval,
     Variable,
+    TempVariable,
     WindVariable,
 )
 from dryrock.places import Place
@@ -46,9 +47,7 @@ class YrData:
         + "Meteorological Institute and the NRK"
     )
 
-    def __init__(
-        self, date: dt.datetime, place: Place, output_path: pathlib.Path
-    ):
+    def __init__(self, date: dt.datetime, place: Place, output_path: pathlib.Path):
         self.name = f"Yr data for {place.name}"
         self.date = date
         self.place = place
@@ -85,9 +84,7 @@ class YrData:
         return file_path, forecast_type, place
 
     @staticmethod
-    def yr_xml_to_forecast(
-        file_path: pathlib.Path, forecast_type, place
-    ) -> YrForecast:
+    def yr_xml_to_forecast(file_path: pathlib.Path, forecast_type, place) -> YrForecast:
         """ Method for producing  a Yr forecast from a Yr xml files soup. """
 
         with open(file_path) as file:
@@ -110,9 +107,7 @@ class YrData:
         intervals = []
 
         for interval in soup.find_all("time"):
-            start_time = dt.datetime.strptime(
-                interval["from"], "%Y-%m-%dT%H:%M:%S"
-            )
+            start_time = dt.datetime.strptime(interval["from"], "%Y-%m-%dT%H:%M:%S")
             end_time = dt.datetime.strptime(interval["to"], "%Y-%m-%dT%H:%M:%S")
 
             precip_value = float(interval.find("precipitation")["value"])
@@ -124,24 +119,16 @@ class YrData:
             interval_variables = {
                 "precipitation": Variable("Rain", precip_value, "mm"),
                 "wind": WindVariable(wind_value, "mps", wind_direction),
-                "temperature": Variable(
-                    "Temperature", temperature_value, temperature_unit
-                ),
+                "temperature": TempVariable("Temperature", temperature_value, temperature_unit),
             }
 
-            intervals.append(
-                ForecastInterval(start_time, end_time, interval_variables)
-            )
+            interval_variables["wind"].convert_mps_to_kph()
+
+            intervals.append(ForecastInterval(start_time, end_time, interval_variables))
 
         # print(f"Yr forecast of {file_name} updated.")
         return YrForecast(
-            forecast_type,
-            place,
-            updated_at,
-            valid_until,
-            sunrise,
-            sunset,
-            intervals,
+            forecast_type, place, updated_at, valid_until, sunrise, sunset, intervals,
         )
 
     def create_forecast(self, place: Place, forecast_type: str) -> YrForecast:
@@ -171,9 +158,7 @@ class YrData:
 
         if dt.datetime.now() >= self.long_range_forecast.valid_until:
             print(f"Updating lr forecast for {self.name}")
-            forecast_file_name, forecast_type, place = self.yr_get_xml_file(
-                self.place, "lr"
-            )
+            forecast_file_name, forecast_type, place = self.yr_get_xml_file(self.place, "lr")
             self.long_range_forecast = self.yr_xml_to_forecast(
                 forecast_file_name, forecast_type, place
             )
@@ -189,9 +174,7 @@ class YrData:
 
         if dt.datetime.now() >= self.hour_by_hour_forecast.valid_until:
             # print(f"Updating hbh forecast for {self.name}")
-            forecast_file_name, forecast_type, place = self.yr_get_xml_file(
-                self.place, "hbh"
-            )
+            forecast_file_name, forecast_type, place = self.yr_get_xml_file(self.place, "hbh")
             self.hour_by_hour_forecast = self.yr_xml_to_forecast(
                 forecast_file_name, forecast_type, place
             )

@@ -1,0 +1,31 @@
+<h3 class="pl-3 py-3 mb-0" style="background: lightgray;">{{ forecast.day.strftime("%A - %x") }}</h3>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <th scope="col">Time</th>
+      <th scope="col">Rain</th>
+      <th scope="col">Temperature</th>
+      <th scope="col">Wind</th>
+    </thead>
+    <tbody>
+      {% for interval in forecast.intervals %}
+        <tr>
+          <th scope="row" class="text-nowrap">{{ interval.start_time.strftime("%H:%M") }} - {{ interval.end_time.strftime("%H:%M") }}</th>
+
+          {% if interval.variables_dict["precipitation"].value <= 0.2 %}
+            <td class="text-success text-nowrap">
+              {{ interval.variables_dict["precipitation"] }}
+            </td>
+          {% else %}
+            <td class="text-primary text-nowrap">
+              {{ interval.variables_dict["precipitation"] }}
+            </td>
+          {% endif %}
+
+          <td class="text-danger text-nowrap">{{ interval.variables_dict["temperature"] }}</td>
+          <td class="text-nowrap">{{ interval.variables_dict["wind"] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

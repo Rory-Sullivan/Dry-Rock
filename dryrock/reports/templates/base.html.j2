@@ -9,112 +9,154 @@
 
     <title>Dry Rock</title>
   </head>
-  <body class="container-md bg-light">
-    <div class="row mb-5">
-      <div class="bg-primary text-white text-center w-100 mb-3">
-        <h1 class="display-4">Overview</h1>
-      </div>
-
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Place</th>
-            <th scope="col">Tomorrow</th>
-            <th scope="col">Saturday</th>
-            <th scope="col">Sunday</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for place in context %}
-            <!-- Rotation of zero so that stretched link works as expected -->
-            <tr style="transform: rotate(0);">
-              <th scope="row">
-                <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                {{ place.name }}
-              </th>
-
-              {% if total_rains[0][place.name] <= 0.5 %}
-                <td class="text-success">
-                  {{ total_rains[0][place.name] }} mm
-                </td>
-              {% else %}
-                <td>
-                  {{ total_rains[0][place.name] }} mm
-                </td>
-              {% endif %}
-
-              {% if total_rains[1][place.name] <= 0.5 %}
-                <td class="text-success">
-                  {{ total_rains[1][place.name] }} mm
-                </td>
-              {% else %}
-                <td>
-                  {{ total_rains[1][place.name] }} mm
-                </td>
-              {% endif %}
-
-              {% if total_rains[2][place.name] <= 0.5 %}
-                <td class="text-success">
-                  {{ total_rains[2][place.name] }} mm
-                </td>
-              {% else %}
-                <td>
-                  {{ total_rains[2][place.name] }} mm
-                </td>
-              {% endif %}
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    {% for place in context %}
+  <body class="bg-light">
+    <div class="container-md bg-white">
       <div class="row mb-5">
-        <div class="bg-secondary text-white text-center w-100 mb-3">
-          <h1 id="{{ place.name }}Header" class="display-4">{{ place.name }}</h1>
+        <div class="bg-primary text-white text-center w-100 mb-3">
+          <h1 class="display-4">Overview</h1>
         </div>
-        <h2>Tomorrow - {{place.tomorrows_date}}</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Time</th>
-              <th scope="col">Rain</th>
-              <th scope="col">Temp</th>
-              <th scope="col">Wind</th>
-            </tr>
-          </thead>
-          <tbody>
 
-            {% for interval in place.tomorrows_intervals %}
-              {% set precip_variable = interval.variables_dict["precipitation"] %}
-              {% set temp_variable = interval.variables_dict["temperature"] %}
-              {% set wind_variable = interval.variables_dict["wind"] %}
+        <div class="col">
+          <p class="lead">
+            7 day rain forecast
+          </p>
+        </div>
 
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
               <tr>
-                <th scope="row">{{interval.start_time}}</td>
-                <td>{{ precip_variable.value }} {{ precip_variable.unit }}</td>
-                <td>{{ temp_variable.value }} {{ temp_variable.unit|safe }}</td>
-                <td>{{ wind_variable.value }} {{ wind_variable.unit }} from {{ wind_variable.direction }}
-                </td>
+                <th scope="col">Place</th>
+
+                <th scope="col">Today</th>
+                <th scope="col">Tomorrow</th>
+
+                {% for day in days[2:] %}
+                  <th scope="col">{{ day.strftime("%A") }}</th>
+                {% endfor %}
               </tr>
+            </thead>
 
-            {% endfor %}
-          </tbody>
-        </table>
+            <tbody>
+              {% for place in places %}
+                <!-- Rotation of zero so that stretched link works as expected -->
+                <tr style="transform: rotate(0);">
+                  <th scope="row">
+                    <a href="#{{ place.name }}Header" class="stretched-link"></a>
+                    <div class="text-nowrap d-inline">{{ place.name }}</div>
+                    {% if place.climbing_area %}
+                      <div class="text-nowrap d-inline">({{ place.climbing_area }})</div>
+                    {% endif %}
+                  </th>
 
-        <div class=w-100>
-          <small>Sunrise: {{ place.sunrise_time }}</small>
-          <small>Sunset: {{ place.sunset_time }}</small>
-          <small class="float-right">Updated at: {{place.updated_at}}</small>
+                  {% for forecast in place.forecasts %}
+                    {% if forecast.total_rain <= 0.5 %}
+                      <td class="text-success text-nowrap">
+                        {{ forecast.total_rain | round(1) }} {{ forecast.intervals[0].variables_dict["precipitation"].unit }}
+                      </td>
+                    {% else %}
+                      <td class="text-primary text-nowrap">
+                        {{ forecast.total_rain | round(1) }} {{ forecast.intervals[0].variables_dict["precipitation"].unit }}
+                      </td>
+                    {% endif %}
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-
-        <a href="{{ place.yr_link }}">
-          <p>{{ place.cite_yr }}</p>
-        </a>
       </div>
-    {% endfor %}
 
+      <div class="row mb-5">
+        <div class="bg-primary text-white text-center w-100 mb-3">
+          <h1 class="display-4">About</h1>
+        </div>
+        <div class="col">
+          <p>
+            Dry Rock is a site designed to help climbers in Ireland find some dry
+            rock to climb on. Check the overview above to get a general idea of how
+            much rain there will be in various places. Click on one of the rows to
+            see a detailed forecast for that area.
+          </p>
+          <p>
+            Weather forecast from <a href="https://www.yr.no/en">Yr</a>, delivered
+            by the <a href="https://www.met.no/en">Norwegian Meteorological
+            Institute</a> and <a href="https://www.nrk.no/">NRK</a>.
+          </p>
+          <p>
+            The source code for this site is available on
+            <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
+          </p>
+
+          <div class="w-100 d-flex justify-content-between">
+            <a href="https://github.com/Rory-Sullivan/Dry-Rock" class="pl-4 my-auto"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
+            <a href="https://www.met.no/en" class="pr-4"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
+          </div>
+        </div>
+      </div>
+
+      {% for place in places %}
+        <div class="row mb-5">
+          <div class="bg-secondary text-white text-center w-100 mb-3">
+            <h1 id="{{ place.name }}Header" class="display-4">
+              {{ place.name }}
+              {% if place.climbing_area %}
+                ({{ place.climbing_area }})
+              {% endif %}
+            </h1>
+          </div>
+
+          <nav class="px-3 mb-3">
+            <div class="nav nav-pills" id="{{ place.name | replace(' ', '') }}-nav-pills" role="tablist">
+              <a class="nav-item nav-link active" id="nav-{{ place.name | replace(' ', '') }}-today" data-toggle="tab" href="#{{ place.name | replace(' ', '') }}-today" role="tab" aria-controls="{{ place.name }}-today" aria-selected="true">Today</a>
+              <a class="nav-item nav-link" id="nav-{{ place.name | replace(' ', '') }}-tomorrow" data-toggle="tab" href="#{{ place.name | replace(' ', '') }}-tomorrow" role="tab" aria-controls="{{ place.name }}-tomorrow" aria-selected="false">Tomorrow</a>
+
+              {% for day in days[2:] %}
+                <a class="nav-item nav-link" id="nav-{{ place.name | replace(' ', '') }}-{{ day.strftime('%A') }}" data-toggle="tab" href="#{{ place.name | replace(' ', '') }}-{{ day.strftime('%A') }}" role="tab" aria-controls="{{ place.name }}-{{ day.strftime('%A') }}" aria-selected="false">{{ day.strftime("%A") }}</a>
+              {% endfor %}
+
+            </div>
+          </nav>
+          <div class="w-100">
+            <div class="tab-content" id="{{ place.name }}-nav-tabContent">
+              <div class="tab-pane fade show active" id="{{ place.name | replace(' ', '') }}-today" role="tabpanel" aria-labelledby="{{ place.name }}-today">
+                {% with forecast=place.forecasts[0] %}
+                  {% include "forecast_table.html.j2" %}
+                {% endwith %}
+              </div>
+              <div class="tab-pane fade" id="{{ place.name | replace(' ', '') }}-tomorrow" role="tabpanel" aria-labelledby="{{ place.name }}-tomorrow">
+                {% with forecast=place.forecasts[1] %}
+                  {% include "forecast_table.html.j2" %}
+                {% endwith %}
+              </div>
+
+              {% for forecast in place.forecasts[2:] %}
+                <div class="tab-pane fade" id="{{ place.name | replace(' ', '') }}-{{ forecast.day.strftime('%A') }}" role="tabpanel" aria-labelledby="{{ place.name }}-{{ forecast.day.strftime('%A') }}">
+                  {% include "forecast_table.html.j2" %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="row mb-3">
+              <div class="col">
+                <small>Sunrise: {{ place.sunrise_time.strftime("%H:%M") }}</small>
+                <small>Sunset: {{ place.sunset_time.strftime("%H:%M") }}</small>
+                <small class="float-right">Updated at: {{ place.updated_at.strftime("%x %H:%M") }}</small>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <a href="{{ place.yr_link }}" class="btn btn-outline-primary">Full forecast</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
