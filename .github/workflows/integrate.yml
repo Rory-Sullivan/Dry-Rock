@@ -1,10 +1,10 @@
 
-name: CI
+name: CD
 
 on: [release]
 
 jobs:
-  integrate_release:
+  deploy_release:
     
     runs-on: ubuntu-latest
 
@@ -22,7 +22,7 @@ jobs:
           git push
 
   update-site:
-    needs: [integrate_release]
+    needs: [deploy_release]
 
     runs-on: ubuntu-latest
 
