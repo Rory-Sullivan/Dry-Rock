@@ -20,7 +20,7 @@ jobs:
         run: |
           git config user.email "no-email@auto.com"
           git config user.name "Auto Updater"
-          git merge $GITHUB_REF --no-ff --no-edit
+          git merge ${{ github.ref }} --no-ff --no-edit
           git push
 
   update-site:
