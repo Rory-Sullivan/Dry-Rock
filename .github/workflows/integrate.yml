@@ -1,9 +1,9 @@
 
 name: CD
 
-on:
-  release:
-    types: [published]
+on: push
+  # release:
+  #   types: [published]
 
 jobs:
   deploy_release:
