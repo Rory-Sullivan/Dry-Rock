@@ -1,11 +1,13 @@
 
 name: CD
 
-on: [release]
+on:
+  release:
+    types: [published]
 
 jobs:
   deploy_release:
-    
+
     runs-on: ubuntu-latest
 
     steps:
