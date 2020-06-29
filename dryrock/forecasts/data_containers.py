@@ -60,9 +60,12 @@ class WindVariable(Variable):
 class ForecastInterval:
     """Stores information for an interval of a forecast, contains variables."""
 
-    def __init__(self, start_time: dt.datetime, end_time: dt.datetime, variables: dict):
+    def __init__(
+        self, start_time: dt.datetime, end_time: dt.datetime, time_period: int, variables: dict
+    ):
         self.start_time = start_time
         self.end_time = end_time
+        self.time_period = time_period
         self.duration = end_time - start_time
         self.variables_dict = variables
 
@@ -124,43 +127,3 @@ class Forecast:
         while next_sunday.weekday() != 6:
             next_sunday += dt.timedelta(days=1)
         return self.get_relevant_intervals(next_sunday)
-
-
-# Code for combining forecasts.
-# t_times = []
-#         end_times = []
-#         precipitation = 0
-#         temperatures = []
-#         wind_speeds = []
-#         wind_directions = []
-#         temperature_unit = "celsius"
-#
-#         # Combine forecasts.
-#         for forecast in relevant_forecasts:
-#             start_times.append(forecast.start_time)
-#             end_times.append(forecast.end_time)
-#             precipitation += forecast.variables_dict["precipitation"].value
-#             temperatures.append(forecast.variables_dict["temperature"].value)
-#             wind_speeds.append(forecast.variables_dict["wind"].value)
-#             wind_directions.append(forecast.variables_dict["wind"].direction)
-#
-#         start_time = min(start_times)
-#         end_time = max(end_times)
-#         # precipitation is the sum of all precipitations
-#         min_temp = min(temperatures)
-#         max_temp = max(temperatures)
-#         wind_speed = max(wind_speeds)
-#         wind_direction = wind_directions[0]
-#         for i in range(len(wind_speeds)):  # Find the wind direction
-# corresponding to the wind speed.
-#             if wind_speed == wind_speeds[i]:
-#                 wind_direction = wind_directions[i]
-#
-#         variables_dict = {
-#             "precipitation": Variable("Rain", precipitation, "mm"),
-#             "wind": WindVariable(wind_speed, "mps", wind_direction),
-#             "max_temp": Variable("Max temperature", max_temp,
-# temperature_unit),
-#             "min_temp": Variable("Min temperature", min_temp,
-# temperature_unit)
-#         }

@@ -110,6 +110,11 @@ class YrData:
             start_time = dt.datetime.strptime(interval["from"], "%Y-%m-%dT%H:%M:%S")
             end_time = dt.datetime.strptime(interval["to"], "%Y-%m-%dT%H:%M:%S")
 
+            if interval.has_attr("period"):
+                time_period = int(interval["period"])
+            else:
+                time_period = None
+
             precip_value = float(interval.find("precipitation")["value"])
             wind_direction = interval.find("windDirection")["name"]
             wind_value = float(interval.find("windSpeed")["mps"])
@@ -124,7 +129,9 @@ class YrData:
 
             interval_variables["wind"].convert_mps_to_kph()
 
-            intervals.append(ForecastInterval(start_time, end_time, interval_variables))
+            intervals.append(
+                ForecastInterval(start_time, end_time, time_period, interval_variables)
+            )
 
         # print(f"Yr forecast of {file_name} updated.")
         return YrForecast(

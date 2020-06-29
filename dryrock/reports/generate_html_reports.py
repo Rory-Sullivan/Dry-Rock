@@ -24,10 +24,20 @@ def get_context(data: WeatherData):
             }
 
             total_rain = 0
+            temperatures = []
+            wind_speeds = []
             for interval in forecast["intervals"]:
                 total_rain += interval.variables_dict["precipitation"].value
+                temperatures.append(interval.variables_dict["temperature"])
+                wind_speeds.append(interval.variables_dict["wind"])
 
-            forecast["total_rain"] = total_rain
+            forecast["total_rain"] = {
+                "value": total_rain,
+                "unit": forecast["intervals"][0].variables_dict["precipitation"].unit,
+            }
+            forecast["max_temp"] = max(temperatures, key=lambda var: var.value)
+            forecast["min_temp"] = min(temperatures, key=lambda var: var.value)
+            forecast["max_wind_speed"] = max(wind_speeds, key=lambda var: var.value)
 
             forecasts.append(forecast)
 

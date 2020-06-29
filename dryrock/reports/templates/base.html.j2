@@ -7,23 +7,32 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+    <!-- Custom style sheets -->
+    <link rel="stylesheet" href="static/style.css">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="static/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="180x180" href="static/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="static/favicons/site.webmanifest">
+
     <title>Dry Rock</title>
   </head>
   <body class="bg-light">
     <div class="container-md bg-white">
       <div class="row mb-5">
+        <div class="text-center w-100 mb-3">
+          <h1 class="display-2">Dry Rock</h1>
+        </div>
+
         <div class="bg-primary text-white text-center w-100 mb-3">
           <h1 class="display-4">Overview</h1>
         </div>
 
-        <div class="col">
-          <p class="lead">
-            7 day rain forecast
-          </p>
-        </div>
-
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover border-bottom">
             <thead>
               <tr>
                 <th scope="col">Place</th>
@@ -50,15 +59,18 @@
                   </th>
 
                   {% for forecast in place.forecasts %}
-                    {% if forecast.total_rain <= 0.5 %}
-                      <td class="text-success text-nowrap">
-                        {{ forecast.total_rain | round(1) }} {{ forecast.intervals[0].variables_dict["precipitation"].unit }}
-                      </td>
-                    {% else %}
-                      <td class="text-primary text-nowrap">
-                        {{ forecast.total_rain | round(1) }} {{ forecast.intervals[0].variables_dict["precipitation"].unit }}
-                      </td>
-                    {% endif %}
+                    <td class="text-nowrap
+                      {% if forecast.total_rain.value <= 0.5 %}
+                        text-success
+                      {% else %}
+                        text-primary
+                      {% endif %}
+                      {% if forecast.day.weekday() in [5, 6] %}
+                        font-weight-bolder
+                      {% endif %}
+                    ">
+                      {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.unit }}
+                    </td>
                   {% endfor %}
                 </tr>
               {% endfor %}
@@ -88,10 +100,16 @@
             <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
           </p>
 
-          <div class="w-100 d-flex justify-content-between">
-            <a href="https://github.com/Rory-Sullivan/Dry-Rock" class="pl-4 my-auto"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
-            <a href="https://www.yr.no/en" class="my-auto"><img src="./static/logos/Yr-Logo/Yr-logo.png" alt="Yr logo" height="64px"></a>
-            <a href="https://www.met.no/en" class="pr-4"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
+          <div class="row align-items-center justify-content-around">
+            <div class="col-auto text-center">
+              <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
+            </div>
+            <div class="col-auto text-center">
+              <a href="https://www.yr.no/en"><img src="./static/logos/Yr-Logo/Yr-logo.png" alt="Yr logo" height="64px"></a>
+            </div>
+            <div class="col-auto text-center">
+              <a href="https://www.met.no/en"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
+            </div>
           </div>
         </div>
       </div>
@@ -107,44 +125,22 @@
             </h1>
           </div>
 
-          <nav class="px-3 mb-3">
-            <div class="nav nav-pills" id="{{ place.name | replace(' ', '') }}-nav-pills" role="tablist">
-              <a class="nav-item nav-link active" id="nav-{{ place.name | replace(' ', '') }}-today" data-toggle="tab" href="#{{ place.name | replace(' ', '') }}-today" role="tab" aria-controls="{{ place.name }}-today" aria-selected="true">Today</a>
-              <a class="nav-item nav-link" id="nav-{{ place.name | replace(' ', '') }}-tomorrow" data-toggle="tab" href="#{{ place.name | replace(' ', '') }}-tomorrow" role="tab" aria-controls="{{ place.name }}-tomorrow" aria-selected="false">Tomorrow</a>
-
-              {% for day in days[2:] %}
-                <a class="nav-item nav-link" id="nav-{{ place.name | replace(' ', '') }}-{{ day.strftime('%A') }}" data-toggle="tab" href="#{{ place.name | replace(' ', '') }}-{{ day.strftime('%A') }}" role="tab" aria-controls="{{ place.name }}-{{ day.strftime('%A') }}" aria-selected="false">{{ day.strftime("%A") }}</a>
-              {% endfor %}
-
-            </div>
-          </nav>
           <div class="w-100">
-            <div class="tab-content" id="{{ place.name }}-nav-tabContent">
-              <div class="tab-pane fade show active" id="{{ place.name | replace(' ', '') }}-today" role="tabpanel" aria-labelledby="{{ place.name }}-today">
-                {% with forecast=place.forecasts[0] %}
-                  {% include "forecast_table.html.j2" %}
-                {% endwith %}
-              </div>
-              <div class="tab-pane fade" id="{{ place.name | replace(' ', '') }}-tomorrow" role="tabpanel" aria-labelledby="{{ place.name }}-tomorrow">
-                {% with forecast=place.forecasts[1] %}
-                  {% include "forecast_table.html.j2" %}
-                {% endwith %}
-              </div>
-
-              {% for forecast in place.forecasts[2:] %}
-                <div class="tab-pane fade" id="{{ place.name | replace(' ', '') }}-{{ forecast.day.strftime('%A') }}" role="tabpanel" aria-labelledby="{{ place.name }}-{{ forecast.day.strftime('%A') }}">
-                  {% include "forecast_table.html.j2" %}
-                </div>
-              {% endfor %}
-            </div>
+            {% with forecasts=place.forecasts %}
+              {% include "forecast_table.html.j2" %}
+            {% endwith %}
           </div>
 
           <div class="col">
-            <div class="row mb-3">
-              <div class="col">
-                <small>Sunrise: {{ place.sunrise_time.strftime("%H:%M") }}</small>
-                <small>Sunset: {{ place.sunset_time.strftime("%H:%M") }}</small>
-                <small class="float-right">Updated at: {{ place.updated_at.strftime("%x %H:%M") }}</small>
+            <div class="row">
+              <div class="col-auto mb-3">
+                Sunrise: {{ place.sunrise_time.strftime("%H:%M") }}
+              </div>
+              <div class="col-auto mb-3 flex-grow-1">
+                Sunset: {{ place.sunset_time.strftime("%H:%M") }}
+              </div>
+              <div class="col-auto mb-3">
+                Updated at: {{ place.updated_at.strftime("%H:%M %d/%m/%Y") }}
               </div>
             </div>
 
