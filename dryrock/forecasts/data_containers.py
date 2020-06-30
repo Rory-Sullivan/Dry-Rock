@@ -93,7 +93,7 @@ class Forecast:
         self.valid_until = valid_until
         self.intervals = forecast_intervals
 
-    def get_relevant_intervals(self, day: dt.date):
+    def get_relevant_intervals(self, day: dt.date) -> list:
         """Returns the relevant intervals for specified day."""
 
         relevant_date = day

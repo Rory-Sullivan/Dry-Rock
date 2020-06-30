@@ -1,11 +1,11 @@
 
-{% with no_periods=forecasts[1].intervals | length %}
+{% with no_periods=time_periods | length %}
   <div class="table-responsive">
     <table class="table border-bottom">
       <thead>
         <tr>
           <th scope="col">Date</th>
-          {% for interval in forecasts[1].intervals %}
+          {% for interval in time_periods %}
             <th scope="col">{{ interval.start_time.strftime("%H") }} - {{ interval.end_time.strftime("%H") }}</th>
           {% endfor %}
           <th scope="col">Temp.</th>
@@ -19,41 +19,53 @@
               {{ forecast.day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ forecast.day.strftime("%d %b") }}</small>
             </th>
 
-            {% if forecast.intervals | length != no_periods and forecast.intervals[0].time_period != 0 %}
-              {% for _ in range(no_periods - forecast.intervals | length) %}
-                <td></td>
-              {% endfor %}
-            {% endif %}
-
-            {% for interval in forecast.intervals %}
-              {% if interval.variables_dict["precipitation"].value <= 0.2 %}
-                <td class="text-success text-nowrap">
-              {% else %}
-                <td class="text-primary text-nowrap">
+            {% if forecast.intervals | length != 0 %}
+              {% if forecast.intervals | length != no_periods and forecast.intervals[0].time_period != 0 %}
+                {% for _ in range(no_periods - forecast.intervals | length) %}
+                  <td></td>
+                {% endfor %}
               {% endif %}
-                {{ interval.variables_dict["precipitation"] }}
+
+              {% for interval in forecast.intervals %}
+                {% if interval.variables_dict["precipitation"].value <= 0.2 %}
+                  <td class="text-success text-nowrap">
+                {% else %}
+                  <td class="text-primary text-nowrap">
+                {% endif %}
+                  {{ interval.variables_dict["precipitation"] }}
+                </td>
+              {% endfor %}
+
+              {% if forecast.intervals | length != no_periods and forecast.intervals[0].time_period == 0 %}
+                {% for _ in range(no_periods - forecast.intervals | length) %}
+                  <td></td>
+                {% endfor %}
+              {% endif %}
+
+              <td class="text-danger text-nowrap">
+                {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
+                {% if forecast.max_temp.unit == "celsius" %}
+                  &deg;C
+                {% elif forecast.max_temp.unit == "farenheit" %}
+                  &deg;F
+                {% else %}
+                  forecast.max_temp.unit
+                {% endif %}
               </td>
-            {% endfor %}
+              <td class="text-nowrap">
+                {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.unit }} {{forecast.max_wind_speed.direction }}
+              </td>
 
-            {% if forecast.intervals | length != no_periods and forecast.intervals[0].time_period == 0 %}
-              {% for _ in range(no_periods - forecast.intervals | length) %}
+            {% else %}
+
+              {% for _ in range(no_periods) %}
                 <td></td>
               {% endfor %}
-            {% endif %}
 
-            <td class="text-danger text-nowrap">
-              {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
-              {% if forecast.max_temp.unit == "celsius" %}
-                &deg;C
-              {% elif forecast.max_temp.unit == "farenheit" %}
-                &deg;F
-              {% else %}
-                forecast.max_temp.unit
-              {% endif %}
-            </td>
-            <td class="text-nowrap">
-              {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.unit }} {{forecast.max_wind_speed.direction }}
-            </td>
+              <td></td>
+              <td></td>
+
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>

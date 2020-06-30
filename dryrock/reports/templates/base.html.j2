@@ -59,18 +59,22 @@
                   </th>
 
                   {% for forecast in place.forecasts %}
-                    <td class="text-nowrap
-                      {% if forecast.total_rain.value <= 0.5 %}
-                        text-success
-                      {% else %}
-                        text-primary
-                      {% endif %}
-                      {% if forecast.day.weekday() in [5, 6] %}
-                        font-weight-bolder
-                      {% endif %}
-                    ">
-                      {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.unit }}
-                    </td>
+                    {% if forecast.total_rain.value != "" %}
+                      <td class="text-nowrap
+                        {% if forecast.total_rain.value <= 0.5 %}
+                          text-success
+                        {% else %}
+                          text-primary
+                        {% endif %}
+                        {% if forecast.day.weekday() in [5, 6] %}
+                          font-weight-bolder
+                        {% endif %}
+                      ">
+                        {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.unit }}
+                      </td>
+                    {% else %}
+                      <td></td>
+                    {% endif %}
                   {% endfor %}
                 </tr>
               {% endfor %}
@@ -126,7 +130,7 @@
           </div>
 
           <div class="w-100">
-            {% with forecasts=place.forecasts %}
+            {% with forecasts=place.forecasts, time_periods=place.time_periods %}
               {% include "forecast_table.html.j2" %}
             {% endwith %}
           </div>
