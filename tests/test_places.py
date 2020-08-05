@@ -1,91 +1,29 @@
 """Tests for our places functionality."""
 
-import unittest
-import os
-import pathlib
+import pytest
+from metno_locationforecast import Place
 
 from dryrock import places
 
 
-class TestPlace(unittest.TestCase):
-    """Tests for Place class."""
-
-    def setUp(self):
-        self.dublin = places.Place(
-            "Dublin",
-            "Ireland/Leinster/Dublin",
-            "https://www.yr.no/en/forecast/daily-table/2-2964574",
-        )
-
-    def test_attributes(self):
-        """Test if attributes are set correctly."""
-
-        value = self.dublin.name
-        expected_value = "Dublin"
-        self.assertEqual(value, expected_value)
-
-        value = self.dublin.location
-        expected_value = "Ireland/Leinster/Dublin"
-        self.assertEqual(value, expected_value)
-
-        value = self.dublin.yr_url
-        expected_value = "http://www.yr.no/place/Ireland/Leinster/Dublin/"
-        self.assertEqual(value, expected_value)
-
-        value = self.dublin.yr_link
-        expected_value = "https://www.yr.no/en/forecast/daily-table/2-2964574"
-        self.assertEqual(value, expected_value)
+@pytest.fixture
+def simple_places_file():
+    return "./tests/test_data/simple_places.csv"
 
 
-class TestCreateFile(unittest.TestCase):
-    """Tests for creating places.csv."""
+class TestGetPlaces:
+    def test_with_simple_places_file(self, simple_places_file):
+        expected = [
+            Place("Dalkey Quarry", 53.271, -6.107, 100),
+            Place("Glendalough", 53.009, -6.387, 450),
+            Place("Fair Head", 55.225, -6.154, 150),
+        ]
+        received = places.get_places(simple_places_file)
 
-    @classmethod
-    def setUpClass(cls):
-        places.INPUT_PATH = pathlib.Path("./tests/input/")
-        places.FILE_PATH = places.INPUT_PATH.joinpath("places.csv")
+        assert len(expected) == len(received)
+        for i in range(len(expected)):
+            assert repr(expected[i]) == repr(received[i])
 
-    def tearDown(self):
-        try:
-            os.remove(places.FILE_PATH)
-            os.rmdir(places.INPUT_PATH)
-        except FileNotFoundError:
-            pass
-
-    def test_file_is_created(self):
-        places.create_file()
-
-        self.assertTrue(places.FILE_PATH.exists())
-
-    def test_exception_raised_if_file_exists(self):
-        places.create_file()
-
-        with self.assertRaises(FileExistsError):
-            places.create_file()
-
-
-class TestGetPlaces(unittest.TestCase):
-    """Tests for get_places() function."""
-
-    @classmethod
-    def setUpClass(cls):
-        places.INPUT_PATH = pathlib.Path("./tests/fixtures/")
-
-    def test_simple_case(self):
-        places.FILE_PATH = places.INPUT_PATH.joinpath("simple_places.csv")
-
-        simple_places = places.get_places()
-
-        self.assertIsInstance(simple_places, list)
-        self.assertEqual(len(simple_places), 3)
-        self.assertEqual(simple_places[0].name, "Dublin")
-
-    def test_exception_if_no_file(self):
-        places.FILE_PATH = places.INPUT_PATH.joinpath("nonexistent_file.csv")
-
-        with self.assertRaises(FileNotFoundError):
-            places.get_places()
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_with_nonexistent_file(self):
+        with pytest.raises(FileNotFoundError):
+            places.get_places("Not a file")

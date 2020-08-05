@@ -6,7 +6,5 @@ Defaults
 ./data/output
 """
 
-import pathlib
-
-INPUT_PATH = pathlib.Path("./data/input/")
-OUTPUT_PATH = pathlib.Path("./data/output/")
+PLACES_FILE = "./data/input/places.csv"
+OUTPUT_PATH = "./data/output/"

@@ -53,15 +53,12 @@
                   <th scope="row">
                     <a href="#{{ place.name }}Header" class="stretched-link"></a>
                     <div class="text-nowrap d-inline">{{ place.name }}</div>
-                    {% if place.climbing_area %}
-                      <div class="text-nowrap d-inline">({{ place.climbing_area }})</div>
-                    {% endif %}
                   </th>
 
-                  {% for forecast in place.forecasts %}
+                  {% for forecast in forecasts[place.name] %}
                     {% if forecast.total_rain.value != "" %}
                       <td class="text-nowrap
-                        {% if forecast.total_rain.value <= 0.5 %}
+                        {% if forecast.total_rain.value <= 1.0 %}
                           text-success
                         {% else %}
                           text-primary
@@ -70,7 +67,7 @@
                           font-weight-bolder
                         {% endif %}
                       ">
-                        {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.unit }}
+                        {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
                       </td>
                     {% else %}
                       <td></td>
@@ -123,36 +120,13 @@
           <div class="bg-secondary text-white text-center w-100 mb-3">
             <h1 id="{{ place.name }}Header" class="display-4">
               {{ place.name }}
-              {% if place.climbing_area %}
-                ({{ place.climbing_area }})
-              {% endif %}
             </h1>
           </div>
 
           <div class="w-100">
-            {% with forecasts=place.forecasts, time_periods=place.time_periods %}
+            {% with forecasts=forecasts[place.name] %}
               {% include "forecast_table.html.j2" %}
             {% endwith %}
-          </div>
-
-          <div class="col">
-            <div class="row">
-              <div class="col-auto mb-3">
-                Sunrise: {{ place.sunrise_time.strftime("%H:%M") }}
-              </div>
-              <div class="col-auto mb-3 flex-grow-1">
-                Sunset: {{ place.sunset_time.strftime("%H:%M") }}
-              </div>
-              <div class="col-auto mb-3">
-                Updated at: {{ place.updated_at.strftime("%H:%M %d/%m/%Y") }}
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <a href="{{ place.yr_link }}" class="btn btn-outline-primary">Full forecast</a>
-              </div>
-            </div>
           </div>
         </div>
       {% endfor %}
