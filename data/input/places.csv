@@ -1,8 +1,8 @@
-name,climbing_area,location,yr_link
-Dalkey,,Ireland/Leinster/Dalkey,https://www.yr.no/en/forecast/daily-table/2-2964892/
-Glendalough,,Ireland/Leinster/Glendalough,https://www.yr.no/en/forecast/daily-table/2-8642936/
-Ballycastle,Fair Head,United_Kingdom/Northern_Ireland/Ballycastle,https://www.yr.no/en/forecast/daily-table/2-2656531/
-Fanore,Ailladie,Ireland/Munster/Fanore,https://www.yr.no/en/forecast/daily-table/2-2964363/
-Inishmore,,Ireland/Connacht/Inishmore~2963626,https://www.yr.no/en/forecast/daily-table/2-2963626/
-Gap of Dunloe,,Ireland/Munster/Gap_of_Dunloe,https://www.yr.no/en/forecast/daily-table/2-2964501/
-Malin Beg,Donegal,Ireland/Ulster/Malin_Beg,https://www.yr.no/en/forecast/daily-table/2-2962720/
+name,latitude,longitude,altitude
+Dalkey Quarry,53.271,-6.107,100
+Glendalough,53.009,-6.387,450
+Fair Head,55.225,-6.154,150
+Ailladie,53.071,-9.357,25
+Inis Mór,53.108,-9.706,25
+Gap of Dunloe,52.031,-9.642,250
+Muckros Head,54.609,-8.591,15
