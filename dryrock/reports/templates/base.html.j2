@@ -28,7 +28,7 @@
         </div>
 
         <div class="bg-primary text-white text-center w-100 mb-3">
-          <h1 class="display-4">Overview</h1>
+          <h1 class="display-4" id="overview">Overview</h1>
         </div>
 
         <div class="table-responsive">
@@ -55,23 +55,25 @@
                     <div class="text-nowrap d-inline">{{ place.name }}</div>
                   </th>
 
-                  {% for forecast in forecasts[place.name] %}
-                    {% if forecast.total_rain.value != "" %}
-                      <td class="text-nowrap
-                        {% if forecast.total_rain.value <= 1.0 %}
-                          text-success
-                        {% else %}
-                          text-primary
-                        {% endif %}
-                        {% if forecast.day.weekday() in [5, 6] %}
-                          font-weight-bolder
-                        {% endif %}
-                      ">
-                        {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
-                      </td>
-                    {% else %}
-                      <td></td>
-                    {% endif %}
+                  {% for day in days %}
+                    {% with forecast = forecasts[place.name][day] %}
+                      {% if forecast.total_rain.value != "" %}
+                        <td class="text-nowrap
+                          {% if forecast.total_rain.value <= 1.0 %}
+                            text-success
+                          {% else %}
+                            text-primary
+                          {% endif %}
+                          {% if day.weekday() in [5, 6] %}
+                            font-weight-bolder
+                          {% endif %}
+                        ">
+                          {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
+                        </td>
+                      {% else %}
+                        <td></td>
+                      {% endif %}
+                    {% endwith %}
                   {% endfor %}
                 </tr>
               {% endfor %}
@@ -127,6 +129,11 @@
             {% with forecasts=forecasts[place.name] %}
               {% include "forecast_table.html.j2" %}
             {% endwith %}
+
+            <div class="px-3">
+              <a class="btn btn-outline-primary" href="#overview">Back to Top</a>
+              <small class="float-right">Updated at: {{ updated_at[place.name].strftime("%H:%M %x") }}</small>
+            </div>
           </div>
         </div>
       {% endfor %}

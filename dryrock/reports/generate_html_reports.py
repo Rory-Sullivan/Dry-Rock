@@ -4,93 +4,73 @@ from typing import List
 
 import jinja2 as jinja
 from metno_locationforecast import Forecast
-from metno_locationforecast.data_containers import Variable
 
-
-def convert_deg_to_str(wind_variable: Variable):
-    assert wind_variable.name == "wind_from_direction"
-    assert wind_variable.units == "degrees"
-
-    value = wind_variable.value
-    if (337.5 <= value < 360) or (0 <= value < 22.5):
-        direction_name = "North"
-    elif 22.5 <= value < 67.5:
-        direction_name = "Northeast"
-    elif 67.5 <= value < 112.5:
-        direction_name = "East"
-    elif 112.5 <= value < 157.5:
-        direction_name = "Southeast"
-    elif 157.5 <= value < 202.5:
-        direction_name = "South"
-    elif 202.5 <= value < 247.5:
-        direction_name = "Southwest"
-    elif 247.5 <= value < 292.5:
-        direction_name = "West"
-    elif 292.5 <= value < 337.5:
-        direction_name = "Northwest"
-    else:
-        raise ValueError("convert_deg_to_str has failed")
-    return Variable("wind_from_direction", direction_name, "str")  # type: ignore
+from .helper_functions import (
+    cardinal_name_of,
+    max_temp_of,
+    max_wind_speed_of,
+    min_temp_of,
+    sum_rain,
+)
 
 
 def get_context(forecasts: List[Forecast]):
     today = dt.date.today()
+    morning_times = [dt.time(6), dt.time(11, 59)]
+    afternoon_times = [dt.time(12), dt.time(17, 59)]
+    evening_times = [dt.time(18), dt.time(23, 59)]
 
     days = [today + dt.timedelta(days=i) for i in range(7)]
 
     places = []
     context_forecasts = {}
+    forecast_updated_at = {}
     for forecast in forecasts:
         places.append(forecast.place)
 
-        forecasts_for_place = []
+        forecasts_for_place = {}
         for day in days:
-            relevant_intervals = forecast.data.intervals_for(day)
+            days_intervals = forecast.data.intervals_for(day)
+            days_rain = sum_rain(days_intervals)
+            days_max_temp = max_temp_of(days_intervals)
+            days_min_temp = min_temp_of(days_intervals)
+            days_max_wind_speed, days_max_wind_speed_direction = max_wind_speed_of(days_intervals)
+            days_max_wind_speed.convert_to("km/h")
 
-            current_total_rain = Variable("precipitation_amount", 0.0, "mm")
-            current_max_temp = Variable("air_temperature", float("-inf"), "celsius")
-            current_min_temp = Variable("air_temperature", float("inf"), "celsius")
-            current_max_wind_speed = Variable("wind_speed", float("-inf"), "km/h")
-            current_max_wind_speed_direction = Variable("wind_from_direction", 0.0, "degrees")
-            context_intervals = []
-            for interval in relevant_intervals:
-                current_total_rain += interval.variables["precipitation_amount"]
+            morning = [dt.datetime.combine(day, time) for time in morning_times]
+            morning_intervals = forecast.data.intervals_between(morning[0], morning[1])
+            morning_rain = sum_rain(morning_intervals)
 
-                if current_max_temp.value < interval.variables["air_temperature"].value:
-                    current_max_temp = interval.variables["air_temperature"]
-                if current_min_temp.value > interval.variables["air_temperature"].value:
-                    current_min_temp = interval.variables["air_temperature"]
-                if current_max_wind_speed.value < interval.variables["wind_speed"].value:
-                    current_max_wind_speed = interval.variables["wind_speed"]
-                    current_max_wind_speed_direction = interval.variables["wind_from_direction"]
+            afternoon = [dt.datetime.combine(day, time) for time in afternoon_times]
+            afternoon_intervals = forecast.data.intervals_between(afternoon[0], afternoon[1])
+            afternoon_rain = sum_rain(afternoon_intervals)
 
-                context_interval = {
-                    "start_time": interval.start_time,
-                    "end_time": interval.end_time,
-                    "rain": interval.variables["precipitation_amount"],
-                }
-                context_intervals.append(context_interval)
-
-            current_max_wind_speed_direction = convert_deg_to_str(current_max_wind_speed_direction)
+            evening = [dt.datetime.combine(day, time) for time in evening_times]
+            evening_intervals = forecast.data.intervals_between(evening[0], evening[1])
+            evening_rain = sum_rain(evening_intervals)
 
             forecast_for_day = {
-                "day": day,
-                "total_rain": current_total_rain,
-                "max_temp": current_max_temp,
-                "min_temp": current_min_temp,
-                "max_wind_speed": current_max_wind_speed,
-                "max_wind_speed_direction": current_max_wind_speed_direction,
-                "intervals": context_intervals,
+                "total_rain": days_rain,
+                "morning_rain": morning_rain,
+                "afternoon_rain": afternoon_rain,
+                "evening_rain": evening_rain,
+                "max_temp": days_max_temp,
+                "min_temp": days_min_temp,
+                "max_wind_speed": days_max_wind_speed,
+                "max_wind_speed_direction": cardinal_name_of(days_max_wind_speed_direction),
+                "intervals": days_intervals,
             }
 
-            forecasts_for_place.append(forecast_for_day)
+            forecasts_for_place[day] = forecast_for_day
 
         context_forecasts[forecast.place.name] = forecasts_for_place
+        forecast_updated_at[forecast.place.name] = forecast.data.updated_at
 
     context = {
         "days": days,
         "places": places,
         "forecasts": context_forecasts,
+        "updated_at": forecast_updated_at,
     }
     return context
 

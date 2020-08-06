@@ -5,40 +5,58 @@
     <thead>
       <tr>
         <th scope="col">Date</th>
-        <th scope="col">Rain</th>
-        <th scope="col">Temp.</th>
+        <th scope="col">Morning</th>
+        <th scope="col">Afternoon</th>
+        <th scope="col">Evening</th>
+        <th scope="col">Temp. <small class="text-muted d-none d-md-inline">(min / max)</small></th>
         <th scope="col">Wind</th>
       </tr>
     </thead>
     <tbody>
-      {% for forecast in forecasts %}
-        <tr {% if forecast.day.weekday() in [5, 6] %} class="font-weight-bolder" {% endif %}>
-          <th scope="row" class="text-nowrap">
-            {{ forecast.day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ forecast.day.strftime("%d %b") }}</small>
-          </th>
+      {% for day in days %}
+        {% with forecast = forecasts[day] %}
+          <tr {% if day.weekday() in [5, 6] %} class="font-weight-bolder" {% endif %}>
+            <th scope="row" class="text-nowrap">
+              {{ day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ day.strftime("%d %b") }}</small>
+            </th>
 
-          {% if forecast.total_rain.value <= 1.0 %}
-            <td class="text-success text-nowrap">
-          {% else %}
-            <td class="text-primary text-nowrap">
-          {% endif %}
-            {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
-          </td>
-
-          <td class="text-danger text-nowrap">
-            {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
-            {% if forecast.max_temp.units == "celsius" %}
-              &deg;C
-            {% elif forecast.max_temp.units == "farenheit" %}
-              &deg;F
+            {% if forecast.morning_rain.value <= 1.0 %}
+              <td class="text-success text-nowrap">
             {% else %}
-              forecast.max_temp.units
+              <td class="text-primary text-nowrap">
             {% endif %}
-          </td>
-          <td class="text-nowrap">
-            {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{ forecast.max_wind_speed_direction.value }}
-          </td>
-        </tr>
+              {{ forecast.morning_rain.value | round(1) }} {{ forecast.morning_rain.units }}
+            </td>
+            {% if forecast.afternoon_rain.value <= 1.0 %}
+              <td class="text-success text-nowrap">
+            {% else %}
+              <td class="text-primary text-nowrap">
+            {% endif %}
+              {{ forecast.afternoon_rain.value | round(1) }} {{ forecast.afternoon_rain.units }}
+            </td>
+            {% if forecast.evening_rain.value <= 1.0 %}
+              <td class="text-success text-nowrap">
+            {% else %}
+              <td class="text-primary text-nowrap">
+            {% endif %}
+              {{ forecast.evening_rain.value | round(1) }} {{ forecast.evening_rain.units }}
+            </td>
+
+            <td class="text-danger text-nowrap">
+              {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
+              {% if forecast.max_temp.units == "celsius" %}
+                &deg;C
+              {% elif forecast.max_temp.units == "farenheit" %}
+                &deg;F
+              {% else %}
+                forecast.max_temp.units
+              {% endif %}
+            </td>
+            <td class="text-nowrap">
+              {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{ forecast.max_wind_speed_direction }}
+            </td>
+          </tr>
+        {% endwith %}
       {% endfor %}
     </tbody>
   </table>
