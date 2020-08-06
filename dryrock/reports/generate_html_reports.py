@@ -1,6 +1,6 @@
 import datetime as dt
 import pathlib
-from typing import List
+from typing import List, Dict, Optional
 
 import jinja2 as jinja
 from metno_locationforecast import Forecast
@@ -28,40 +28,63 @@ def get_context(forecasts: List[Forecast]):
     for forecast in forecasts:
         places.append(forecast.place)
 
-        forecasts_for_place = {}
+        forecasts_for_place: Dict[dt.date, Optional[object]] = {}
         for day in days:
             days_intervals = forecast.data.intervals_for(day)
-            days_rain = sum_rain(days_intervals)
-            days_max_temp = max_temp_of(days_intervals)
-            days_min_temp = min_temp_of(days_intervals)
-            days_max_wind_speed, days_max_wind_speed_direction = max_wind_speed_of(days_intervals)
-            days_max_wind_speed.convert_to("km/h")
 
-            morning = [dt.datetime.combine(day, time) for time in morning_times]
-            morning_intervals = forecast.data.intervals_between(morning[0], morning[1])
-            morning_rain = sum_rain(morning_intervals)
+            if len(days_intervals) > 0:
+                days_rain = sum_rain(days_intervals)
+                days_max_temp = max_temp_of(days_intervals)
+                days_min_temp = min_temp_of(days_intervals)
+                days_max_wind_speed, days_max_wind_speed_direction = max_wind_speed_of(
+                    days_intervals
+                )
+                days_max_wind_speed.convert_to("km/h")
 
-            afternoon = [dt.datetime.combine(day, time) for time in afternoon_times]
-            afternoon_intervals = forecast.data.intervals_between(afternoon[0], afternoon[1])
-            afternoon_rain = sum_rain(afternoon_intervals)
+                morning = [dt.datetime.combine(day, time) for time in morning_times]
+                morning_intervals = forecast.data.intervals_between(morning[0], morning[1])
+                morning_rain = sum_rain(morning_intervals) if len(morning_intervals) > 0 else None
 
-            evening = [dt.datetime.combine(day, time) for time in evening_times]
-            evening_intervals = forecast.data.intervals_between(evening[0], evening[1])
-            evening_rain = sum_rain(evening_intervals)
+                afternoon = [dt.datetime.combine(day, time) for time in afternoon_times]
+                afternoon_intervals = forecast.data.intervals_between(afternoon[0], afternoon[1])
+                afternoon_rain = (
+                    sum_rain(afternoon_intervals) if len(afternoon_intervals) > 0 else None
+                )
 
-            forecast_for_day = {
-                "total_rain": days_rain,
-                "morning_rain": morning_rain,
-                "afternoon_rain": afternoon_rain,
-                "evening_rain": evening_rain,
-                "max_temp": days_max_temp,
-                "min_temp": days_min_temp,
-                "max_wind_speed": days_max_wind_speed,
-                "max_wind_speed_direction": cardinal_name_of(days_max_wind_speed_direction),
-                "intervals": days_intervals,
-            }
+                evening = [dt.datetime.combine(day, time) for time in evening_times]
+                evening_intervals = forecast.data.intervals_between(evening[0], evening[1])
+                evening_rain = sum_rain(evening_intervals) if len(evening_intervals) > 0 else None
 
-            forecasts_for_place[day] = forecast_for_day
+                intervals = []
+                for day_interval in days_intervals:
+                    interval = {
+                        "start_time": day_interval.start_time,
+                        "end_time": day_interval.end_time,
+                        "rain": day_interval.variables["precipitation_amount"],
+                        "temp": day_interval.variables["air_temperature"],
+                        "wind_speed": day_interval.variables["wind_speed"],
+                        "wind_from_direction": cardinal_name_of(
+                            day_interval.variables["wind_from_direction"]
+                        ),
+                    }
+                    intervals.append(interval)
+
+                forecast_for_day = {
+                    "total_rain": days_rain,
+                    "max_temp": days_max_temp,
+                    "min_temp": days_min_temp,
+                    "max_wind_speed": days_max_wind_speed,
+                    "max_wind_speed_direction": cardinal_name_of(days_max_wind_speed_direction),
+                    "morning_rain": morning_rain,
+                    "afternoon_rain": afternoon_rain,
+                    "evening_rain": evening_rain,
+                    "intervals": intervals,
+                }
+
+                forecasts_for_place[day] = forecast_for_day
+
+            else:
+                forecasts_for_place[day] = None
 
         context_forecasts[forecast.place.name] = forecasts_for_place
         forecast_updated_at[forecast.place.name] = forecast.data.updated_at

@@ -8,7 +8,7 @@ def cardinal_name_of(direction_variable: Variable) -> str:
     assert direction_variable.units == "degrees"
 
     value = direction_variable.value
-    if (337.5 <= value < 360) or (0 <= value < 22.5):
+    if (337.5 <= value <= 360) or (0 <= value < 22.5):
         return "North"
     if 22.5 <= value < 67.5:
         return "Northeast"
@@ -35,7 +35,7 @@ def sum_rain(intervals: List[Interval]) -> Variable:
         for interval in intervals:
             total_rain += interval.variables["precipitation_amount"]
         return total_rain
-    raise IndexError("Intervals connot be empty.")
+    raise IndexError("Intervals cannot be empty.")
 
 
 def max_temp_of(intervals: List[Interval]) -> Variable:

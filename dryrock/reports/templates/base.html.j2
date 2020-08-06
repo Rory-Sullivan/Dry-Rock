@@ -21,7 +21,7 @@
     <title>Dry Rock</title>
   </head>
   <body class="bg-light">
-    <div class="container-md bg-white">
+    <div class="container-md bg-white pb-3">
       <div class="row mb-5">
         <div class="text-center w-100 mb-3">
           <h1 class="display-2">Dry Rock</h1>
@@ -35,7 +35,7 @@
           <table class="table table-hover border-bottom">
             <thead>
               <tr>
-                <th scope="col">Place</th>
+                <th scope="col" class="position-sticky bg-white" style="left: 0">Place</th>
 
                 <th scope="col">Today</th>
                 <th scope="col">Tomorrow</th>
@@ -50,14 +50,14 @@
               {% for place in places %}
                 <!-- Rotation of zero so that stretched link works as expected -->
                 <tr style="transform: rotate(0);">
-                  <th scope="row">
+                  <th scope="row" class="position-sticky bg-white" style="left: 0">
                     <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                    <div class="text-nowrap d-inline">{{ place.name }}</div>
+                    <div>{{ place.name }}</div>
                   </th>
 
                   {% for day in days %}
                     {% with forecast = forecasts[place.name][day] %}
-                      {% if forecast.total_rain.value != "" %}
+                      {% if forecast %}
                         <td class="text-nowrap
                           {% if forecast.total_rain.value <= 1.0 %}
                             text-success
@@ -68,6 +68,7 @@
                             font-weight-bolder
                           {% endif %}
                         ">
+                          <a href="#{{ place.name }}Header" class="stretched-link"></a>
                           {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
                         </td>
                       {% else %}

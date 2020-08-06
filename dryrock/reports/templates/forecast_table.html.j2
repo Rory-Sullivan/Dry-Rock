@@ -1,10 +1,10 @@
 
 
 <div class="table-responsive">
-  <table class="table border-bottom">
+  <table class="table table-hover border-bottom">
     <thead>
       <tr>
-        <th scope="col">Date</th>
+        <th scope="col" class="position-sticky bg-white" style="left: 0">Date</th>
         <th scope="col">Morning</th>
         <th scope="col">Afternoon</th>
         <th scope="col">Evening</th>
@@ -15,32 +15,49 @@
     <tbody>
       {% for day in days %}
         {% with forecast = forecasts[day] %}
-          <tr {% if day.weekday() in [5, 6] %} class="font-weight-bolder" {% endif %}>
-            <th scope="row" class="text-nowrap">
-              {{ day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ day.strftime("%d %b") }}</small>
+          <tr style="transform: rotate(0);" {% if day.weekday() in [5, 6] %} class="font-weight-bolder" {% endif %}>
+            <th scope="row" class="position-sticky bg-white" style="left: 0">
+              <a href="#{{ place.name.replace(' ', '') }}{{ day }}" data-toggle="modal" class="stretched-link"></a>
+              <div class="text-nowrap d-inline">
+                {{ day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ day.strftime("%d %b") }}</small>
+              </div>
             </th>
 
-            {% if forecast.morning_rain.value <= 1.0 %}
-              <td class="text-success text-nowrap">
+            {% if forecast.morning_rain %}
+              {% if forecast.morning_rain.value <= 1.0 %}
+                <td class="text-success text-nowrap">
+              {% else %}
+                <td class="text-primary text-nowrap">
+              {% endif %}
+                {{ forecast.morning_rain.value | round(1) }} {{ forecast.morning_rain.units }}
+              </td>
             {% else %}
-              <td class="text-primary text-nowrap">
+              <td></td>
             {% endif %}
-              {{ forecast.morning_rain.value | round(1) }} {{ forecast.morning_rain.units }}
-            </td>
-            {% if forecast.afternoon_rain.value <= 1.0 %}
-              <td class="text-success text-nowrap">
+
+            {% if forecast.afternoon_rain %}
+              {% if forecast.afternoon_rain.value <= 1.0 %}
+                <td class="text-success text-nowrap">
+              {% else %}
+                <td class="text-primary text-nowrap">
+              {% endif %}
+                {{ forecast.afternoon_rain.value | round(1) }} {{ forecast.afternoon_rain.units }}
+              </td>
             {% else %}
-              <td class="text-primary text-nowrap">
+              <td></td>
             {% endif %}
-              {{ forecast.afternoon_rain.value | round(1) }} {{ forecast.afternoon_rain.units }}
-            </td>
-            {% if forecast.evening_rain.value <= 1.0 %}
-              <td class="text-success text-nowrap">
+
+            {% if forecast.evening_rain %}
+              {% if forecast.evening_rain.value <= 1.0 %}
+                <td class="text-success text-nowrap">
+              {% else %}
+                <td class="text-primary text-nowrap">
+              {% endif %}
+                {{ forecast.evening_rain.value | round(1) }} {{ forecast.evening_rain.units }}
+              </td>
             {% else %}
-              <td class="text-primary text-nowrap">
+              <td></td>
             {% endif %}
-              {{ forecast.evening_rain.value | round(1) }} {{ forecast.evening_rain.units }}
-            </td>
 
             <td class="text-danger text-nowrap">
               {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
@@ -53,6 +70,7 @@
               {% endif %}
             </td>
             <td class="text-nowrap">
+              <a href="#{{ place.name.replace(' ', '') }}{{ day }}" data-toggle="modal" class="stretched-link"></a>
               {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{ forecast.max_wind_speed_direction }}
             </td>
           </tr>
@@ -61,3 +79,63 @@
     </tbody>
   </table>
 </div>
+
+{% for day in days %}
+  <div class="modal fade" id="{{ place.name.replace(' ', '') }}{{ day }}" tabindex="-1" aria-labelledby="{{ place.name }}{{ day }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="{{ place.name }}{{ day }}Label">{{ place.name }}</h5>
+          <h5 class="modal-title ml-auto">{{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b") }}</small></h5>
+          <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Rain</th>
+                <th scope="col">Temp.</th>
+                <th scope="col">Wind</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for interval in forecasts[day].intervals %}
+                <tr>
+                  <td class="text-nowrap">
+                    {{ interval.start_time.strftime("%H")}} - {{ interval.end_time.strftime("%H")}}
+                  </td>
+
+                  {% if interval.rain.value <= 0.5 %}
+                    <td class="text-success text-nowrap">
+                  {% else %}
+                    <td class="text-primary text-nowrap">
+                  {% endif %}
+                    {{ interval.rain.value | round(1) }} {{ interval.rain.units }}
+                  </td>
+
+                  <td class="text-danger text-nowrap">
+                    {{interval.temp.value | round(1) }}
+                    {% if interval.temp.units == "celsius" %}
+                      &deg;C
+                    {% elif interval.temp.units == "farenheit" %}
+                      &deg;F
+                    {% else %}
+                      forecast.max_temp.units
+                    {% endif %}
+                  </td>
+
+                  <td class="text-nowrap">
+                    {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
