@@ -1,11 +1,10 @@
-# Dry-Rock
+# Dry Rock
 
-Dry Rock is a site designed to help climbers in Ireland find some dry rock to
-climb on. Check it out [here](https://rory-sullivan.github.io/Dry-Rock/).
+Dry Rock is a website designed to help climbers in Ireland find some dry rock to
+climb on. Check it out at [dryrock.ie](https://dryrock.ie).
 
-The forecasting data is sourced from [Yr](https://www.yr.no/en), delivered by the
-[Norwegian Meteorological Institute](https://www.met.no/en) and
-[NRK](https://www.nrk.no/).
+The forecast data is sourced from the [Norwegian Meteorological
+Institute](https://www.met.no/en).
 
 ## Motivations
 
@@ -16,9 +15,9 @@ every programmer knows when a task gets boring and repetitive, you automate it!
 So that's what I did.
 
 The site runs a python script at regular intervals. The script retrieves
-forecast data from Yr, collates it and renders it into a single page. This
-leaves me with a single web page to check before deciding where to go at the
-weekend.
+forecast data from MET Norway's weather API, collates it and renders it into a
+single page. This leaves me with a single web page to check before deciding
+where to go at the weekend.
 
 ## Usage
 
@@ -27,9 +26,12 @@ welcome to, however please see the [licensing notes](#licensing-notes) below.
 
 The gist of how to set up the project is as follows;
 
-- Clone the repo to your desired location
-- Install dependencies ``pip install -r requirements.txt`` (this assumes you
-  have Python and Pip installed already)
+- Fork this repo and clone it to your machine
+- Install dependencies, ``pip install -r requirements.txt`` (this assumes you
+  have Python and Pip installed already), it is probably best to do this in a
+  dedicated environment for your app
+- Alternatively if you use pipenv you can just run ```pipenv install``` and it
+  will install the necessary packages.
 - Update the ``./data/input/places.csv`` file, this is where the places you are
   interested in should go
 - Run the dryrock module ``python -m dryrock``
@@ -38,14 +40,15 @@ The gist of how to set up the project is as follows;
 To access your forecast from anywhere you will need hosting for your site,
 personally I use GitHub pages for this. To keep your site up to date consider
 running the Python module on a schedule or whenever the page is accessed, I use
-GitHub actions. Note that the module will only pull data from Yr if the data has
-been updated since the last pull.
+GitHub actions. Note that the module will only make a request for data if the
+data has expired.
 
 ## Licensing notes
 
-While this code is covered by an MIT licence and is free to use the data
-collected from Yr is subject to it's own terms of use. Check the Yr website for
-further details.
+While this code is covered by an MIT licence and is free to use, the data
+collected from MET Norway is subject to it's own terms of service. Check MET
+Norway's website for further details.
 
-- <https://hjelp.yr.no/hc/en-us/articles/360001946134-Data-access-and-terms-of-service>
-- <https://hjelp.yr.no/hc/en-us/categories/200450271-About-Yr-the-API-and-our-privacy-policy>
+- [Meteorological Institute of Norway](https://www.met.no/en)
+- [MET Norway API - Terms of Service](https://api.met.no/doc/TermsOfService)
+- [MET Norway API - Documentation](https://api.met.no/)
