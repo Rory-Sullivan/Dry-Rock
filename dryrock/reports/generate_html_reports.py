@@ -1,12 +1,13 @@
 import datetime as dt
 import pathlib
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 import jinja2 as jinja
 from metno_locationforecast import Forecast
 
 from .helper_functions import (
     cardinal_name_of,
+    change_units,
     max_temp_of,
     max_wind_speed_of,
     min_temp_of,
@@ -15,12 +16,16 @@ from .helper_functions import (
 
 
 def get_context(forecasts: List[Forecast]):
+    """Returns a context variable for passing into our template."""
+
     today = dt.date.today()
     morning_times = [dt.time(6), dt.time(11, 59)]
     afternoon_times = [dt.time(12), dt.time(17, 59)]
     evening_times = [dt.time(18), dt.time(23, 59)]
 
     days = [today + dt.timedelta(days=i) for i in range(7)]
+
+    change_units(forecasts)
 
     places = []
     context_forecasts = {}

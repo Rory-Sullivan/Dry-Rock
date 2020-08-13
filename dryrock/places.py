@@ -1,6 +1,5 @@
-"""
-Functions for managing the places we will check.
-"""
+"""Functions for managing the places we will check."""
+
 import csv
 from typing import List
 

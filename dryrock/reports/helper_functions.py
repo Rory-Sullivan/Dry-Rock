@@ -1,5 +1,6 @@
 from typing import List, Tuple
 
+from metno_locationforecast import Forecast
 from metno_locationforecast.data_containers import Interval, Variable
 
 
@@ -68,3 +69,13 @@ def max_wind_speed_of(intervals: List[Interval]) -> Tuple[Variable, Variable]:
                 max_wind_speed_direction = interval.variables["wind_from_direction"]
         return max_wind_speed, max_wind_speed_direction
     raise IndexError("Intervals connot be empty.")
+
+
+def change_units(forecasts: List[Forecast]) -> None:
+    """Change wind speed to km/h."""
+
+    for forecast in forecasts:
+        for interval in forecast.data.intervals:
+            for variable in interval.variables.values():
+                if variable.name == "wind_speed":
+                    variable.convert_to("km/h")
