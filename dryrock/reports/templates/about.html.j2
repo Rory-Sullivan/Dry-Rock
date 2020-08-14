@@ -1,0 +1,37 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+  <title>Dry Rock - About</title>
+{% endblock title %}
+
+{% block content %}
+  <div class="row mb-5">
+    <div class="bg-primary text-white text-center w-100 mb-3">
+      <h1 class="display-4">About</h1>
+    </div>
+    <div class="col">
+      <p>
+        Dry Rock is a site designed to help climbers in Ireland find some dry
+        rock to climb on. Gone are the days of clicking through endless pages
+        trying to figure out where the wether is going to be best for the coming
+        weekend. There is now one site to rule them all!
+      </p>
+      <p>
+        Forecast data is provided by the <a href="https://www.met.no/en">
+        Norwegian Meteorological Institute</a>. Many thanks to them for making
+        their data freely available. This is an open source project, the source
+        code is available on
+        <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
+      </p>
+
+      <div class="row align-items-center justify-content-around">
+        <div class="col-auto text-center">
+          <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="/static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
+        </div>
+        <div class="col-auto text-center">
+          <a href="https://www.met.no/en"><img src="/static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

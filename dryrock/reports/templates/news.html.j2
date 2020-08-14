@@ -1,0 +1,66 @@
+{% extends "base.html.j2" %}
+
+{% block title %}
+  <title>Dry Rock - News</title>
+{% endblock title %}
+
+{% block content %}
+  <div class="row mb-5">
+    <div class="bg-primary text-white text-center w-100 mb-3">
+      <h1 class="display-4">News</h1>
+    </div>
+    <div class="col">
+      <p>
+        Here you can find a list of changes to the Dry Rock site as well as upcoming features.
+      </p>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="bg-secondary text-white text-center w-100 mb-3">
+      <h1 id="UpcomingFeatures" class="display-4">
+        Upcoming Features
+      </h1>
+    </div>
+    <div class="col">
+      <p></p>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="bg-secondary text-white text-center w-100 mb-3">
+      <h1 id="v2.0.0" class="display-4">
+        v2.0.0 - <small>2020-??-??</small>
+      </h1>
+    </div>
+    <div class="col">
+      <p>
+        Dry Rock version 2 is here! With the Yr weather API being deprecated later this
+        year version 2 now uses MET Norway's <a href="https://api.met.no/">weather API</a>. Most
+        significantly this means that forecast data is exact to each crag rather than
+        being taken from the nearest town. This change has been aided by using the
+        <a href="https://github.com/Rory-Sullivan/metno-locationforecast">metno-locationforecast</a>
+        library.
+      </p>
+      <p>
+        There have also been improvements to the general design of the site and the
+        addition of a more detailed hourly forecast.
+      </p>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="bg-secondary text-white text-center w-100 mb-3">
+      <h1 id="v1.0.0" class="display-4">
+        v1.0.0 - <small>25 May 2020</small>
+      </h1>
+    </div>
+    <div class="col">
+      <p>
+        The initial release of the Dry Rock site.
+      </p>
+      <p>
+        Dry Rock is a site designed to help climbers in Ireland find some dry rock to
+        climb on. Weather forecast data is collected from <a href="https://www.yr.no/en">Yr</a>,
+        provided by the <a href="https://www.met.no/en">Norwegian Meteorological Institute</a>.
+      </p>
+    </div>
+  </div>
+{% endblock content %}

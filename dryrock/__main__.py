@@ -1,6 +1,5 @@
 """Updates weather data for all places and renders templates."""
 
-import datetime as dt
 import logging
 import pathlib
 from typing import List
@@ -10,7 +9,7 @@ from metno_locationforecast import Forecast
 from .config import OUTPUT_PATH, PLACES_FILE, LOGGING_LEVEL
 from .copy_reports import copy_index
 from .places import get_places
-from .reports.generate_html_reports import update_html_report
+from .reports.render_html import render_html_pages
 
 if __name__ == "__main__":
 
@@ -27,7 +26,6 @@ if __name__ == "__main__":
     if not output_path.is_dir():
         output_path.mkdir(parents=True)
 
-    now = dt.datetime.now()
     logger.info("Starting data collection")
 
     places = get_places(PLACES_FILE)
@@ -51,7 +49,7 @@ if __name__ == "__main__":
 
     logger.debug("Updated all forecasts")
 
-    update_html_report(forecasts, OUTPUT_PATH)
+    render_html_pages(forecasts)
     copy_index()
 
     logger.info("Completed update")

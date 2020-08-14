@@ -8,137 +8,30 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <!-- Custom style sheets -->
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="/static/style.css">
 
     <!-- Icons -->
-    <link rel="icon" type="image/vnd.microsoft.icon" href="static/favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="static/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="static/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="static/favicons/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="180x180" href="static/favicons/apple-touch-icon.png">
-    <link rel="manifest" href="static/favicons/site.webmanifest">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
 
-    <title>Dry Rock</title>
+    {% block title %}
+      <title>Dry Rock</title>
+    {% endblock title %}
   </head>
   <body class="bg-light">
     <div class="container-md bg-white pb-3">
-      <div class="row mb-5">
+      <div class="row">
         <div class="text-center w-100 mb-3">
           <h1 class="display-2">Dry Rock</h1>
         </div>
-
-        <div class="bg-primary text-white text-center w-100 mb-3">
-          <h1 class="display-4" id="overview">Overview</h1>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table table-hover border-bottom">
-            <thead>
-              <tr>
-                <th scope="col" class="position-sticky bg-white" style="left: 0">Place</th>
-
-                <th scope="col">Today</th>
-                <th scope="col">Tomorrow</th>
-
-                {% for day in days[2:] %}
-                  <th scope="col">{{ day.strftime("%A") }}</th>
-                {% endfor %}
-              </tr>
-            </thead>
-
-            <tbody>
-              {% for place in places %}
-                <!-- Rotation of zero so that stretched link works as expected -->
-                <tr style="transform: rotate(0);">
-                  <th scope="row" class="position-sticky bg-white" style="left: 0">
-                    <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                    <div>{{ place.name }}</div>
-                  </th>
-
-                  {% for day in days %}
-                    {% with forecast = forecasts[place.name][day] %}
-                      {% if forecast %}
-                        <td class="text-nowrap
-                          {% if forecast.total_rain.value <= 1.0 %}
-                            text-success
-                          {% else %}
-                            text-primary
-                          {% endif %}
-                          {% if day.weekday() in [5, 6] %}
-                            font-weight-bolder
-                          {% endif %}
-                        ">
-                          <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                          {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
-                        </td>
-                      {% else %}
-                        <td></td>
-                      {% endif %}
-                    {% endwith %}
-                  {% endfor %}
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
       </div>
 
-      <div class="row mb-5">
-        <div class="bg-primary text-white text-center w-100 mb-3">
-          <h1 class="display-4">About</h1>
-        </div>
-        <div class="col">
-          <p>
-            Dry Rock is a site designed to help climbers in Ireland find some dry
-            rock to climb on. Check the overview above to get a general idea of how
-            much rain there will be in various places. Click on one of the rows to
-            see a detailed forecast for that area.
-          </p>
-          <p>
-            Weather forecast from <a href="https://www.yr.no/en">Yr</a>, delivered
-            by the <a href="https://www.met.no/en">Norwegian Meteorological
-            Institute</a> and <a href="https://www.nrk.no/">NRK</a>.
-          </p>
-          <p>
-            The source code for this site is available on
-            <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
-          </p>
-
-          <div class="row align-items-center justify-content-around">
-            <div class="col-auto text-center">
-              <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
-            </div>
-            <div class="col-auto text-center">
-              <a href="https://www.yr.no/en"><img src="./static/logos/Yr-Logo/Yr-logo.png" alt="Yr logo" height="64px"></a>
-            </div>
-            <div class="col-auto text-center">
-              <a href="https://www.met.no/en"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {% for place in places %}
-        <div class="row mb-5">
-          <div class="bg-secondary text-white text-center w-100 mb-3">
-            <h1 id="{{ place.name }}Header" class="display-4">
-              {{ place.name }}
-            </h1>
-          </div>
-
-          <div class="w-100">
-            {% with forecasts=forecasts[place.name] %}
-              {% include "forecast_table.html.j2" %}
-            {% endwith %}
-
-            <div class="px-3">
-              <a class="btn btn-outline-primary" href="#overview">Back to Top</a>
-              <small class="float-right">Updated at: {{ updated_at[place.name].strftime("%H:%M %x") }}</small>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-
+      {% block content %}
+      {% endblock content %}
     </div>
 
     <!-- Optional JavaScript -->

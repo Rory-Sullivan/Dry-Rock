@@ -103,17 +103,12 @@ def get_context(forecasts: List[Forecast]):
     return context
 
 
-def update_html_report(forecasts: List[Forecast], output_path: str):
+def render_html_pages(forecasts: List[Forecast]):
     """Updates index.html"""
 
-    reports_path = pathlib.Path(output_path).joinpath("webpages/")
-
-    if not reports_path.is_dir():
-        reports_path.mkdir(parents=True)
-
-    file_path = reports_path.joinpath("index.html")
-
-    context = get_context(forecasts)
+    webpages_path = pathlib.Path("./pages/")
+    if not webpages_path.is_dir():
+        webpages_path.mkdir(parents=True)
 
     env = jinja.Environment(
         loader=jinja.FileSystemLoader("./dryrock/reports/templates"),
@@ -122,9 +117,25 @@ def update_html_report(forecasts: List[Forecast], output_path: str):
         lstrip_blocks=True,  # Strips whitespace from in front of a block.
     )
 
-    template = env.get_template("base.html.j2")
+    index_file_path = webpages_path.joinpath("index.html")
+    about_file_path = webpages_path.joinpath("about.html")
+    news_file_path = webpages_path.joinpath("news.html")
 
-    output = template.render(context)
+    index_template = env.get_template("index.html.j2")
+    about_template = env.get_template("about.html.j2")
+    news_template = env.get_template("news.html.j2")
 
-    with open(file_path, "w") as file:
-        file.write(output)
+    index_context = get_context(forecasts)
+
+    index_output = index_template.render(index_context)
+    about_output = about_template.render()
+    news_output = news_template.render()
+
+    with open(index_file_path, "w") as file:
+        file.write(index_output)
+
+    with open(about_file_path, "w") as file:
+        file.write(about_output)
+
+    with open(news_file_path, "w") as file:
+        file.write(news_output)
