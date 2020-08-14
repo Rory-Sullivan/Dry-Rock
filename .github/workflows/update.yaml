@@ -3,7 +3,7 @@ name: Update data
 
 on:
   schedule:
-    - cron: '0 6-23 * * *'
+    - cron: '13,43 5-23 * * *'
 
 jobs:
   update-data:
