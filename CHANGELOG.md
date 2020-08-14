@@ -27,14 +27,14 @@ addition of a more detailed hourly forecast.
 - Forecasts now exact to crags
 - First column of tables is now fixed to making viewing easier on small screens
 
-## Added
+### Added
 
 - Detailed hourly forecasts in pop out modal
 - Logging functionality, there is now a logging level configuration in config.py
 - About and News pages
 - Navbar at top of all pages
 
-## Removed
+### Removed
 
 - The forecast package, as this has been replaced by the
   [metno-locationforecast](https://github.com/Rory-Sullivan/metno-locationforecast)
