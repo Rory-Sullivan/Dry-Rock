@@ -8,6 +8,7 @@ mypy = "*"
 black = "*"
 flake8 = "*"
 pytest = "*"
+rope = "*"
 
 [packages]
 metno-locationforecast = "*"
