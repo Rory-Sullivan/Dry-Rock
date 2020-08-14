@@ -127,15 +127,17 @@ def render_html_pages(forecasts: List[Forecast]):
 
     index_context = get_context(forecasts)
 
-    index_output = index_template.render(index_context)
-    about_output = about_template.render()
-    news_output = news_template.render()
+    # Note the encoding method, this returns a bytes string so these need to be written to files in
+    # bytes mode
+    index_output = index_template.render(index_context).encode("utf8")
+    about_output = about_template.render().encode("utf8")
+    news_output = news_template.render().encode("utf8")
 
-    with open(index_file_path, "w") as file:
+    with open(index_file_path, "wb") as file:
         file.write(index_output)
 
-    with open(about_file_path, "w") as file:
+    with open(about_file_path, "wb") as file:
         file.write(about_output)
 
-    with open(news_file_path, "w") as file:
+    with open(news_file_path, "wb") as file:
         file.write(news_output)

@@ -5,7 +5,7 @@ features.
 
 ## Unreleased
 
-## [2.0.0] - 2020-??-??
+## [2.0.0] - 2020-08-??
 
 Dry Rock version 2 is here! With the Yr weather API being deprecated later this
 year version 2 now uses MET Norway's [weather API](https://api.met.no/). Most
@@ -24,20 +24,21 @@ addition of a more detailed hourly forecast.
   service through use of the
   [metno-locationforecast](https://github.com/Rory-Sullivan/metno-locationforecast)
   library
-- Forecasts pin pointed to crags using geo coordinates
+- Forecasts now exact to crags
 - First column of tables is now fixed to making viewing easier on small screens
 
 ## Added
 
 - Detailed hourly forecasts in pop out modal
 - Logging functionality, there is now a logging level configuration in config.py
+- About and News pages
 
 ## Removed
 
-- The forecast package as this has been replaced by the
+- The forecast package, as this has been replaced by the
   [metno-locationforecast](https://github.com/Rory-Sullivan/metno-locationforecast)
   library
-- Sunrise and sunset times; these are not included in the new API. They may be
+- Sunrise and sunset times, these are not included in the new API. They may be
   brought back in a future version
 
 ## [1.0.0] - 2020-05-25
