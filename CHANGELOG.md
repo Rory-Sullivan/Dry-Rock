@@ -37,6 +37,8 @@ addition of a more detailed hourly forecast.
 - The forecast package as this has been replaced by the
   [metno-locationforecast](https://github.com/Rory-Sullivan/metno-locationforecast)
   library
+- Sunrise and sunset times; these are not included in the new API. They may be
+  brought back in a future version
 
 ## [1.0.0] - 2020-05-25
 
