@@ -22,14 +22,22 @@
       <title>Dry Rock</title>
     {% endblock title %}
   </head>
+
   <body class="bg-light">
-    <div class="container-md bg-white pb-3">
-      <div class="row">
-        <div class="text-center w-100 mb-3">
-          <h1 class="display-2">Dry Rock</h1>
+    <header class="navbar navbar-expand fixed-top navbar-dark bg-primary">
+      <a class="navbar-brand" href="/">Dry Rock</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="navbar-nav">
+          <a class="nav-link {% block aboutPageActive %}{% endblock %}" href="/pages/about.html">About</a>
+          <a class="nav-link {% block newsPageActive %}{% endblock %}" href="/pages/news.html">News</a>
         </div>
       </div>
+    </header>
 
+    <div class="container-md bg-white pb-3">
       {% block content %}
       {% endblock content %}
     </div>

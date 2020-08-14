@@ -4,34 +4,31 @@
   <title>Dry Rock - News</title>
 {% endblock title %}
 
+{% block newsPageActive %}active{% endblock %}
+
 {% block content %}
-  <div class="row mb-5">
-    <div class="bg-primary text-white text-center w-100 mb-3">
-      <h1 class="display-4">News</h1>
-    </div>
+  <div class="row">
+    <section id="news" class="section-header w-100 mb-3">
+      <h1 class="display-4 text-center pb-1">News</h1>
+    </section>
+
     <div class="col">
-      <p>
+      <p class="lead">
         Here you will find updates about the Dry Rock site as well as upcoming features.
       </p>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="bg-secondary text-white text-center w-100 mb-3">
-      <h1 id="UpcomingFeatures" class="display-4">
-        Upcoming Features
-      </h1>
-    </div>
+      <hr class="my-4 mx-4">
+
+  {# <section id="upcoming" class="section-header w-100 mb-3">
+      <h2>Upcoming Features</h2>
+    </section>
     <div class="col">
       <p></p>
     </div>
-  </div>
-  <div class="row mb-5">
-    <div class="bg-secondary text-white text-center w-100 mb-3">
-      <h1 id="v2.0.0" class="display-4">
-        v2.0.0 - <small>?? August 2020</small>
-      </h1>
-    </div>
-    <div class="col">
+  </div> #}
+
+      <section id="v2.0.0" class="section-header w-100 mb-3">
+        <h2>v2.0.0 <small class="text-muted">?? August 2020</small></h2>
+      </section>
       <p>
         Dry Rock version 2 is here!
       </p>
@@ -48,15 +45,10 @@
         <li>The first column of tables are now fixed, this should improve viewing experiences on small devices</li>
         <li>A new hourly forecast table has been added (Click a row of a place's forecast to see it)</li>
       </ul>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="bg-secondary text-white text-center w-100 mb-3">
-      <h1 id="v1.0.0" class="display-4">
-        v1.0.0 - <small>25 May 2020</small>
-      </h1>
-    </div>
-    <div class="col">
+
+      <section id="v1.0.0" class="section-header w-100 mb-3">
+        <h2>v1.0.0 <small class="text-muted">25 May 2020</small></h2>
+      </section>
       <p>
         The initial release of the Dry Rock site.
       </p>

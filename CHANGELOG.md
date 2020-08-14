@@ -32,6 +32,7 @@ addition of a more detailed hourly forecast.
 - Detailed hourly forecasts in pop out modal
 - Logging functionality, there is now a logging level configuration in config.py
 - About and News pages
+- Navbar at top of all pages
 
 ## Removed
 

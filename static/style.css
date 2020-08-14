@@ -1,5 +1,6 @@
 
-.bg-weekend {
-  background-color: linen;
-  border-collapse: separate;
+.section-header:before {
+  height: 54px;
+  content: "";
+  display:block;
 }

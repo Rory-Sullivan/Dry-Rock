@@ -2,9 +2,9 @@
 
 {% block content %}
   <div class="row mb-5">
-    <div class="bg-primary text-white text-center w-100 mb-3">
-      <h1 class="display-4" id="overview">Overview</h1>
-    </div>
+    <section id="overview" class="section-header w-100 mb-3">
+      <h1 class="display-4 text-center pb-1">Overview</h1>
+    </section>
 
     <div class="table-responsive">
       <table class="table table-hover border-bottom">
@@ -58,17 +58,8 @@
     </div>
   </div>
 
-  <div class="row bm-5">
+  <div class="row">
     <div class="col">
-      <div class="row align-items-center justify-content-around mb-3">
-        <div class="col-auto text-center">
-          <a class="btn btn-primary" href="./pages/about.html">About</a>
-        </div>
-        <div class="col-auto text-center">
-          <a class="btn btn-primary" href="./pages/news.html">News</a>
-        </div>
-      </div>
-
       <p>
         Forecast data is provided by the <a href="https://www.met.no/en">
         Norwegian Meteorological Institute</a>. This is an open source project,
@@ -88,12 +79,12 @@
   </div>
 
   {% for place in places %}
-    <div class="row mb-5">
-      <div class="bg-secondary text-white text-center w-100 mb-3">
-        <h1 id="{{ place.name }}Header" class="display-4">
+    <div class="row">
+      <section id="{{ place.name }}Header" class="section-header w-100 mb-3">
+        <h1 class="display-4 bg-secondary text-white text-center pb-1">
           {{ place.name }}
         </h1>
-      </div>
+      </section>
 
       <div class="w-100">
         {% with forecasts=forecasts[place.name] %}
