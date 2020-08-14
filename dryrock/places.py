@@ -14,11 +14,14 @@ def get_places(places_file: str) -> List[Place]:
     """
 
     places = []
-    with open(places_file, "r") as file:
+    with open(places_file, "r", encoding="utf8") as file:
         csv_file = csv.DictReader(file)
         for row in csv_file:
             place = Place(
-                row["name"], float(row["latitude"]), float(row["longitude"]), int(row["altitude"])
+                str(row["name"]),
+                float(row["latitude"]),
+                float(row["longitude"]),
+                int(row["altitude"]),
             )
             places.append(place)
 
