@@ -5,7 +5,7 @@ features.
 
 ## Unreleased
 
-## [2.0.0] - 2020-08-??
+## [2.0.0] - 2020-08-14
 
 Dry Rock version 2 is here! With the Yr weather API being deprecated later this
 year version 2 now uses MET Norway's [weather API](https://api.met.no/). Most
