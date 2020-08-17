@@ -5,6 +5,15 @@ features.
 
 ## Unreleased
 
+## [2.0.1] - 2020-08-17
+
+Patch v2.0.1
+
+### Fixed
+
+- Typos and wording
+- "Updated at" dates now in dd/mm/yyyy format
+
 ## [2.0.0] - 2020-08-14
 
 Dry Rock version 2 is here! With the Yr weather API being deprecated later this
