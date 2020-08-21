@@ -36,8 +36,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config user.email "no-email@auto.com"
-        git config user.name "Auto Updater"
-        git config core.autocrlf true
-        git diff --quiet || git commit -a -m "AUTO COMMIT: Update at $NOW"
-        git push
+        echo git config user.email "no-email@auto.com"
+        echo git config user.name "Auto Updater"
+        echo git config --global core.autocrlf true
+        echo git diff --quiet || git commit -a -m "AUTO COMMIT: Update at $NOW"
+        echo git push
