@@ -4,18 +4,15 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-mypy = "*"
-black = "*"
-flake8 = "*"
-pytest = "*"
+mypy = "==0.782"
+black = "==19.10b0"
+flake8 = "==3.8.3"
+pytest = "==6.0.1"
 rope = "*"
 
 [packages]
-metno-locationforecast = "*"
-jinja2 = "*"
+metno-locationforecast = ">=1.0.0"
+jinja2 = "~=2.11"
 
 [requires]
 python_version = "3.8"
-
-[pipenv]
-allow_prereleases = true
