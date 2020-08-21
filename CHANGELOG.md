@@ -5,6 +5,20 @@ features.
 
 ## Unreleased
 
+### Added
+
+- A lint and test workflow to automatically lint and test files on pushes and
+  pull-requests to master and dev branches
+
+### Changed
+
+- Updated metno-locationforecast requirement to v1.0.0
+- Update workflow now runs on Windows instead of Ubuntu
+
+### Removed
+
+- "requirements.txt" file. The project will now rely on the "Pipfile.lock"
+
 ## [2.0.1] - 2020-08-17
 
 Patch v2.0.1

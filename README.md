@@ -26,16 +26,19 @@ welcome to, however please see the [licensing notes](#licensing-notes) below.
 
 The gist of how to set up the project is as follows;
 
-- Fork this repo and clone it to your machine
-- Install dependencies, ``pip install -r requirements.txt`` (this assumes you
-  have Python and Pip installed already), it is probably best to do this in a
-  dedicated environment for your app
-- Alternatively if you use pipenv you can just run ```pipenv install``` and it
-  will install the necessary packages.
+- Download the latest release from the [releases
+  page](https://github.com/Rory-Sullivan/Dry-Rock/releases) and unpack it into a
+  directory
+- Install dependencies into a virtual environment
+  - If you use pipenv simply run ``pipenv install``
+  - If you don't use pipenv you can find a list of dependencies in the
+    ``Pipfile``, install these into your environment however you normally would
 - Update the ``./data/input/places.csv`` file, this is where the places you are
   interested in should go
 - Run the dryrock module ``python -m dryrock``
-- This will create ``index.html`` in your root folder, check it out
+- This will create an ``index.html`` file in your root folder, check it out
+  - Note: for full functionality you will need to serve the file using an http
+    server
 
 To access your forecast from anywhere you will need hosting for your site,
 personally I use GitHub pages for this. To keep your site up to date consider
