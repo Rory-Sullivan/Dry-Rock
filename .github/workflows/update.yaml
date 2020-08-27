@@ -8,7 +8,7 @@ on:
 jobs:
   update-site:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout gh-pages branch
@@ -32,19 +32,14 @@ jobs:
         pipenv run python -m dryrock
 
     - name: Set current date and time as env variable
-      # run: echo "::set-env name=NOW::$(date +'%Y-%m-%d %H:%M:%S')"
-      run: $Env:NOW = Get-Date -Format "yyyy-MM-dd HH:mm"
+      run: echo "::set-env name=NOW::$(date +'%Y-%m-%d %H:%M')"
 
     - name: Configure Git
       run: |
-        git config --local core.autocrlf true
         git config --local user.email "github-actions@github.com"
         git config --local user.name "github-actions"
 
     - name: Commit and push changes
       run: |
-        git diff --quiet --exit-code
-        if(-not ($?)){
-          git commit -a -m "AUTO COMMIT: Update at $Env:NOW"
-          git push
-        }
+        git diff --quiet --exit-code || git commit -a -m "AUTO COMMIT: Update at $NOW"
+        git push
