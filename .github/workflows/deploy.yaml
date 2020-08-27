@@ -1,12 +1,11 @@
-
-name: Update site
+name: Deploy site
 
 on:
-  schedule:
-    - cron: '13,43 5-23 * * *'
+  push:
+    branches: main
 
 jobs:
-  update-site:
+  deploy-site:
 
     runs-on: windows-latest
 
@@ -15,6 +14,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: 'gh-pages'
+
+    - name: Checkout main branch
+      uses: actions/checkout@v2
+      with:
+        ref: 'main'
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
@@ -27,9 +31,11 @@ jobs:
         pip install pipenv
         pipenv install --deploy
 
+    - name: Merge changes from main branch
+      run: git merge --commit --no-ff main
+
     - name: Update
-      run: |
-        pipenv run python -m dryrock
+      run: pipenv run python -m dryrock
 
     - name: Set current date and time as env variable
       # run: echo "::set-env name=NOW::$(date +'%Y-%m-%d %H:%M:%S')"
@@ -39,5 +45,5 @@ jobs:
       run: git config --local core.autocrlf true
       run: git config --local user.email "no-email@auto.com"
       run: git config --local user.name "Auto Updater"
-      run: git diff --quiet && git commit -a -m "AUTO COMMIT: Update at $Env:NOW"
+      run: git diff --quiet && git commit -a -m "AUTO COMMIT: Merging main at $Env:NOW"
       run: git push
