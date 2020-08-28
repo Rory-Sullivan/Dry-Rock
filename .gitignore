@@ -58,7 +58,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
+# *.log # We wamt logs from gh-pages
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
