@@ -25,3 +25,21 @@ jobs:
       run: |
         git merge --commit --no-ff origin/main
         git push
+
+  update-site:
+    needs: deploy-site
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout gh-pages branch
+      uses: actions/checkout@v2
+      with:
+        ref: 'gh-pages'
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Update site
+      uses: ./.github/actions/update-site
