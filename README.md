@@ -26,31 +26,29 @@ welcome to, however please see the [licensing notes](#licensing-notes) below.
 
 The gist of how to set up the project is as follows;
 
-- Download the latest release from the [releases
-  page](https://github.com/Rory-Sullivan/Dry-Rock/releases) and unpack it into a
-  directory
-- Install dependencies into a virtual environment
-  - If you use pipenv simply run ``pipenv install``
-  - If you don't use pipenv you can find a list of dependencies in the
-    ``Pipfile``, install these into your environment however you normally would
-- Update the ``./data/input/places.csv`` file, this is where the places you are
-  interested in should go
-- Run the dryrock module ``python -m dryrock``
-- This will create an ``index.html`` file in your root folder, check it out
-  - Note: for full functionality you will need to serve the file using an http
-    server
+- Fork this repository
+- Update the 'setup.cfg' file, particularly the 'user_agent' section under the
+  'metno-locationforecast' header
+- Update the '/data/input/places.csv/' file with the places that are of interest
+  to you
+- Setup [GitHub Pages](https://pages.github.com/) for your repository
 
-To access your forecast from anywhere you will need hosting for your site,
-personally I use GitHub pages for this. To keep your site up to date consider
-running the Python module on a schedule or whenever the page is accessed, I use
-GitHub actions. Note that the module will only make a request for data if the
-data has expired.
+Hey presto! Your site should be live and will update ever hour using GitHub
+workflows.
+
+Also of interest, if you would like to build a similar type of site, is the
+[metno-locationforecast](https://github.com/Rory-Sullivan/metno-locationforecast)
+library. It makes it super easy for a python application to retrieve data from
+the MET Norway API.
 
 ## Licensing notes
 
 While this code is covered by an MIT licence and is free to use, the data
-collected from MET Norway is subject to it's own terms of service. Check MET
-Norway's website for further details.
+collected from MET Norway is subject to it's own terms of service. In particular
+they require that any app requesting information from their API identifies
+itself correctly and so simply copying this site and requesting data as if you
+are this site is a violation of their terms of use. Check MET Norway's website
+for further details.
 
 - [Meteorological Institute of Norway](https://www.met.no/en)
 - [MET Norway API - Terms of Service](https://api.met.no/doc/TermsOfService)
