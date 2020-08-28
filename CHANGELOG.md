@@ -5,15 +5,20 @@ features.
 
 ## Unreleased
 
+## [2.0.2] - 2020-08-28
+
 ### Added
 
-- A lint and test workflow to automatically lint and test files on pushes and
+- A test workflow to automatically lint and test files on pushes and
   pull-requests to master and dev branches
+- A deploy workflow which automatically merges the main branch into the gh-pages
+  branch and updates the site, on pushes to the main branch
+- An update-site action which runs the dryrock module and updates the live site
 
 ### Changed
 
 - Updated metno-locationforecast requirement to v1.0.0
-- Update workflow now runs on Windows instead of Ubuntu
+- Renamed default branch to 'main'
 
 ### Removed
 
