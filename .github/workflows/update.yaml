@@ -1,6 +1,9 @@
 
 name: Update site
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 on:
   schedule:
     - cron: '13,43 5-23 * * *'
