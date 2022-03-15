@@ -6,7 +6,7 @@ from metno_locationforecast.data_containers import Interval, Variable
 
 def cardinal_name_of(direction_variable: Variable) -> str:
     assert direction_variable.name == "wind_from_direction"
-    assert direction_variable.units == "degree"
+    assert direction_variable.units == "degrees"
 
     value = direction_variable.value
     if (337.5 <= value <= 360) or (0 <= value < 22.5):
@@ -32,7 +32,7 @@ def cardinal_name_of(direction_variable: Variable) -> str:
 
 def sum_rain(intervals: List[Interval]) -> Variable:
     if len(intervals) > 0:
-        total_rain = Variable("precipitation_amount", 0.0, "kg/m^2")
+        total_rain = Variable("precipitation_amount", 0.0, "mm")
         for interval in intervals:
             total_rain += interval.variables["precipitation_amount"]
         return total_rain
