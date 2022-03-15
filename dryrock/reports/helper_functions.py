@@ -32,7 +32,7 @@ def cardinal_name_of(direction_variable: Variable) -> str:
 
 def sum_rain(intervals: List[Interval]) -> Variable:
     if len(intervals) > 0:
-        total_rain = Variable("precipitation_amount", 0.0, "mm")
+        total_rain = Variable("precipitation_amount", 0.0, "kg/m^2")
         for interval in intervals:
             total_rain += interval.variables["precipitation_amount"]
         return total_rain
