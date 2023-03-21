@@ -13,6 +13,7 @@ rope = "*"
 [packages]
 metno-locationforecast = ">=1.0.0"
 jinja2 = "~=2.11"
+markupsafe = "<2.1"
 
 [requires]
 python_version = "3.8"
