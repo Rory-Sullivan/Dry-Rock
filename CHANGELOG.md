@@ -5,6 +5,16 @@ features.
 
 ## Unreleased
 
+## [2.1.0] - 2024-11-01
+
+### Added
+
+- New locations to forecast; Lower Cove, Cruit Island, and Garron Point
+
+### Changed
+
+- Updated dependencies to newer versions
+
 ## [2.0.2] - 2020-08-28
 
 ### Added
