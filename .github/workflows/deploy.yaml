@@ -5,44 +5,43 @@ env:
 
 on:
   push:
-    branches: main
+    branches: [main]
 
 jobs:
   deploy-site:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout gh-pages branch
-      uses: actions/checkout@v2
-      with:
-        ref: 'gh-pages'
-        fetch-depth: 0
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: "gh-pages"
+          fetch-depth: 0
 
-    - name: Configure Git
-      run: |
-        git config --local user.email "github-actions@github.com"
-        git config --local user.name "github-actions"
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions"
 
-    - name: Merge changes from main branch
-      run: |
-        git merge --commit --no-ff origin/main
-        git push
+      - name: Merge changes from main branch
+        run: |
+          git merge --commit --no-ff origin/main
+          git push
 
   update-site:
     needs: deploy-site
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout gh-pages branch
-      uses: actions/checkout@v2
-      with:
-        ref: 'gh-pages'
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: "gh-pages"
 
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
-    - name: Update site
-      uses: ./.github/actions/update-site
+      - name: Update site
+        uses: ./.github/actions/update-site
