@@ -1,9 +1,13 @@
 # Changelog
 
-Here you can find a list of changes to the Dry Rock project as well as up coming
+Here you can find a list of changes to the Dry Rock project as well as upcoming
 features.
 
-## Unreleased
+## [2.1.1] - 2024-11-01
+
+### Fixed
+
+- Bug causing daily detailed modals to break Lower Cove location
 
 ## [2.1.0] - 2024-11-01
 
