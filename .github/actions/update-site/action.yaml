@@ -1,5 +1,4 @@
-
-name: 'Update site'
+name: "Update site"
 description: "Runs the dryrock module and pushes any changes to the repository."
 
 runs:
