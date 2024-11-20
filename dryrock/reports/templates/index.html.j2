@@ -1,39 +1,39 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
-  <div class="row mb-5">
-    <section id="overview" class="section-header w-100 mb-3">
-      <h1 class="display-4 text-center pb-1">Overview</h1>
-    </section>
+<div class="row mb-5">
+  <section id="overview" class="section-header w-100 mb-3">
+    <h1 class="display-4 text-center pb-1">Overview</h1>
+  </section>
 
-    <div class="table-responsive">
-      <table class="table table-hover border-bottom">
-        <thead>
-          <tr>
-            <th scope="col" class="position-sticky bg-white" style="left: 0">Place</th>
+  <div class="table-responsive">
+    <table class="table table-hover border-bottom">
+      <thead>
+        <tr>
+          <th scope="col" class="position-sticky bg-white" style="left: 0">Place</th>
 
-            <th scope="col">Today</th>
-            <th scope="col">Tomorrow</th>
+          <th scope="col">Today</th>
+          <th scope="col">Tomorrow</th>
 
-            {% for day in days[2:] %}
-              <th scope="col">{{ day.strftime("%A") }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
+          {% for day in days[2:] %}
+          <th scope="col">{{ day.strftime("%A") }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
 
-        <tbody>
-          {% for place in places %}
-            <!-- Rotation of zero so that stretched link works as expected -->
-            <tr style="transform: rotate(0);">
-              <th scope="row" class="position-sticky bg-white" style="left: 0">
-                <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                <div>{{ place.name }}</div>
-              </th>
+      <tbody>
+        {% for place in places %}
+        <!-- Rotation of zero so that stretched link works as expected -->
+        <tr style="transform: rotate(0);">
+          <th scope="row" class="position-sticky bg-white" style="left: 0">
+            <a href="#{{ place.name }}Header" class="stretched-link"></a>
+            <div>{{ place.name }}</div>
+          </th>
 
-              {% for day in days %}
-                {% with forecast = forecasts[place.name][day] %}
-                  {% if forecast %}
-                    <td class="text-nowrap
+          {% for day in days %}
+          {% with forecast = forecasts[place.name][day] %}
+          {% if forecast %}
+          <td class="text-nowrap
                       {% if forecast.total_rain.value <= 1.0 %}
                         text-success
                       {% else %}
@@ -43,59 +43,62 @@
                         font-weight-bolder
                       {% endif %}
                     ">
-                      <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                      {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
-                    </td>
-                  {% else %}
-                    <td></td>
-                  {% endif %}
-                {% endwith %}
-              {% endfor %}
-            </tr>
+            <a href="#{{ place.name }}Header" class="stretched-link"></a>
+            {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
+          </td>
+          {% else %}
+          <td></td>
+          {% endif %}
+          {% endwith %}
           {% endfor %}
-        </tbody>
-      </table>
-    </div>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col">
-      <p>
-        Forecast data is provided by the <a href="https://www.met.no/en">
+<div class="row">
+  <div class="col">
+    <p>
+      Forecast data is provided by the <a href="https://www.met.no/en">
         Norwegian Meteorological Institute</a>. This is an open source project,
-        the source code is available on
-        <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
-      </p>
+      the source code is available on
+      <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
+    </p>
 
-      <div class="row align-items-center justify-content-around">
-        <div class="col-auto text-center">
-          <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
-        </div>
-        <div class="col-auto text-center">
-          <a href="https://www.met.no/en"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
-        </div>
+    <div class="row align-items-center justify-content-around">
+      <div class="col-auto text-center">
+        <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png"
+            alt="GitHub logo"></a>
+      </div>
+      <div class="col-auto text-center">
+        <a href="https://www.met.no/en"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg"
+            alt="Norwegian Meteorological Institute logo" height="120px"></a>
       </div>
     </div>
   </div>
+</div>
 
-  {% for place in places %}
-    <div class="row">
-      <section id="{{ place.name }}Header" class="section-header w-100 mb-3">
-        <h1 class="display-4 bg-secondary text-white text-center pb-1">
-          {{ place.name }}
-        </h1>
-      </section>
+{% for place in places %}
+<div class="row">
+  <section id="{{ place.name }}Header" class="section-header w-100 mb-3">
+    <h1 class="display-4 bg-secondary text-white text-center pb-1">
+      {{ place.name }}
+    </h1>
+  </section>
 
-      <div class="w-100">
-        {% with forecasts=forecasts[place.name] %}
-          {% include "forecast_table.html.j2" %}
-        {% endwith %}
+  <div class="w-100">
+    {% with forecasts=forecasts[place.name] %}
+    {% include "forecast_table.html.j2" %}
+    {% endwith %}
 
-        <div class="px-3">
-          <a class="btn btn-outline-primary" href="#overview">Overview</a>
-          <small class="float-right"><span class="font-weight-bolder">Updated at:</span> {{ updated_at[place.name].strftime("%H:%M %d/%m/%Y") }}</small>
-        </div>
-      </div>
+    <div class="px-3">
+      <a class="btn btn-outline-primary" href="#overview">Overview</a>
+      <small class="float-right"><span class="font-weight-bolder">Updated at:</span> {{
+        updated_at[place.name].strftime("%H:%M %d/%m/%Y") }}</small>
     </div>
-  {% endfor %}
+  </div>
+</div>
+{% endfor %}
 {% endblock content %}
