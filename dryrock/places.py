@@ -2,6 +2,7 @@
 
 import json
 from typing import List
+from zoneinfo import ZoneInfo
 
 from metno_locationforecast import Place
 
@@ -17,6 +18,7 @@ class Area:
     def __init__(
         self,
         name: str,
+        time_zone: str,
         places: List[Place],
     ):
         """Create an Area object.
@@ -26,6 +28,7 @@ class Area:
             places: List of places in area.
         """
         self.name = name
+        self.time_zone = ZoneInfo(time_zone)
         self.places = places
 
     def __repr__(self) -> str:
@@ -53,6 +56,8 @@ def get_areas(areas_file: str) -> List[Area]:
                 raise ValueError
             if not isinstance(area["area_name"], str):
                 raise ValueError
+            if not isinstance(area["time_zone"], str):
+                raise ValueError
             if not isinstance(area["places"], list):
                 raise ValueError
 
@@ -78,6 +83,6 @@ def get_areas(areas_file: str) -> List[Area]:
                     )
                 )
 
-            areas.append(Area(area["area_name"], places))
+            areas.append(Area(area["area_name"], area["time_zone"], places))
 
     return areas

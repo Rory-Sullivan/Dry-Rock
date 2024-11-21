@@ -12,6 +12,7 @@ pytest = "~=8.3"
 [packages]
 jinja2 = "~=3.1"
 metno-locationforecast = "~=1.2"
+tzdata = "*"
 
 [requires]
 python_version = "3.13"

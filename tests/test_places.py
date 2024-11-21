@@ -18,6 +18,7 @@ class TestGetPlaces:
         assert len(areas) == 2
 
         assert areas[0].name == "Ireland"
+        assert areas[0].time_zone.key == "Europe/Dublin"
         expected_places_1 = [
             Place("Dalkey Quarry", 53.271, -6.107, 100),
             Place("Glendalough", 53.009, -6.387, 450),
@@ -28,6 +29,7 @@ class TestGetPlaces:
             assert repr(areas[0].places[i]) == repr(expected_places_1[i])
 
         assert areas[1].name == "Washington"
+        assert areas[1].time_zone.key == "America/Los_Angeles"
         expected_places_1 = [
             Place("I90 Exit 32", 47.49795, -121.75474, 367),
         ]

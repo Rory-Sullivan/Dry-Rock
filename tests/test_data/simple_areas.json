@@ -2,6 +2,7 @@
     "areas": [
         {
             "area_name": "Ireland",
+            "time_zone": "Europe/Dublin",
             "places": [
                 {
                     "place_name": "Dalkey Quarry",
@@ -25,6 +26,7 @@
         },
         {
             "area_name": "Washington",
+            "time_zone": "America/Los_Angeles",
             "places": [
                 {
                     "place_name": "I90 Exit 32",
