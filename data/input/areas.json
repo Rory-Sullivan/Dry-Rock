@@ -1,0 +1,134 @@
+{
+    "areas": [
+        {
+            "area_name": "Ireland",
+            "places": [
+                {
+                    "place_name": "Dalkey Quarry",
+                    "latitude": 53.271,
+                    "longitude": -6.107,
+                    "altitude": 100
+                },
+                {
+                    "place_name": "Glendalough",
+                    "latitude": 53.009,
+                    "longitude": -6.387,
+                    "altitude": 450
+                },
+                {
+                    "place_name": "Fair Head",
+                    "latitude": 55.225,
+                    "longitude": -6.154,
+                    "altitude": 150
+                },
+                {
+                    "place_name": "Ailladie",
+                    "latitude": 53.071,
+                    "longitude": -9.357,
+                    "altitude": 25
+                },
+                {
+                    "place_name": "Gap of Dunloe",
+                    "latitude": 52.031,
+                    "longitude": -9.642,
+                    "altitude": 250
+                },
+                {
+                    "place_name": "Muckros Head",
+                    "latitude": 54.609,
+                    "longitude": -8.591,
+                    "altitude": 15
+                },
+                {
+                    "place_name": "Lower Cove (Mournes)",
+                    "latitude": 54.167,
+                    "longitude": -5.952,
+                    "altitude": 430
+                },
+                {
+                    "place_name": "Cruit Island",
+                    "latitude": 55.029,
+                    "longitude": -8.422,
+                    "altitude": 13
+                },
+                {
+                    "place_name": "Garron Point",
+                    "latitude": 55.057,
+                    "longitude": -5.993,
+                    "altitude": 55
+                },
+                {
+                    "place_name": "Inis Mór",
+                    "latitude": 53.108,
+                    "longitude": -9.706,
+                    "altitude": 25
+                }
+            ]
+        },
+        {
+            "area_name": "Washington",
+            "places": [
+                {
+                    "place_name": "I90 Exit 32",
+                    "latitude": 47.49795,
+                    "longitude": -121.75474,
+                    "altitude": 367
+                },
+                {
+                    "place_name": "I90 Exit 38",
+                    "latitude": 47.43754,
+                    "longitude": -121.68225,
+                    "altitude": 875
+                },
+                {
+                    "place_name": "Index",
+                    "latitude": 47.81834,
+                    "longitude": -121.57241,
+                    "altitude": 172
+                },
+                {
+                    "place_name": "Leavenworth (Icicle Buttress)",
+                    "latitude": 47.54842,
+                    "longitude": -120.75161,
+                    "altitude": 636
+                },
+                {
+                    "place_name": "Mount Erie",
+                    "latitude": 48.45346,
+                    "longitude": -122.62939,
+                    "altitude": 281
+                },
+                {
+                    "place_name": "Tieton (The Bend)",
+                    "latitude": 46.71770,
+                    "longitude": -120.82989,
+                    "altitude": 593
+                },
+                {
+                    "place_name": "Mazama",
+                    "latitude": 48.60511,
+                    "longitude": -120.43233,
+                    "altitude": 681
+                },
+                {
+                    "place_name": "Frenchman Coulee (Vantage)",
+                    "latitude": 47.02306,
+                    "longitude": -119.97416,
+                    "altitude": 327
+                },
+                {
+                    "place_name": "Squamish (Grand Wall)",
+                    "latitude": 49.68368,
+                    "longitude": -123.14602,
+                    "altitude": 373
+                },
+                {
+                    "place_name": "Smith Rock",
+                    "latitude": 44.36645,
+                    "longitude": -121.14570,
+                    "altitude": 848
+                }
+            ]
+        }
+    ]
+}

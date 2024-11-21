@@ -1,0 +1,38 @@
+{
+    "areas": [
+        {
+            "area_name": "Ireland",
+            "places": [
+                {
+                    "place_name": "Dalkey Quarry",
+                    "latitude": 53.271,
+                    "longitude": -6.107,
+                    "altitude": 100
+                },
+                {
+                    "place_name": "Glendalough",
+                    "latitude": 53.009,
+                    "longitude": -6.387,
+                    "altitude": 450
+                },
+                {
+                    "place_name": "Fair Head",
+                    "latitude": 55.225,
+                    "longitude": -6.154,
+                    "altitude": 150
+                }
+            ]
+        },
+        {
+            "area_name": "Washington",
+            "places": [
+                {
+                    "place_name": "I90 Exit 32",
+                    "latitude": 47.49795,
+                    "longitude": -121.75474,
+                    "altitude": 367
+                }
+            ]
+        }
+    ]
+}

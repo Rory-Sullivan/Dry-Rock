@@ -1,28 +1,83 @@
-"""Functions for managing the places we will check."""
+"""Functions for managing the areas/places we will check."""
 
-import csv
+import json
 from typing import List
 
 from metno_locationforecast import Place
 
 
-def get_places(places_file: str) -> List[Place]:
-    """Returns list of places in places file.
+class Area:
+    """Holds data for an area containing multiple places.
+
+    Attributes:
+        name: Name of place.
+        places: List of places in area.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        places: List[Place],
+    ):
+        """Create an Area object.
+
+        Args:
+            name: Name of the place.
+            places: List of places in area.
+        """
+        self.name = name
+        self.places = places
+
+    def __repr__(self) -> str:
+        return f"Place({self.name}, {repr(self.places)})"
+
+
+def get_areas(areas_file: str) -> List[Area]:
+    """Returns a list of areas in areas file.
 
     Raises:
         FileNotFoundError if file does not exist.
     """
 
-    places = []
-    with open(places_file, "r", encoding="utf8") as file:
-        csv_file = csv.DictReader(file)
-        for row in csv_file:
-            place = Place(
-                str(row["name"]),
-                float(row["latitude"]),
-                float(row["longitude"]),
-                int(row["altitude"]),
-            )
-            places.append(place)
+    areas: List[Area] = []
+    with open(areas_file, "r", encoding="utf8") as file:
+        areas_data = json.load(file)
 
-    return places
+        if not isinstance(areas_data, dict):
+            raise ValueError
+        if not isinstance(areas_data["areas"], list):
+            raise ValueError
+
+        for area in areas_data["areas"]:  # type: ignore
+            if not isinstance(area, dict):
+                raise ValueError
+            if not isinstance(area["area_name"], str):
+                raise ValueError
+            if not isinstance(area["places"], list):
+                raise ValueError
+
+            places: List[Place] = []
+            for place in area["places"]:  # type: ignore
+                if not isinstance(place, dict):
+                    raise ValueError
+                if not isinstance(place["place_name"], str):
+                    raise ValueError
+                if not isinstance(place["latitude"], (float, int)):
+                    raise ValueError
+                if not isinstance(place["longitude"], (float, int)):
+                    raise ValueError
+                if not isinstance(place["altitude"], int):
+                    raise ValueError
+
+                places.append(
+                    Place(
+                        place["place_name"],
+                        place["latitude"],
+                        place["longitude"],
+                        place["altitude"],
+                    )
+                )
+
+            areas.append(Area(area["area_name"], places))
+
+    return areas

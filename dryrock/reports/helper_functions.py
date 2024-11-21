@@ -79,3 +79,15 @@ def change_units(forecasts: List[Forecast]) -> None:
             for variable in interval.variables.values():
                 if variable.name == "wind_speed":
                     variable.convert_to("km/h")
+
+
+def sanitize_name(name: str) -> str:
+    """Returns a sanitized version of the given name for URLs and file names."""
+    return (
+        name.lower()
+        .replace(" ", "_")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("\\", "")
+        .replace("/", "")
+    )

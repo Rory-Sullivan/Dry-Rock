@@ -34,8 +34,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <div class="navbar-nav">
-        <a class="nav-link {% block aboutPageActive %}{% endblock %}" href="/pages/about.html">About</a>
-        <a class="nav-link {% block newsPageActive %}{% endblock %}" href="/pages/news.html">News</a>
+        {% for nav_link in nav_links %}
+        <a class="nav-link {% if nav_link.is_active %}active{% endif %}" href="{{ nav_link.href }}">
+          {{ nav_link.name }}
+        </a>
+        {% endfor %}
       </div>
     </div>
   </header>

@@ -7,23 +7,34 @@ from dryrock import places
 
 
 @pytest.fixture
-def simple_places_file():
-    return "./tests/test_data/simple_places.csv"
+def simple_areas_file():
+    return "./tests/test_data/simple_areas.json"
 
 
 class TestGetPlaces:
-    def test_with_simple_places_file(self, simple_places_file):
-        expected = [
+    def test_with_simple_places_file(self, simple_areas_file: str):
+        areas = places.get_areas(simple_areas_file)
+
+        assert len(areas) == 2
+
+        assert areas[0].name == "Ireland"
+        expected_places_1 = [
             Place("Dalkey Quarry", 53.271, -6.107, 100),
             Place("Glendalough", 53.009, -6.387, 450),
             Place("Fair Head", 55.225, -6.154, 150),
         ]
-        received = places.get_places(simple_places_file)
+        assert len(areas[0].places) == len(expected_places_1)
+        for i in range(len(expected_places_1)):
+            assert repr(areas[0].places[i]) == repr(expected_places_1[i])
 
-        assert len(expected) == len(received)
-        for i in range(len(expected)):
-            assert repr(expected[i]) == repr(received[i])
+        assert areas[1].name == "Washington"
+        expected_places_1 = [
+            Place("I90 Exit 32", 47.49795, -121.75474, 367),
+        ]
+        assert len(areas[1].places) == len(expected_places_1)
+        for i in range(len(expected_places_1)):
+            assert repr(areas[1].places[i]) == repr(expected_places_1[i])
 
-    def test_with_nonexistent_file(self):
+    def test_with_non_existent_file(self):
         with pytest.raises(FileNotFoundError):
-            places.get_places("Not a file")
+            places.get_areas("Not a file")

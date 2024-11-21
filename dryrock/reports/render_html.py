@@ -1,9 +1,11 @@
+import copy
 import datetime as dt
 import pathlib
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import jinja2 as jinja
-from metno_locationforecast import Forecast
+from metno_locationforecast import Forecast, Place
+from places import Area
 
 from .helper_functions import (
     cardinal_name_of,
@@ -11,28 +13,40 @@ from .helper_functions import (
     max_temp_of,
     max_wind_speed_of,
     min_temp_of,
+    sanitize_name,
     sum_rain,
 )
 
 
-def get_context(forecasts: List[Forecast]):
-    """Returns a context variable for passing into our template."""
+def get_navbar_context(areas: List[Area]) -> Dict[str, Any]:
+    nav_links: List[Dict[str, Any]] = []
+    for area in areas:
+        nav_links.append(
+            {
+                "name": area.name,
+                "href": f"/pages/{sanitize_name(area.name)}.html",
+                "is_active": False,
+            }
+        )
+    nav_links.append({"name": "About", "href": "/pages/about.html", "is_active": False})
+    nav_links.append({"name": "News", "href": "/pages/news.html", "is_active": False})
+    return {"nav_links": nav_links}
 
-    today = dt.date.today()
-    morning_times = [dt.time(6), dt.time(11, 59)]
-    afternoon_times = [dt.time(12), dt.time(17, 59)]
-    evening_times = [dt.time(18), dt.time(23, 59)]
 
-    days = [today + dt.timedelta(days=i) for i in range(7)]
+def get_area_forecast_context(
+    places: List[Place],
+    place_forecasts: List[Forecast],
+    days: List[dt.date],
+    morning_times: List[dt.time],
+    afternoon_times: List[dt.time],
+    evening_times: List[dt.time],
+) -> Dict[str, Any]:
+    if len(places) != len(place_forecasts):
+        raise ValueError("Number of places must match the number of place forecasts")
 
-    change_units(forecasts)
-
-    places = []
     context_forecasts = {}
     forecast_updated_at = {}
-    for forecast in forecasts:
-        places.append(forecast.place)
-
+    for forecast in place_forecasts:
         forecasts_for_place: Dict[dt.date, Optional[object]] = {}
         for day in days:
             days_intervals = forecast.data.intervals_for(day)
@@ -60,9 +74,9 @@ def get_context(forecasts: List[Forecast]):
                 evening_intervals = forecast.data.intervals_between(evening[0], evening[1])
                 evening_rain = sum_rain(evening_intervals) if len(evening_intervals) > 0 else None
 
-                intervals = []
+                intervals: List[Dict[str, Any]] = []
                 for day_interval in days_intervals:
-                    interval = {
+                    interval: Dict[str, Any] = {
                         "start_time": day_interval.start_time,
                         "end_time": day_interval.end_time,
                         "rain": day_interval.variables["precipitation_amount"],
@@ -74,7 +88,7 @@ def get_context(forecasts: List[Forecast]):
                     }
                     intervals.append(interval)
 
-                forecast_for_day = {
+                forecast_for_day: Dict[str, Any] = {
                     "total_rain": days_rain,
                     "max_temp": days_max_temp,
                     "min_temp": days_min_temp,
@@ -94,7 +108,7 @@ def get_context(forecasts: List[Forecast]):
         context_forecasts[forecast.place.name] = forecasts_for_place
         forecast_updated_at[forecast.place.name] = forecast.data.updated_at
 
-    context = {
+    context: Dict[str, Any] = {
         "days": days,
         "places": places,
         "forecasts": context_forecasts,
@@ -103,8 +117,53 @@ def get_context(forecasts: List[Forecast]):
     return context
 
 
-def render_html_pages(forecasts: List[Forecast]):
-    """Updates index.html"""
+def get_forecast_page_contexts(
+    areas: List[Area], area_forecasts: List[List[Forecast]]
+) -> List[Dict[str, Any]]:
+    """Returns a list of contexts one each per area for passing into the forecast page template."""
+
+    if len(areas) != len(area_forecasts):
+        raise ValueError("Number of areas must match the number of area forecasts")
+
+    nav_bar_context = get_navbar_context(areas)
+
+    for place_forecasts in area_forecasts:
+        change_units(place_forecasts)
+
+    today = dt.date.today()
+    morning_times = [dt.time(6), dt.time(11, 59)]
+    afternoon_times = [dt.time(12), dt.time(17, 59)]
+    evening_times = [dt.time(18), dt.time(23, 59)]
+    days = [today + dt.timedelta(days=i) for i in range(7)]
+
+    forecast_page_contexts: List[Dict[str, Any]] = []
+    for i, area in enumerate(areas):
+        place_forecasts = area_forecasts[i]
+
+        context = get_area_forecast_context(
+            area.places, place_forecasts, days, morning_times, afternoon_times, evening_times
+        )
+        context["nav_links"] = copy.deepcopy(nav_bar_context["nav_links"])
+        context["nav_links"][i]["is_active"] = True
+        forecast_page_contexts.append(context)
+
+    return forecast_page_contexts
+
+
+def get_about_page_context(areas: List[Area]) -> Dict[str, Any]:
+    context = get_navbar_context(areas)
+    context["nav_links"][len(areas)]["is_active"] = True
+    return context
+
+
+def get_news_page_context(areas: List[Area]) -> Dict[str, Any]:
+    context = get_navbar_context(areas)
+    context["nav_links"][len(areas) + 1]["is_active"] = True
+    return context
+
+
+def render_html_pages(areas: List[Area], area_forecasts: List[List[Forecast]]):
+    """Renders all HTML pages, saving them to the pages folder"""
 
     webpages_path = pathlib.Path("./pages/")
     if not webpages_path.is_dir():
@@ -117,27 +176,39 @@ def render_html_pages(forecasts: List[Forecast]):
         lstrip_blocks=True,  # Strips whitespace from in front of a block.
     )
 
-    index_file_path = webpages_path.joinpath("index.html")
-    about_file_path = webpages_path.joinpath("about.html")
-    news_file_path = webpages_path.joinpath("news.html")
-
-    index_template = env.get_template("index.html.j2")
+    forecast_page_template = env.get_template("forecast_page.html.j2")
     about_template = env.get_template("about.html.j2")
     news_template = env.get_template("news.html.j2")
 
-    index_context = get_context(forecasts)
+    forecast_page_contexts = get_forecast_page_contexts(areas, area_forecasts)
+
+    # Index page is same as Ireland page
+    index_context = forecast_page_contexts[0]
+    about_context = get_about_page_context(areas)
+    news_context = get_news_page_context(areas)
 
     # Note the encoding method, this returns a bytes string so these need to be written to files in
     # bytes mode
-    index_output = index_template.render(index_context).encode("utf8")
-    about_output = about_template.render().encode("utf8")
-    news_output = news_template.render().encode("utf8")
+    forecast_page_outputs: List[bytes] = []
+    for context in forecast_page_contexts:
+        forecast_page_outputs.append(forecast_page_template.render(context).encode("utf8"))
+    index_output = forecast_page_template.render(index_context).encode("utf8")
+    about_output = about_template.render(about_context).encode("utf8")
+    news_output = news_template.render(news_context).encode("utf8")
 
+    for i, area in enumerate(areas):
+        file_path = webpages_path.joinpath(f"{sanitize_name(area.name)}.html")
+        with open(file_path, "wb") as file:
+            file.write(forecast_page_outputs[i])
+
+    index_file_path = webpages_path.joinpath("index.html")
     with open(index_file_path, "wb") as file:
         file.write(index_output)
 
+    about_file_path = webpages_path.joinpath("about.html")
     with open(about_file_path, "wb") as file:
         file.write(about_output)
 
+    news_file_path = webpages_path.joinpath("news.html")
     with open(news_file_path, "wb") as file:
         file.write(news_output)
