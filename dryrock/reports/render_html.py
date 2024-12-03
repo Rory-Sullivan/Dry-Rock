@@ -4,9 +4,9 @@ import pathlib
 from typing import Any, Dict, List, Optional
 
 import jinja2 as jinja
-from metno_locationforecast import Forecast, Place
-from places import Area
+from metno_locationforecast import Forecast
 
+from ..places import Area
 from .helper_functions import (
     cardinal_name_of,
     change_units,
@@ -34,14 +34,14 @@ def get_navbar_context(areas: List[Area]) -> Dict[str, Any]:
 
 
 def get_area_forecast_context(
-    places: List[Place],
+    area: Area,
     place_forecasts: List[Forecast],
     days: List[dt.date],
     morning_times: List[dt.time],
     afternoon_times: List[dt.time],
     evening_times: List[dt.time],
 ) -> Dict[str, Any]:
-    if len(places) != len(place_forecasts):
+    if len(area.places) != len(place_forecasts):
         raise ValueError("Number of places must match the number of place forecasts")
 
     context_forecasts = {}
@@ -49,7 +49,7 @@ def get_area_forecast_context(
     for forecast in place_forecasts:
         forecasts_for_place: Dict[dt.date, Optional[object]] = {}
         for day in days:
-            days_intervals = forecast.data.intervals_for(day)
+            days_intervals = forecast.data.intervals_for(day, tzinfo=area.time_zone)
 
             if len(days_intervals) > 0:
                 days_rain = sum_rain(days_intervals)
@@ -60,25 +60,31 @@ def get_area_forecast_context(
                 )
                 days_max_wind_speed.convert_to("km/h")
 
-                morning = [dt.datetime.combine(day, time) for time in morning_times]
+                morning = [
+                    dt.datetime.combine(day, time, tzinfo=time.tzinfo) for time in morning_times
+                ]
                 morning_intervals = forecast.data.intervals_between(morning[0], morning[1])
                 morning_rain = sum_rain(morning_intervals) if len(morning_intervals) > 0 else None
 
-                afternoon = [dt.datetime.combine(day, time) for time in afternoon_times]
+                afternoon = [
+                    dt.datetime.combine(day, time, tzinfo=time.tzinfo) for time in afternoon_times
+                ]
                 afternoon_intervals = forecast.data.intervals_between(afternoon[0], afternoon[1])
                 afternoon_rain = (
                     sum_rain(afternoon_intervals) if len(afternoon_intervals) > 0 else None
                 )
 
-                evening = [dt.datetime.combine(day, time) for time in evening_times]
+                evening = [
+                    dt.datetime.combine(day, time, tzinfo=time.tzinfo) for time in evening_times
+                ]
                 evening_intervals = forecast.data.intervals_between(evening[0], evening[1])
                 evening_rain = sum_rain(evening_intervals) if len(evening_intervals) > 0 else None
 
                 intervals: List[Dict[str, Any]] = []
                 for day_interval in days_intervals:
                     interval: Dict[str, Any] = {
-                        "start_time": day_interval.start_time,
-                        "end_time": day_interval.end_time,
+                        "start_time": day_interval.start_time.astimezone(area.time_zone),
+                        "end_time": day_interval.end_time.astimezone(area.time_zone),
                         "rain": day_interval.variables["precipitation_amount"],
                         "temp": day_interval.variables["air_temperature"],
                         "wind_speed": day_interval.variables["wind_speed"],
@@ -106,11 +112,13 @@ def get_area_forecast_context(
                 forecasts_for_place[day] = None
 
         context_forecasts[forecast.place.name] = forecasts_for_place
-        forecast_updated_at[forecast.place.name] = forecast.data.updated_at
+        forecast_updated_at[forecast.place.name] = forecast.data.updated_at.astimezone(
+            area.time_zone
+        )
 
     context: Dict[str, Any] = {
         "days": days,
-        "places": places,
+        "places": area.places,
         "forecasts": context_forecasts,
         "updated_at": forecast_updated_at,
     }
@@ -130,18 +138,21 @@ def get_forecast_page_contexts(
     for place_forecasts in area_forecasts:
         change_units(place_forecasts)
 
-    today = dt.date.today()
-    morning_times = [dt.time(6), dt.time(11, 59)]
-    afternoon_times = [dt.time(12), dt.time(17, 59)]
-    evening_times = [dt.time(18), dt.time(23, 59)]
-    days = [today + dt.timedelta(days=i) for i in range(7)]
-
     forecast_page_contexts: List[Dict[str, Any]] = []
     for i, area in enumerate(areas):
-        place_forecasts = area_forecasts[i]
+        now = dt.datetime.now(area.time_zone)
+        today = now.date()
+        morning_times = [dt.time(6, tzinfo=area.time_zone), dt.time(11, 59, tzinfo=area.time_zone)]
+        afternoon_times = [
+            dt.time(12, tzinfo=area.time_zone),
+            dt.time(17, 59, tzinfo=area.time_zone),
+        ]
+        evening_times = [dt.time(18, tzinfo=area.time_zone), dt.time(23, 59, tzinfo=area.time_zone)]
+        days = [today + dt.timedelta(days=i) for i in range(7)]
 
+        place_forecasts = area_forecasts[i]
         context = get_area_forecast_context(
-            area.places, place_forecasts, days, morning_times, afternoon_times, evening_times
+            area, place_forecasts, days, morning_times, afternoon_times, evening_times
         )
         context["nav_links"] = copy.deepcopy(nav_bar_context["nav_links"])
         context["nav_links"][i]["is_active"] = True
