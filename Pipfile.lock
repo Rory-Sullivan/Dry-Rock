@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "071dc9cf35d4ad45d7d680662f73e14849884f2320e011add27dad1c98349c03"
+            "sha256": "c6c17f4636e2dfc495574abf59945cf143bda12d1d3ea25d6fa1feb6012e744e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -221,12 +221,12 @@
         },
         "metno-locationforecast": {
             "hashes": [
-                "sha256:0e5506e8b7bd3c2864d78455809adbe7c8c9ef9517521590c5682dd47d96d98e",
-                "sha256:f2c4b45c0f12462c998e43e10c739fa8cfc55ab1344457d32f45ffd4bfb30662"
+                "sha256:40b4791059e84bcdd7c4ed07c17af3c80cbf0483b00575e19e661a84bd141be5",
+                "sha256:aaec48bc28d8fee6740caee5f0a3397c0e33859a6b6dbf6c75a29b0a65fa0c98"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==2.0.0"
+            "version": "==2.1.0"
         },
         "requests": {
             "hashes": [
