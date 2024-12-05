@@ -34,21 +34,23 @@
           {% with forecast = forecasts[place.name][day] %}
           {% if forecast %}
           <td class="text-nowrap
-                      {% if forecast.total_rain.value <= 1.0 %}
-                        text-success
-                      {% else %}
-                        text-primary
-                      {% endif %}
-                      {% if day.weekday() in [5, 6] %}
-                        font-weight-bolder
-                      {% endif %}
-                    ">
-            <a href="#{{ place.name }}Header" class="stretched-link"></a>
-            {{ forecast.total_rain.value | round(1) }}
-            {% if forecast.total_rain.units == 'inches' %}
-            in
+            {% if
+              (forecast.total_rain.units == 'mm' and forecast.total_rain.value <= 2.0) or
+              (forecast.total_rain.units == 'inches' and forecast.total_rain.value <= 0.08)
+            %}
+              text-success
             {% else %}
-            {{forecast.total_rain.units }}
+              text-primary
+            {% endif %}
+            {% if day.weekday() in [5, 6] %}
+              font-weight-bolder
+            {% endif %}
+          ">
+            <a href="#{{ place.name }}Header" class="stretched-link"></a>
+            {% if forecast.total_rain.units == 'inches' %}
+            {{ forecast.total_rain.value | round(2) }} in
+            {% else %}
+            {{ forecast.total_rain.value | round(1) }} {{forecast.total_rain.units }}
             {% endif %}
           </td>
           {% else %}

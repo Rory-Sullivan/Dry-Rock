@@ -25,70 +25,85 @@
         </th>
 
         {% if forecast.morning_rain %}
-        {% if forecast.morning_rain.value <= 1.0 %} <td class="text-success text-nowrap">
+        <td class="text-nowrap
+          {% if
+            (forecast.morning_rain.units == 'mm' and forecast.morning_rain.value <= 1.0) or
+            (forecast.morning_rain.units == 'inches' and forecast.morning_rain.value <= 0.04)
+          %}
+            text-success
           {% else %}
-          <td class="text-primary text-nowrap">
-            {% endif %}
-            {{ forecast.morning_rain.value | round(1) }}
-            {% if forecast.morning_rain.units == 'inches' %}
-            in
-            {% else %}
-            {{forecast.morning_rain.units }}
-            {% endif %}
-          </td>
-          {% else %}
-          <td></td>
+            text-primary
           {% endif %}
+        ">
+          {% if forecast.morning_rain.units == 'inches' %}
+          {{ forecast.morning_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.morning_rain.value | round(1) }} {{forecast.morning_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
-          {% if forecast.afternoon_rain %}
-          {% if forecast.afternoon_rain.value <= 1.0 %} <td class="text-success text-nowrap">
-            {% else %}
-            <td class="text-primary text-nowrap">
-              {% endif %}
-              {{ forecast.afternoon_rain.value | round(1) }}
-              {% if forecast.afternoon_rain.units == 'inches' %}
-              in
-              {% else %}
-              {{forecast.afternoon_rain.units }}
-              {% endif %}
-            </td>
-            {% else %}
-            <td></td>
-            {% endif %}
+        {% if forecast.afternoon_rain %}
+        <td class="text-nowrap
+          {% if
+            (forecast.afternoon_rain.units == 'mm' and forecast.afternoon_rain.value <= 1.0) or
+            (forecast.afternoon_rain.units == 'inches' and forecast.afternoon_rain.value <= 0.04)
+          %}
+            text-success
+          {% else %}
+            text-primary
+          {% endif %}
+        ">
+          {% if forecast.afternoon_rain.units == 'inches' %}
+          {{ forecast.afternoon_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.afternoon_rain.value | round(1) }} {{forecast.afternoon_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
-            {% if forecast.evening_rain %}
-            {% if forecast.evening_rain.value <= 1.0 %} <td class="text-success text-nowrap">
-              {% else %}
-              <td class="text-primary text-nowrap">
-                {% endif %}
-                {{ forecast.evening_rain.value | round(1) }}
-                {% if forecast.evening_rain.units == 'inches' %}
-                in
-                {% else %}
-                {{forecast.evening_rain.units }}
-                {% endif %}
-              </td>
-              {% else %}
-              <td></td>
-              {% endif %}
+        {% if forecast.evening_rain %}
+        <td class="text-nowrap
+          {% if
+            (forecast.evening_rain.units == 'mm' and forecast.evening_rain.value <= 1.0) or
+            (forecast.evening_rain.units == 'inches' and forecast.evening_rain.value <= 0.04)
+          %}
+            text-success
+          {% else %}
+            text-primary
+          {% endif %}
+        ">
+          {% if forecast.evening_rain.units == 'inches' %}
+          {{ forecast.evening_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.evening_rain.value | round(1) }} {{forecast.evening_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
-              <td class="text-danger text-nowrap">
-                {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
-                {% if forecast.max_temp.units == "celsius" %}
-                &deg;C
-                {% elif forecast.max_temp.units == "fahrenheit" %}
-                &deg;F
-                {% else %}
-                {{ forecast.max_temp.units }}
-                {% endif %}
-              </td>
-              <td class="text-nowrap">
-                {# Remove characters from name that break the modal toggle #}
-                <a href="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}"
-                  data-toggle="modal" class="stretched-link"></a>
-                {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
-                forecast.max_wind_speed_direction }}
-              </td>
+        <td class="text-danger text-nowrap">
+          {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
+          {% if forecast.max_temp.units == "celsius" %}
+          &deg;C
+          {% elif forecast.max_temp.units == "fahrenheit" %}
+          &deg;F
+          {% else %}
+          {{ forecast.max_temp.units }}
+          {% endif %}
+        </td>
+        <td class="text-nowrap">
+          {# Remove characters from name that break the modal toggle #}
+          <a href="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" data-toggle="modal"
+            class="stretched-link"></a>
+          {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
+          forecast.max_wind_speed_direction }}
+        </td>
       </tr>
       {% endif %}
       {% endwith %}
@@ -128,32 +143,37 @@
                 {{ interval.start_time.strftime("%H")}} - {{ interval.end_time.strftime("%H")}}
               </td>
 
-              {% if interval.rain.value <= 0.5 %} <td class="text-success text-nowrap">
+              <td class="text-nowrap
+                {% if
+                  (interval.rain.units == 'mm' and interval.rain.value <= 1.0) or
+                  (interval.rain.units == 'inches' and interval.rain.value <= 0.04)
+                %}
+                  text-success
                 {% else %}
-                <td class="text-primary text-nowrap">
-                  {% endif %}
-                  {{ interval.rain.value | round(1) }}
-                  {% if interval.rain.units == 'inches' %}
-                  in
-                  {% else %}
-                  {{interval.rain.units }}
-                  {% endif %}
-                </td>
+                  text-primary
+                {% endif %}
+              ">
+                {% if interval.rain.units == 'inches' %}
+                {{ interval.rain.value | round(2) }} in
+                {% else %}
+                {{ interval.rain.value | round(1) }} {{interval.rain.units }}
+                {% endif %}
+              </td>
 
-                <td class="text-danger text-nowrap">
-                  {{interval.temp.value | round(1) }}
-                  {% if interval.temp.units == "celsius" %}
-                  &deg;C
-                  {% elif interval.temp.units == "fahrenheit" %}
-                  &deg;F
-                  {% else %}
-                  {{ interval.temp.units }}
-                  {% endif %}
-                </td>
+              <td class="text-danger text-nowrap">
+                {{interval.temp.value | round(1) }}
+                {% if interval.temp.units == "celsius" %}
+                &deg;C
+                {% elif interval.temp.units == "fahrenheit" %}
+                &deg;F
+                {% else %}
+                {{ interval.temp.units }}
+                {% endif %}
+              </td>
 
-                <td class="text-nowrap">
-                  {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
-                </td>
+              <td class="text-nowrap">
+                {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
