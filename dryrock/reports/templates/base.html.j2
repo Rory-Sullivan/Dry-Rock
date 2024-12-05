@@ -26,22 +26,37 @@
 </head>
 
 <body class="bg-light">
-  <header class="navbar navbar-expand fixed-top navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
     <a class="navbar-brand" href="/">Dry Rock</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <div class="navbar-nav">
+      <div class="navbar-nav mr-auto">
         {% for nav_link in nav_links %}
-        <a class="nav-link {% if nav_link.is_active %}active{% endif %}" href="{{ nav_link.href }}">
+        <a class="nav-link {% if nav_link.is_active %}active{% endif %}"
+          href="{% if unit_system == 'METRIC' %}{{ nav_link.href_metric }}{% elif unit_system == 'IMPERIAL' %}{{ nav_link.href_imperial }}{% else %}#{{ nav_link.href_imperial }}{% endif %}">
           {{ nav_link.name }}
         </a>
         {% endfor %}
       </div>
+      <div class="navbar-nav mr-4">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="unitsNavbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Units
+          </a>
+          <div class="dropdown-menu" aria-labelledby="unitsNavbarDropdown" style="min-width: 0; left: -2.5rem">
+            <a class="dropdown-item {% if unit_system == 'METRIC' %}active{% endif %}"
+              href="{{ units_nav_link.href_metric }}">Metric</a>
+            <a class="dropdown-item {% if unit_system == 'IMPERIAL' %}active{% endif %}"
+              href="{{ units_nav_link.href_imperial }}">Imperial</a>
+          </div>
+        </li>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <div class="container-md bg-white pb-3">
     {% block content %}

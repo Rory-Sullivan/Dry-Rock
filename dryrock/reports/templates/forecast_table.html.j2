@@ -29,7 +29,12 @@
           {% else %}
           <td class="text-primary text-nowrap">
             {% endif %}
-            {{ forecast.morning_rain.value | round(1) }} {{ forecast.morning_rain.units }}
+            {{ forecast.morning_rain.value | round(1) }}
+            {% if forecast.morning_rain.units == 'inches' %}
+            in
+            {% else %}
+            {{forecast.morning_rain.units }}
+            {% endif %}
           </td>
           {% else %}
           <td></td>
@@ -40,7 +45,12 @@
             {% else %}
             <td class="text-primary text-nowrap">
               {% endif %}
-              {{ forecast.afternoon_rain.value | round(1) }} {{ forecast.afternoon_rain.units }}
+              {{ forecast.afternoon_rain.value | round(1) }}
+              {% if forecast.afternoon_rain.units == 'inches' %}
+              in
+              {% else %}
+              {{forecast.afternoon_rain.units }}
+              {% endif %}
             </td>
             {% else %}
             <td></td>
@@ -51,7 +61,12 @@
               {% else %}
               <td class="text-primary text-nowrap">
                 {% endif %}
-                {{ forecast.evening_rain.value | round(1) }} {{ forecast.evening_rain.units }}
+                {{ forecast.evening_rain.value | round(1) }}
+                {% if forecast.evening_rain.units == 'inches' %}
+                in
+                {% else %}
+                {{forecast.evening_rain.units }}
+                {% endif %}
               </td>
               {% else %}
               <td></td>
@@ -61,10 +76,10 @@
                 {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
                 {% if forecast.max_temp.units == "celsius" %}
                 &deg;C
-                {% elif forecast.max_temp.units == "farenheit" %}
+                {% elif forecast.max_temp.units == "fahrenheit" %}
                 &deg;F
                 {% else %}
-                forecast.max_temp.units
+                {{ forecast.max_temp.units }}
                 {% endif %}
               </td>
               <td class="text-nowrap">
@@ -117,17 +132,22 @@
                 {% else %}
                 <td class="text-primary text-nowrap">
                   {% endif %}
-                  {{ interval.rain.value | round(1) }} {{ interval.rain.units }}
+                  {{ interval.rain.value | round(1) }}
+                  {% if interval.rain.units == 'inches' %}
+                  in
+                  {% else %}
+                  {{interval.rain.units }}
+                  {% endif %}
                 </td>
 
                 <td class="text-danger text-nowrap">
                   {{interval.temp.value | round(1) }}
                   {% if interval.temp.units == "celsius" %}
                   &deg;C
-                  {% elif interval.temp.units == "farenheit" %}
+                  {% elif interval.temp.units == "fahrenheit" %}
                   &deg;F
                   {% else %}
-                  forecast.max_temp.units
+                  {{ interval.temp.units }}
                   {% endif %}
                 </td>
 

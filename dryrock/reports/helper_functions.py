@@ -1,7 +1,13 @@
+from enum import Enum
 from typing import List, Tuple
 
 from metno_locationforecast import Forecast
 from metno_locationforecast.data_containers import Interval, Variable
+
+
+class UnitSystem(Enum):
+    METRIC = 0
+    IMPERIAL = 1
 
 
 def cardinal_name_of(direction_variable: Variable) -> str:
@@ -31,54 +37,74 @@ def cardinal_name_of(direction_variable: Variable) -> str:
 
 
 def sum_rain(intervals: List[Interval]) -> Variable:
-    if len(intervals) > 0:
-        total_rain = Variable("precipitation_amount", 0.0, "mm")
-        for interval in intervals:
-            total_rain += interval.variables["precipitation_amount"]
-        return total_rain
-    raise IndexError("Intervals cannot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    total_rain = intervals[0].variables["precipitation_amount"]
+    for interval in intervals[1:]:
+        total_rain += interval.variables["precipitation_amount"]
+    return total_rain
 
 
 def max_temp_of(intervals: List[Interval]) -> Variable:
-    if len(intervals) > 0:
-        max_temp = Variable("air_temperature", float("-inf"), "celsius")
-        for interval in intervals:
-            if max_temp.value < interval.variables["air_temperature"].value:
-                max_temp = interval.variables["air_temperature"]
-        return max_temp
-    raise IndexError("Intervals connot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    max_temp = intervals[0].variables["air_temperature"]
+    for interval in intervals[1:]:
+        if max_temp.value < interval.variables["air_temperature"].value:
+            max_temp = interval.variables["air_temperature"]
+    return max_temp
 
 
 def min_temp_of(intervals: List[Interval]) -> Variable:
-    if len(intervals) > 0:
-        min_temp = Variable("air_temperature", float("inf"), "celsius")
-        for interval in intervals:
-            if min_temp.value > interval.variables["air_temperature"].value:
-                min_temp = interval.variables["air_temperature"]
-        return min_temp
-    raise IndexError("Intervals connot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    min_temp = intervals[0].variables["air_temperature"]
+    for interval in intervals[1:]:
+        if min_temp.value > interval.variables["air_temperature"].value:
+            min_temp = interval.variables["air_temperature"]
+    return min_temp
 
 
 def max_wind_speed_of(intervals: List[Interval]) -> Tuple[Variable, Variable]:
-    if len(intervals) > 0:
-        max_wind_speed = Variable("wind_speed", float("-inf"), "m/s")
-        max_wind_speed_direction = Variable("wind_from_direction", 0.0, "degrees")
-        for interval in intervals:
-            if max_wind_speed.value < interval.variables["wind_speed"].value:
-                max_wind_speed = interval.variables["wind_speed"]
-                max_wind_speed_direction = interval.variables["wind_from_direction"]
-        return max_wind_speed, max_wind_speed_direction
-    raise IndexError("Intervals connot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    max_wind_speed = intervals[0].variables["wind_speed"]
+    max_wind_speed_direction = intervals[0].variables["wind_from_direction"]
+    for interval in intervals[1:]:
+        if max_wind_speed.value < interval.variables["wind_speed"].value:
+            max_wind_speed = interval.variables["wind_speed"]
+            max_wind_speed_direction = interval.variables["wind_from_direction"]
+    return max_wind_speed, max_wind_speed_direction
 
 
-def change_units(forecasts: List[Forecast]) -> None:
-    """Change wind speed to km/h."""
+def change_units(forecasts: List[Forecast], unit_system: UnitSystem) -> None:
+    """Change all units of forecast to the given unit system"""
 
     for forecast in forecasts:
         for interval in forecast.data.intervals:
             for variable in interval.variables.values():
+                if variable.name == "precipitation_amount":
+                    match unit_system:
+                        case UnitSystem.METRIC:
+                            variable.convert_to("mm")
+                        case UnitSystem.IMPERIAL:
+                            variable.convert_to("inches")
+                if variable.name == "air_temperature":
+                    match unit_system:
+                        case UnitSystem.METRIC:
+                            variable.convert_to("celsius")
+                        case UnitSystem.IMPERIAL:
+                            variable.convert_to("fahrenheit")
                 if variable.name == "wind_speed":
-                    variable.convert_to("km/h")
+                    match unit_system:
+                        case UnitSystem.METRIC:
+                            variable.convert_to("km/h")
+                        case UnitSystem.IMPERIAL:
+                            variable.convert_to("mph")
 
 
 def sanitize_name(name: str) -> str:
