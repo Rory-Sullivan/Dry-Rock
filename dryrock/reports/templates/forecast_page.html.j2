@@ -2,66 +2,66 @@
 
 {% block content %}
 <div class="row mb-5">
-  <section id="overview" class="section-header w-100 mb-3">
-    <h1 class="display-4 text-center pb-1">Overview</h1>
-  </section>
-
-  <div class="table-responsive">
-    <table class="table table-hover border-bottom">
-      <thead>
-        <tr>
-          <th scope="col" class="position-sticky bg-white" style="left: 0">Place</th>
-
-          <th scope="col">Today</th>
-          <th scope="col">Tomorrow</th>
-
-          {% for day in days[2:] %}
-          <th scope="col">{{ day.strftime("%A") }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-
-      <tbody>
-        {% for place in places %}
-        <!-- Rotation of zero so that stretched link works as expected -->
-        <tr style="transform: rotate(0);">
-          <th scope="row" class="position-sticky bg-white" style="left: 0">
-            <a href="#{{ place.name }}Header" class="stretched-link"></a>
-            <div>{{ place.name }}</div>
-          </th>
-
-          {% for day in days %}
-          {% with forecast = forecasts[place.name][day] %}
-          {% if forecast %}
-          <td class="text-nowrap
-            {% if
-              (forecast.total_rain.units == 'mm' and forecast.total_rain.value <= 2.0) or
-              (forecast.total_rain.units == 'inches' and forecast.total_rain.value <= 0.08)
-            %}
-              text-success
+  <div class="col px-0">
+    <section id="overview" class="section-header w-100 mb-3">
+      <h1 class="display-4 text-center pb-1">Overview</h1>
+    </section>
+    <div class="table-responsive">
+      <table class="table table-hover border-bottom">
+        <thead>
+          <tr>
+            <th scope="col" class="position-sticky" style="left: 0">Place</th>
+            <th scope="col">
+              <div class="text-center">Today</div>
+            </th>
+            <th scope="col">
+              <div class="text-center">Tomorrow</div>
+            </th>
+            {% for day in days[2:] %}
+            <th scope="col">
+              <div class="text-center">{{ day.strftime("%A") }}</div>
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for place in places %}
+          <tr onclick="window.location='#{{ place.name }}Header';" style="cursor: pointer;">
+            <th scope="row" class="position-sticky" style="left: 0">
+              <div>{{ place.name }}</div>
+            </th>
+            {% for day in days %}
+            {% with forecast = forecasts[place.name][day] %}
+            {% if forecast %}
+            <td class="text-nowrap text-center
+              {% if
+                (forecast.total_rain.units == 'mm' and forecast.total_rain.value <= 2.0) or
+                (forecast.total_rain.units == 'inches' and forecast.total_rain.value <= 0.08)
+              %}
+                text-success
+              {% else %}
+                text-primary
+              {% endif %}
+              {% if day.weekday() in [5, 6] %}
+                fw-bolder
+              {% endif %}
+            ">
+              {% if forecast.total_rain.units == 'inches' %}
+              {{ forecast.total_rain.value | round(2) }} in
+              {% else %}
+              {{ forecast.total_rain.value | round(1) }} {{forecast.total_rain.units }}
+              {% endif %}
+            </td>
             {% else %}
-              text-primary
+            <td></td>
             {% endif %}
-            {% if day.weekday() in [5, 6] %}
-              font-weight-bolder
-            {% endif %}
-          ">
-            <a href="#{{ place.name }}Header" class="stretched-link"></a>
-            {% if forecast.total_rain.units == 'inches' %}
-            {{ forecast.total_rain.value | round(2) }} in
-            {% else %}
-            {{ forecast.total_rain.value | round(1) }} {{forecast.total_rain.units }}
-            {% endif %}
-          </td>
-          {% else %}
-          <td></td>
-          {% endif %}
-          {% endwith %}
+            {% endwith %}
+            {% endfor %}
+          </tr>
           {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -89,21 +89,28 @@
 
 {% for place in places %}
 <div class="row">
-  <section id="{{ place.name }}Header" class="section-header w-100 mb-3">
-    <h1 class="display-4 bg-secondary text-white text-center pb-1">
-      {{ place.name }}
-    </h1>
-  </section>
-
-  <div class="w-100">
-    {% with forecasts=forecasts[place.name] %}
-    {% include "forecast_table.html.j2" %}
-    {% endwith %}
-
-    <div class="px-3">
-      <a class="btn btn-outline-primary" href="#overview">Overview</a>
-      <small class="float-right"><span class="font-weight-bolder">Updated at:</span> {{
-        updated_at[place.name].strftime("%H:%M %d/%m/%Y") }}</small>
+  <div class="col px-0">
+    <section id="{{ place.name }}Header" class="section-header w-100 mb-3">
+      <h1 class="display-4 bg-secondary-subtle text-center pb-2">
+        {{ place.name }}
+      </h1>
+    </section>
+    <div class="w-100">
+      {% with forecasts=forecasts[place.name] %}
+      {% include "forecast_table.html.j2" %}
+      {% endwith %}
+      <div class="px-3">
+        <a class="btn btn-outline-primary" href="#overview">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+          </svg>
+          Overview
+        </a>
+        <small class="float-end"><span class="font-weight-bolder">Updated at:</span> {{
+          updated_at[place.name].strftime("%H:%M %d/%m/%Y") }}</small>
+      </div>
     </div>
   </div>
 </div>

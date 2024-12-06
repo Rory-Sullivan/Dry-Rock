@@ -2,30 +2,40 @@
   <table class="table table-hover border-bottom">
     <thead>
       <tr>
-        <th scope="col" class="position-sticky bg-white" style="left: 0">Date</th>
-        <th scope="col">Morning</th>
-        <th scope="col">Afternoon</th>
-        <th scope="col">Evening</th>
-        <th scope="col">Temp. <small class="text-muted d-none d-md-inline">(min / max)</small></th>
-        <th scope="col">Wind</th>
+        <th scope="col" class="position-sticky" style="left: 0">Date</th>
+        <th scope="col">
+          <div class="text-center">Morning</div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Afternoon</div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Evening</div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Temp. <small class="text-muted text-nowrap">(min / max)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Wind</div>
+        </th>
       </tr>
     </thead>
     <tbody>
       {% for day in days %}
       {% with forecast = forecasts[day] %}
       {% if forecast %}
-      <tr style="transform: rotate(0);" {% if day.weekday() in [5, 6] %} class="font-weight-bolder" {% endif %}>
-        <th scope="row" class="position-sticky bg-white" style="left: 0">
-          {# Remove characters from name that break the modal toggle #}
-          <a href="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" data-toggle="modal"
-            class="stretched-link"></a>
+      {# Remove characters from name that break the modal toggle #}
+      <tr {% if day.weekday() in [5, 6] %} class="fw-bolder" {% endif %} data-bs-toggle="modal"
+        data-bs-target="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}"
+        style="cursor: pointer;">
+        <th scope="row" class="position-sticky" style="left: 0">
           <div class="text-nowrap d-inline">
             {{ day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ day.strftime("%d %b") }}</small>
           </div>
         </th>
 
         {% if forecast.morning_rain %}
-        <td class="text-nowrap
+        <td class="text-nowrap text-center
           {% if
             (forecast.morning_rain.units == 'mm' and forecast.morning_rain.value <= 1.0) or
             (forecast.morning_rain.units == 'inches' and forecast.morning_rain.value <= 0.04)
@@ -46,7 +56,7 @@
         {% endif %}
 
         {% if forecast.afternoon_rain %}
-        <td class="text-nowrap
+        <td class="text-nowrap text-center
           {% if
             (forecast.afternoon_rain.units == 'mm' and forecast.afternoon_rain.value <= 1.0) or
             (forecast.afternoon_rain.units == 'inches' and forecast.afternoon_rain.value <= 0.04)
@@ -67,7 +77,7 @@
         {% endif %}
 
         {% if forecast.evening_rain %}
-        <td class="text-nowrap
+        <td class="text-nowrap text-center
           {% if
             (forecast.evening_rain.units == 'mm' and forecast.evening_rain.value <= 1.0) or
             (forecast.evening_rain.units == 'inches' and forecast.evening_rain.value <= 0.04)
@@ -87,7 +97,7 @@
         <td></td>
         {% endif %}
 
-        <td class="text-danger text-nowrap">
+        <td class="text-danger text-nowrap text-center">
           {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
           {% if forecast.max_temp.units == "celsius" %}
           &deg;C
@@ -97,10 +107,7 @@
           {{ forecast.max_temp.units }}
           {% endif %}
         </td>
-        <td class="text-nowrap">
-          {# Remove characters from name that break the modal toggle #}
-          <a href="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" data-toggle="modal"
-            class="stretched-link"></a>
+        <td class="text-nowrap text-center">
           {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
           forecast.max_wind_speed_direction }}
         </td>
@@ -120,13 +127,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="{{ place.name }}{{ day }}Label">{{ place.name }}</h5>
-        <h5 class="modal-title ml-auto">{{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b")
+        <h5 class="modal-title ms-auto">{{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b")
             }}</small></h5>
-        <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body px-0">
         <table class="table">
           <thead>
             <tr>

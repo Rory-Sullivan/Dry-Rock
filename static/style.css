@@ -1,6 +1,9 @@
+.content {
+  max-width: 60rem;
+}
 
 .section-header:before {
   height: 54px;
   content: "";
-  display:block;
+  display: block;
 }

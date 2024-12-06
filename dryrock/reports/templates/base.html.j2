@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
   <!-- Custom style sheets -->
   <link rel="stylesheet" href="/static/style.css">
@@ -27,52 +27,59 @@
 
 <body class="bg-light">
   <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">Dry Rock</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <div class="navbar-nav mr-auto">
-        {% for nav_link in nav_links %}
-        <a class="nav-link {% if nav_link.is_active %}active{% endif %}"
-          href="{% if unit_system == 'METRIC' %}{{ nav_link.href_metric }}{% elif unit_system == 'IMPERIAL' %}{{ nav_link.href_imperial }}{% else %}#{{ nav_link.href_imperial }}{% endif %}">
-          {{ nav_link.name }}
-        </a>
-        {% endfor %}
-      </div>
-      <div class="navbar-nav mr-4">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="unitsNavbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Units
-          </a>
-          <div class="dropdown-menu" aria-labelledby="unitsNavbarDropdown" style="min-width: 0; left: -2.5rem">
-            <a class="dropdown-item {% if unit_system == 'METRIC' %}active{% endif %}"
-              href="{{ units_nav_link.href_metric }}">Metric</a>
-            <a class="dropdown-item {% if unit_system == 'IMPERIAL' %}active{% endif %}"
-              href="{{ units_nav_link.href_imperial }}">Imperial</a>
-          </div>
-        </li>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Dry Rock</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto">
+          {% for nav_link in nav_links %}
+          <li class="nav-item">
+            <a class="nav-link {% if nav_link.is_active %}active{% endif %}" href="
+              {% if unit_system == 'METRIC' %}
+                {{ nav_link.href_metric }}
+              {% elif unit_system == 'IMPERIAL' %}
+                {{ nav_link.href_imperial }}
+              {% else %}
+                #
+              {% endif %}
+            ">
+              {{ nav_link.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <ul class="navbar-nav me-4">
+          <li class="nav-item dropdown">
+            <button class="btn dropdown-toggle btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
+              Units
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="unitsNavbarDropdown">
+              <li>
+                <a class="dropdown-item {% if unit_system == 'METRIC' %}active{% endif %}"
+                  href="{{ units_nav_link.href_metric }}">Metric</a>
+              </li>
+              <li>
+                <a class="dropdown-item {% if unit_system == 'IMPERIAL' %}active{% endif %}"
+                  href="{{ units_nav_link.href_imperial }}">Imperial</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
 
-  <div class="container-md bg-white pb-3">
+  <div class="content container-fluid bg-white pb-3">
     {% block content %}
     {% endblock content %}
   </div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 </body>
 
