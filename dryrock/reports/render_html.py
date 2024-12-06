@@ -140,6 +140,7 @@ def get_area_forecast_context(
         )
 
     context: Dict[str, Any] = {
+        "area_name": area.name,
         "days": days,
         "places": area.places,
         "forecasts": context_forecasts,
