@@ -33,21 +33,22 @@ def get_navbar_context(areas: List[Area]) -> Dict[str, Any]:
         )
     nav_links.append(
         {
-            "name": "About",
-            "href_metric": "/pages/about_metric.html",
-            "href_imperial": "/pages/about_imperial.html",
-            "is_active": False,
-        }
-    )
-    nav_links.append(
-        {
             "name": "News",
             "href_metric": "/pages/news_metric.html",
             "href_imperial": "/pages/news_imperial.html",
             "is_active": False,
         }
     )
-    return {"nav_links": nav_links}
+
+    context: Dict[str, Any] = {"nav_links": nav_links}
+    context["index_nav_link"] = {
+        "name": "Index",
+        "href_metric": "/pages/index.html",
+        "href_imperial": "/pages/index_imperial.html",
+        "is_active": False,
+    }
+
+    return context
 
 
 def get_total_rain_for_interval(
@@ -179,6 +180,7 @@ def get_forecast_page_contexts(
             area, place_forecasts, days, morning_times, afternoon_times, evening_times
         )
         context["unit_system"] = unit_system.name
+        context["index_nav_link"] = nav_bar_context["index_nav_link"]
         context["nav_links"] = copy.deepcopy(nav_bar_context["nav_links"])
         context["nav_links"][i]["is_active"] = True
         context["units_nav_link"] = context["nav_links"][i]
@@ -187,10 +189,9 @@ def get_forecast_page_contexts(
     return forecast_page_contexts
 
 
-def get_about_page_context(areas: List[Area]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def get_index_page_context(areas: List[Area]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     context_metric = get_navbar_context(areas)
-    context_metric["nav_links"][len(areas)]["is_active"] = True
-    context_metric["units_nav_link"] = context_metric["nav_links"][len(areas)]
+    context_metric["units_nav_link"] = context_metric["index_nav_link"]
     context_metric["unit_system"] = UnitSystem.METRIC.name
 
     context_imperial = copy.deepcopy(context_metric)
@@ -201,8 +202,8 @@ def get_about_page_context(areas: List[Area]) -> Tuple[Dict[str, Any], Dict[str,
 
 def get_news_page_context(areas: List[Area]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     context_metric = get_navbar_context(areas)
-    context_metric["nav_links"][len(areas) + 1]["is_active"] = True
-    context_metric["units_nav_link"] = context_metric["nav_links"][len(areas) + 1]
+    context_metric["nav_links"][len(areas)]["is_active"] = True
+    context_metric["units_nav_link"] = context_metric["nav_links"][len(areas)]
     context_metric["unit_system"] = UnitSystem.METRIC.name
 
     context_imperial = copy.deepcopy(context_metric)
@@ -226,7 +227,7 @@ def render_html_pages(areas: List[Area], area_forecasts: List[List[Forecast]]):
     )
 
     forecast_page_template = env.get_template("forecast_page.html.j2")
-    about_template = env.get_template("about.html.j2")
+    index_template = env.get_template("index.html.j2")
     news_template = env.get_template("news.html.j2")
 
     forecast_page_contexts_metric = get_forecast_page_contexts(
@@ -236,9 +237,7 @@ def render_html_pages(areas: List[Area], area_forecasts: List[List[Forecast]]):
         areas, area_forecasts, UnitSystem.IMPERIAL
     )
 
-    # Index page is same as metric Ireland page
-    index_context = forecast_page_contexts_metric[0]
-    about_context_metric, about_context_imperial = get_about_page_context(areas)
+    index_context_metric, index_context_imperial = get_index_page_context(areas)
     news_context_metric, news_context_imperial = get_news_page_context(areas)
 
     # Note the encoding method, this returns a bytes string so these need to be written to files in
@@ -249,9 +248,8 @@ def render_html_pages(areas: List[Area], area_forecasts: List[List[Forecast]]):
     forecast_page_outputs_imperial: List[bytes] = []
     for context in forecast_page_contexts_imperial:
         forecast_page_outputs_imperial.append(forecast_page_template.render(context).encode("utf8"))
-    index_output = forecast_page_template.render(index_context).encode("utf8")
-    about_output_metric = about_template.render(about_context_metric).encode("utf8")
-    about_output_imperial = about_template.render(about_context_imperial).encode("utf8")
+    index_output_metric = index_template.render(index_context_metric).encode("utf8")
+    index_output_imperial = index_template.render(index_context_imperial).encode("utf8")
     news_output_metric = news_template.render(news_context_metric).encode("utf8")
     news_output_imperial = news_template.render(news_context_imperial).encode("utf8")
 
@@ -263,16 +261,12 @@ def render_html_pages(areas: List[Area], area_forecasts: List[List[Forecast]]):
         with open(file_path_imperial, "wb") as file:
             file.write(forecast_page_outputs_imperial[i])
 
-    index_file_path = webpages_path.joinpath("index.html")
-    with open(index_file_path, "wb") as file:
-        file.write(index_output)
-
-    about_file_path_metric = webpages_path.joinpath("about_metric.html")
-    with open(about_file_path_metric, "wb") as file:
-        file.write(about_output_metric)
-    about_file_path_imperial = webpages_path.joinpath("about_imperial.html")
-    with open(about_file_path_imperial, "wb") as file:
-        file.write(about_output_imperial)
+    index_file_path_metric = webpages_path.joinpath("index.html")
+    with open(index_file_path_metric, "wb") as file:
+        file.write(index_output_metric)
+    index_file_path_imperial = webpages_path.joinpath("index_imperial.html")
+    with open(index_file_path_imperial, "wb") as file:
+        file.write(index_output_imperial)
 
     news_file_path_metric = webpages_path.joinpath("news_metric.html")
     with open(news_file_path_metric, "wb") as file:

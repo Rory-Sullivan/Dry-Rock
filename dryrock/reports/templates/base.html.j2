@@ -28,7 +28,16 @@
 <body class="bg-light">
   <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Dry Rock</a>
+      <a class="navbar-brand" href="
+        {% if unit_system == 'METRIC' %}
+          {{ index_nav_link.href_metric }}
+        {% elif unit_system == 'IMPERIAL' %}
+          {{ index_nav_link.href_imperial }}
+        {% else %}
+          /
+        {% endif %}">
+        Dry Rock
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
