@@ -35,16 +35,7 @@
         </th>
 
         {% if forecast.morning_rain %}
-        <td class="text-nowrap text-center
-          {% if
-            (forecast.morning_rain.units == 'mm' and forecast.morning_rain.value <= 1.0) or
-            (forecast.morning_rain.units == 'inches' and forecast.morning_rain.value <= 0.04)
-          %}
-            text-success
-          {% else %}
-            text-primary
-          {% endif %}
-        ">
+        <td class="text-nowrap text-center table-{{ forecast.morning_rain_colour_variant }}">
           {% if forecast.morning_rain.units == 'inches' %}
           {{ forecast.morning_rain.value | round(2) }} in
           {% else %}
@@ -56,16 +47,7 @@
         {% endif %}
 
         {% if forecast.afternoon_rain %}
-        <td class="text-nowrap text-center
-          {% if
-            (forecast.afternoon_rain.units == 'mm' and forecast.afternoon_rain.value <= 1.0) or
-            (forecast.afternoon_rain.units == 'inches' and forecast.afternoon_rain.value <= 0.04)
-          %}
-            text-success
-          {% else %}
-            text-primary
-          {% endif %}
-        ">
+        <td class="text-nowrap text-center table-{{ forecast.afternoon_rain_colour_variant }}">
           {% if forecast.afternoon_rain.units == 'inches' %}
           {{ forecast.afternoon_rain.value | round(2) }} in
           {% else %}
@@ -77,16 +59,7 @@
         {% endif %}
 
         {% if forecast.evening_rain %}
-        <td class="text-nowrap text-center
-          {% if
-            (forecast.evening_rain.units == 'mm' and forecast.evening_rain.value <= 1.0) or
-            (forecast.evening_rain.units == 'inches' and forecast.evening_rain.value <= 0.04)
-          %}
-            text-success
-          {% else %}
-            text-primary
-          {% endif %}
-        ">
+        <td class="text-nowrap text-center table-{{ forecast.evening_rain_colour_variant }}">
           {% if forecast.evening_rain.units == 'inches' %}
           {{ forecast.evening_rain.value | round(2) }} in
           {% else %}
@@ -148,16 +121,7 @@
                 {{ interval.start_time.strftime("%H")}} - {{ interval.end_time.strftime("%H")}}
               </td>
 
-              <td class="text-nowrap
-                {% if
-                  (interval.rain.units == 'mm' and interval.rain.value <= 1.0) or
-                  (interval.rain.units == 'inches' and interval.rain.value <= 0.04)
-                %}
-                  text-success
-                {% else %}
-                  text-primary
-                {% endif %}
-              ">
+              <td class="text-nowrap table-{{ interval.rain_colour_variant }}">
                 {% if interval.rain.units == 'inches' %}
                 {{ interval.rain.value | round(2) }} in
                 {% else %}

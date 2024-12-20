@@ -12,6 +12,8 @@ from .helper_functions import (
     UnitSystem,
     cardinal_name_of,
     change_units,
+    get_colour_variant,
+    get_time_delta,
     max_temp_of,
     max_wind_speed_of,
     min_temp_of,
@@ -74,6 +76,7 @@ def get_area_forecast_context(
     morning_times: List[dt.time],
     afternoon_times: List[dt.time],
     evening_times: List[dt.time],
+    unit_system: UnitSystem,
 ) -> Dict[str, Any]:
     if len(area.places) != len(place_forecasts):
         raise ValueError("Number of places must match the number of place forecasts")
@@ -93,6 +96,30 @@ def get_area_forecast_context(
                     days_intervals
                 )
 
+                intervals: List[Dict[str, Any]] = []
+                for day_interval in days_intervals:
+                    interval: Dict[str, Any] = {
+                        "start_time": day_interval.start_time.astimezone(area.time_zone),
+                        "end_time": day_interval.end_time.astimezone(area.time_zone),
+                        "rain": change_units(
+                            day_interval.variables["precipitation_amount"], unit_system
+                        ),
+                        "rain_colour_variant": get_colour_variant(
+                            day_interval.variables["precipitation_amount"],
+                            day_interval.end_time - day_interval.start_time,
+                        ),
+                        "temp": change_units(
+                            day_interval.variables["air_temperature"], unit_system
+                        ),
+                        "wind_speed": change_units(
+                            day_interval.variables["wind_speed"], unit_system
+                        ),
+                        "wind_from_direction": cardinal_name_of(
+                            day_interval.variables["wind_from_direction"]
+                        ),
+                    }
+                    intervals.append(interval)
+
                 morning_rain = get_total_rain_for_interval(
                     day, morning_times[0], morning_times[1], forecast
                 )
@@ -103,29 +130,48 @@ def get_area_forecast_context(
                     day, evening_times[0], evening_times[1], forecast
                 )
 
-                intervals: List[Dict[str, Any]] = []
-                for day_interval in days_intervals:
-                    interval: Dict[str, Any] = {
-                        "start_time": day_interval.start_time.astimezone(area.time_zone),
-                        "end_time": day_interval.end_time.astimezone(area.time_zone),
-                        "rain": day_interval.variables["precipitation_amount"],
-                        "temp": day_interval.variables["air_temperature"],
-                        "wind_speed": day_interval.variables["wind_speed"],
-                        "wind_from_direction": cardinal_name_of(
-                            day_interval.variables["wind_from_direction"]
-                        ),
-                    }
-                    intervals.append(interval)
-
                 forecast_for_day: Dict[str, Any] = {
-                    "total_rain": days_rain,
-                    "max_temp": days_max_temp,
-                    "min_temp": days_min_temp,
-                    "max_wind_speed": days_max_wind_speed,
+                    "total_rain": change_units(days_rain, unit_system),
+                    "total_rain_colour_variant": get_colour_variant(
+                        days_rain, dt.timedelta(days=1)
+                    ),
+                    "max_temp": change_units(days_max_temp, unit_system),
+                    "min_temp": change_units(days_min_temp, unit_system),
+                    "max_wind_speed": change_units(days_max_wind_speed, unit_system),
                     "max_wind_speed_direction": cardinal_name_of(days_max_wind_speed_direction),
-                    "morning_rain": morning_rain,
-                    "afternoon_rain": afternoon_rain,
-                    "evening_rain": evening_rain,
+                    "morning_rain": (
+                        change_units(morning_rain, unit_system) if morning_rain else None
+                    ),
+                    "morning_rain_colour_variant": (
+                        get_colour_variant(
+                            morning_rain,
+                            get_time_delta(morning_times[0], morning_times[1]),
+                        )
+                        if morning_rain
+                        else None
+                    ),
+                    "afternoon_rain": (
+                        change_units(afternoon_rain, unit_system) if afternoon_rain else None
+                    ),
+                    "afternoon_rain_colour_variant": (
+                        get_colour_variant(
+                            afternoon_rain,
+                            get_time_delta(afternoon_times[0], afternoon_times[1]),
+                        )
+                        if afternoon_rain
+                        else None
+                    ),
+                    "evening_rain": (
+                        change_units(evening_rain, unit_system) if evening_rain else None
+                    ),
+                    "evening_rain_colour_variant": (
+                        get_colour_variant(
+                            evening_rain,
+                            get_time_delta(evening_times[0], evening_times[1]),
+                        )
+                        if evening_rain
+                        else None
+                    ),
                     "intervals": intervals,
                 }
 
@@ -159,11 +205,6 @@ def get_forecast_page_contexts(
 
     nav_bar_context = get_navbar_context(areas)
 
-    # Copy forecasts and convert units to the relevant system
-    area_forecasts = copy.deepcopy(area_forecasts)
-    for place_forecasts in area_forecasts:
-        change_units(place_forecasts, unit_system)
-
     forecast_page_contexts: List[Dict[str, Any]] = []
     for i, area in enumerate(areas):
         now = dt.datetime.now(area.time_zone)
@@ -178,7 +219,7 @@ def get_forecast_page_contexts(
 
         place_forecasts = area_forecasts[i]
         context = get_area_forecast_context(
-            area, place_forecasts, days, morning_times, afternoon_times, evening_times
+            area, place_forecasts, days, morning_times, afternoon_times, evening_times, unit_system
         )
         context["unit_system"] = unit_system.name
         context["index_nav_link"] = nav_bar_context["index_nav_link"]

@@ -37,15 +37,7 @@
             {% for day in days %}
             {% with forecast = forecasts[place.name][day] %}
             {% if forecast %}
-            <td class="text-nowrap text-center
-              {% if
-                (forecast.total_rain.units == 'mm' and forecast.total_rain.value <= 2.0) or
-                (forecast.total_rain.units == 'inches' and forecast.total_rain.value <= 0.08)
-              %}
-                text-success
-              {% else %}
-                text-primary
-              {% endif %}
+            <td class="text-nowrap text-center table-{{ forecast.total_rain_colour_variant }}
               {% if day.weekday() in [5, 6] %}
                 fw-bolder
               {% endif %}

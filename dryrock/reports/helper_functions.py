@@ -1,13 +1,20 @@
+import copy
+import datetime as dt
 from enum import Enum
 from typing import List, Tuple
 
-from metno_locationforecast import Forecast
 from metno_locationforecast.data_containers import Interval, Variable
 
 
 class UnitSystem(Enum):
     METRIC = 0
     IMPERIAL = 1
+
+
+class ColourVariant(Enum):
+    GOOD = "success"
+    OKAY = "warning"
+    BAD = "danger"
 
 
 def cardinal_name_of(direction_variable: Variable) -> str:
@@ -81,30 +88,29 @@ def max_wind_speed_of(intervals: List[Interval]) -> Tuple[Variable, Variable]:
     return max_wind_speed, max_wind_speed_direction
 
 
-def change_units(forecasts: List[Forecast], unit_system: UnitSystem) -> None:
-    """Change all units of forecast to the given unit system"""
+def change_units(variable: Variable, unit_system: UnitSystem) -> Variable:
+    """Returns a new instance of the variable in the given unit system"""
 
-    for forecast in forecasts:
-        for interval in forecast.data.intervals:
-            for variable in interval.variables.values():
-                if variable.name == "precipitation_amount":
-                    match unit_system:
-                        case UnitSystem.METRIC:
-                            variable.convert_to("mm")
-                        case UnitSystem.IMPERIAL:
-                            variable.convert_to("inches")
-                if variable.name == "air_temperature":
-                    match unit_system:
-                        case UnitSystem.METRIC:
-                            variable.convert_to("celsius")
-                        case UnitSystem.IMPERIAL:
-                            variable.convert_to("fahrenheit")
-                if variable.name == "wind_speed":
-                    match unit_system:
-                        case UnitSystem.METRIC:
-                            variable.convert_to("km/h")
-                        case UnitSystem.IMPERIAL:
-                            variable.convert_to("mph")
+    variable = copy.deepcopy(variable)
+    if variable.name == "precipitation_amount":
+        match unit_system:
+            case UnitSystem.METRIC:
+                variable.convert_to("mm")
+            case UnitSystem.IMPERIAL:
+                variable.convert_to("inches")
+    if variable.name == "air_temperature":
+        match unit_system:
+            case UnitSystem.METRIC:
+                variable.convert_to("celsius")
+            case UnitSystem.IMPERIAL:
+                variable.convert_to("fahrenheit")
+    if variable.name == "wind_speed":
+        match unit_system:
+            case UnitSystem.METRIC:
+                variable.convert_to("km/h")
+            case UnitSystem.IMPERIAL:
+                variable.convert_to("mph")
+    return variable
 
 
 def sanitize_name(name: str) -> str:
@@ -117,3 +123,66 @@ def sanitize_name(name: str) -> str:
         .replace("\\", "")
         .replace("/", "")
     )
+
+
+def get_time_delta(start_time: dt.time, end_time: dt.time) -> dt.timedelta:
+    """
+    Returns the time delta in hours between two times, rounding to the nearest
+    hour.
+
+    If start_time is later than end_time assumes that end_time falls in the next
+    day.
+    """
+
+    if start_time.hour > end_time.hour or (
+        start_time.hour == end_time.hour and start_time.minute > end_time.minute
+    ):
+        hours = (24 - start_time.hour) + end_time.hour
+    else:
+        hours = end_time.hour - start_time.hour
+
+    if end_time.minute - start_time.minute >= 30:
+        hours += 1
+    if end_time.minute - start_time.minute < -30:
+        hours -= 1
+
+    return dt.timedelta(hours=hours)
+
+
+def get_time_delta_hours(time_delta: dt.timedelta) -> float:
+    return abs(time_delta.total_seconds() / 3600)
+
+
+def _get_precipitation_colour_variant(variable: Variable, time_delta: dt.timedelta) -> str:
+    PRECIPITATION_OKAY_PER_HOUR = 0.5  # millimetres
+    PRECIPITATION_BAD_PER_HOUR = 2.0  # millimetres
+
+    if variable.name != "precipitation_amount":
+        raise ValueError(
+            f"Can only be called with 'precipitation_amount' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "mm":
+        raise ValueError(
+            f"Can only be called with units set to mm, given units: {variable.units}"  # noqa E501
+        )
+
+    time_delta_hours = get_time_delta_hours(time_delta)
+    bad_value = PRECIPITATION_BAD_PER_HOUR * time_delta_hours
+    okay_value = PRECIPITATION_OKAY_PER_HOUR * time_delta_hours
+
+    if bad_value and variable.value >= bad_value:
+        return ColourVariant.BAD.value
+
+    if okay_value and variable.value >= okay_value:
+        return ColourVariant.OKAY.value
+
+    return ColourVariant.GOOD.value
+
+
+def get_colour_variant(variable: Variable, time_delta: dt.timedelta | None = None) -> str:
+    if variable.name == "precipitation_amount":
+        if time_delta is None:
+            raise ValueError("time_delta cannot be none for precipitation type variable")
+        return _get_precipitation_colour_variant(variable, time_delta)
+
+    raise ValueError(f"Cannot get colour variant for variable type: {variable.name}")
