@@ -70,7 +70,7 @@
         <td></td>
         {% endif %}
 
-        <td class="text-danger text-nowrap text-center">
+        <td class="text-nowrap text-center table-{{ forecast.max_temp_colour_variant }}">
           {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
           {% if forecast.max_temp.units == "celsius" %}
           &deg;C
@@ -80,7 +80,7 @@
           {{ forecast.max_temp.units }}
           {% endif %}
         </td>
-        <td class="text-nowrap text-center">
+        <td class="text-nowrap text-center table-{{ forecast.max_wind_speed_colour_variant }}">
           {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
           forecast.max_wind_speed_direction }}
         </td>
@@ -129,7 +129,7 @@
                 {% endif %}
               </td>
 
-              <td class="text-danger text-nowrap">
+              <td class="text-nowrap table-{{ interval.temp_colour_variant }}">
                 {{interval.temp.value | round(1) }}
                 {% if interval.temp.units == "celsius" %}
                 &deg;C
@@ -140,7 +140,7 @@
                 {% endif %}
               </td>
 
-              <td class="text-nowrap">
+              <td class="text-nowrap  table-{{ interval.wind_speed_colour_variant }}">
                 {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
               </td>
             </tr>

@@ -111,8 +111,14 @@ def get_area_forecast_context(
                         "temp": change_units(
                             day_interval.variables["air_temperature"], unit_system
                         ),
+                        "temp_colour_variant": get_colour_variant(
+                            day_interval.variables["air_temperature"]
+                        ),
                         "wind_speed": change_units(
                             day_interval.variables["wind_speed"], unit_system
+                        ),
+                        "wind_speed_colour_variant": get_colour_variant(
+                            day_interval.variables["wind_speed"]
                         ),
                         "wind_from_direction": cardinal_name_of(
                             day_interval.variables["wind_from_direction"]
@@ -136,8 +142,10 @@ def get_area_forecast_context(
                         days_rain, dt.timedelta(days=1)
                     ),
                     "max_temp": change_units(days_max_temp, unit_system),
+                    "max_temp_colour_variant": get_colour_variant(days_max_temp),
                     "min_temp": change_units(days_min_temp, unit_system),
                     "max_wind_speed": change_units(days_max_wind_speed, unit_system),
+                    "max_wind_speed_colour_variant": get_colour_variant(days_max_wind_speed),
                     "max_wind_speed_direction": cardinal_name_of(days_max_wind_speed_direction),
                     "morning_rain": (
                         change_units(morning_rain, unit_system) if morning_rain else None

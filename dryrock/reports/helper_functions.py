@@ -179,10 +179,60 @@ def _get_precipitation_colour_variant(variable: Variable, time_delta: dt.timedel
     return ColourVariant.GOOD.value
 
 
+def _get_temp_colour_variant(variable: Variable) -> str:
+    TEMP_GOOD_MIN = 10  # celsius
+    TEMP_GOOD_MAX = 20  # celsius
+    TEMP_OKAY_MIN = 5  # celsius
+    TEMP_OKAY_MAX = 25  # celsius
+
+    if variable.name != "air_temperature":
+        raise ValueError(
+            f"Can only be called with 'air_temperature' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "celsius":
+        raise ValueError(
+            f"Can only be called with units set to celsius, given units: {variable.units}"  # noqa E501
+        )
+
+    if TEMP_GOOD_MIN <= variable.value <= TEMP_GOOD_MAX:
+        return ColourVariant.GOOD.value
+    if TEMP_OKAY_MIN <= variable.value <= TEMP_OKAY_MAX:
+        return ColourVariant.OKAY.value
+    return ColourVariant.BAD.value
+
+
+def _get_wind_speed_colour_variant(variable: Variable) -> str:
+    WIND_SPEED_OKAY = 5.56  # metres/second (20 km/h)
+    WIND_SPEED_BAD = 13.89  # metres/second (50 km/h)
+
+    if variable.name != "wind_speed":
+        raise ValueError(
+            f"Can only be called with 'wind_speed' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "m/s":
+        raise ValueError(
+            f"Can only be called with units set to m/s, given units: {variable.units}"  # noqa E501
+        )
+
+    if variable.value >= WIND_SPEED_BAD:
+        return ColourVariant.BAD.value
+
+    if variable.value >= WIND_SPEED_OKAY:
+        return ColourVariant.OKAY.value
+
+    return ColourVariant.GOOD.value
+
+
 def get_colour_variant(variable: Variable, time_delta: dt.timedelta | None = None) -> str:
     if variable.name == "precipitation_amount":
         if time_delta is None:
             raise ValueError("time_delta cannot be none for precipitation type variable")
         return _get_precipitation_colour_variant(variable, time_delta)
+
+    if variable.name == "air_temperature":
+        return _get_temp_colour_variant(variable)
+
+    if variable.name == "wind_speed":
+        return _get_wind_speed_colour_variant(variable)
 
     raise ValueError(f"Cannot get colour variant for variable type: {variable.name}")
