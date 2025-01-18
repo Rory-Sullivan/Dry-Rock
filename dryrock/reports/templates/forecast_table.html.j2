@@ -4,13 +4,16 @@
       <tr>
         <th scope="col" class="position-sticky" style="left: 0">Date</th>
         <th scope="col">
-          <div class="text-center">Morning</div>
+          <div class="text-center">Night <small class="text-muted text-nowrap">(00-06)</small></div>
         </th>
         <th scope="col">
-          <div class="text-center">Afternoon</div>
+          <div class="text-center">Morning <small class="text-muted text-nowrap">(06-12)</small></div>
         </th>
         <th scope="col">
-          <div class="text-center">Evening</div>
+          <div class="text-center">Afternoon <small class="text-muted text-nowrap">(12-18)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Evening <small class="text-muted text-nowrap">(18-24)</small></div>
         </th>
         <th scope="col">
           <div class="text-center">Temp. <small class="text-muted text-nowrap">(min / max)</small></div>
@@ -33,6 +36,18 @@
             {{ day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ day.strftime("%d %b") }}</small>
           </div>
         </th>
+
+        {% if forecast.night_rain %}
+        <td class="text-nowrap text-center table-{{ forecast.night_rain_colour_variant }}">
+          {% if forecast.night_rain.units == 'inches' %}
+          {{ forecast.night_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.night_rain.value | round(1) }} {{forecast.night_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
         {% if forecast.morning_rain %}
         <td class="text-nowrap text-center table-{{ forecast.morning_rain_colour_variant }}">
