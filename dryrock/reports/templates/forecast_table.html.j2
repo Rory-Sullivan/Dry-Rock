@@ -21,6 +21,9 @@
         <th scope="col">
           <div class="text-center">Wind</div>
         </th>
+        <th scope="col">
+          <div class="text-center">Humidity <small class="text-muted text-nowrap">(min / max)</small></div>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -99,6 +102,10 @@
           {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
           forecast.max_wind_speed_direction }}
         </td>
+        <td class="text-nowrap text-center table-{{ forecast.min_humid_colour_variant }}">
+          {{forecast.min_humid.value | round | int }} / {{ forecast.max_humid.value | round | int }}
+          {{ forecast.max_humid.units }}
+        </td>
       </tr>
       {% endif %}
       {% endwith %}
@@ -127,6 +134,7 @@
               <th scope="col">Rain</th>
               <th scope="col">Temp.</th>
               <th scope="col">Wind</th>
+              <th scope="col">Humid.</th>
             </tr>
           </thead>
           <tbody>
@@ -157,6 +165,10 @@
 
               <td class="text-nowrap  table-{{ interval.wind_speed_colour_variant }}">
                 {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
+              </td>
+
+              <td class="text-nowrap  table-{{ interval.humid_colour_variant }}">
+                {{ interval.humid.value | round | int }} {{ interval.humid.units }}
               </td>
             </tr>
             {% endfor %}

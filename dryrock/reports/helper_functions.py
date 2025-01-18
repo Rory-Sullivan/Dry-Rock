@@ -88,6 +88,28 @@ def max_wind_speed_of(intervals: List[Interval]) -> Tuple[Variable, Variable]:
     return max_wind_speed, max_wind_speed_direction
 
 
+def max_humid_of(intervals: List[Interval]) -> Variable:
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    max_humid = intervals[0].variables["relative_humidity"]
+    for interval in intervals[1:]:
+        if max_humid.value < interval.variables["relative_humidity"].value:
+            max_humid = interval.variables["relative_humidity"]
+    return max_humid
+
+
+def min_humid_of(intervals: List[Interval]) -> Variable:
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    min_humid = intervals[0].variables["relative_humidity"]
+    for interval in intervals[1:]:
+        if min_humid.value > interval.variables["relative_humidity"].value:
+            min_humid = interval.variables["relative_humidity"]
+    return min_humid
+
+
 def change_units(variable: Variable, unit_system: UnitSystem) -> Variable:
     """Returns a new instance of the variable in the given unit system"""
 
@@ -223,6 +245,28 @@ def _get_wind_speed_colour_variant(variable: Variable) -> str:
     return ColourVariant.GOOD.value
 
 
+def _get_humid_colour_variant(variable: Variable) -> str:
+    HUMID_OKAY = 70  # %
+    HUMID_BAD = 85  # %
+
+    if variable.name != "relative_humidity":
+        raise ValueError(
+            f"Can only be called with 'relative_humidity' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "%":
+        raise ValueError(
+            f"Can only be called with units set to %, given units: {variable.units}"  # noqa E501
+        )
+
+    if variable.value >= HUMID_BAD:
+        return ColourVariant.BAD.value
+
+    if variable.value >= HUMID_OKAY:
+        return ColourVariant.OKAY.value
+
+    return ColourVariant.GOOD.value
+
+
 def get_colour_variant(variable: Variable, time_delta: dt.timedelta | None = None) -> str:
     if variable.name == "precipitation_amount":
         if time_delta is None:
@@ -234,5 +278,8 @@ def get_colour_variant(variable: Variable, time_delta: dt.timedelta | None = Non
 
     if variable.name == "wind_speed":
         return _get_wind_speed_colour_variant(variable)
+
+    if variable.name == "relative_humidity":
+        return _get_humid_colour_variant(variable)
 
     raise ValueError(f"Cannot get colour variant for variable type: {variable.name}")
