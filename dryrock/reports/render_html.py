@@ -132,6 +132,7 @@ def get_area_forecast_context(
                         "humid_colour_variant": get_colour_variant(
                             day_interval.variables["relative_humidity"]
                         ),
+                        "cloud_cover": day_interval.variables["cloud_area_fraction"],
                     }
                     intervals.append(interval)
 

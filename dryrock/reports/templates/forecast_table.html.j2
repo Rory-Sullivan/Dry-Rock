@@ -118,7 +118,7 @@
 {# Remove characters from name that break the modal toggle #}
 <div class="modal fade" id="{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" tabindex="-1"
   aria-labelledby="{{ place.name }}{{ day }}Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg modal-fullscreen-lg-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="{{ place.name }}{{ day }}Label">{{ place.name }}</h5>
@@ -131,10 +131,11 @@
           <thead>
             <tr>
               <th scope="col">Time</th>
-              <th scope="col">Rain</th>
-              <th scope="col">Temp.</th>
-              <th scope="col">Wind</th>
-              <th scope="col">Humid.</th>
+              <th scope="col" class="text-center">Rain</th>
+              <th scope="col" class="text-center">Temp.</th>
+              <th scope="col" class="text-center">Wind</th>
+              <th scope="col" class="text-center">Humid.</th>
+              <th scope="col" class="text-center">Cloud cover</th>
             </tr>
           </thead>
           <tbody>
@@ -144,7 +145,7 @@
                 {{ interval.start_time.strftime("%H")}} - {{ interval.end_time.strftime("%H")}}
               </td>
 
-              <td class="text-nowrap table-{{ interval.rain_colour_variant }}">
+              <td class="text-nowrap text-center table-{{ interval.rain_colour_variant }}">
                 {% if interval.rain.units == 'inches' %}
                 {{ interval.rain.value | round(2) }} in
                 {% else %}
@@ -152,7 +153,7 @@
                 {% endif %}
               </td>
 
-              <td class="text-nowrap table-{{ interval.temp_colour_variant }}">
+              <td class="text-nowrap text-center table-{{ interval.temp_colour_variant }}">
                 {{interval.temp.value | round(1) }}
                 {% if interval.temp.units == "celsius" %}
                 &deg;C
@@ -163,12 +164,16 @@
                 {% endif %}
               </td>
 
-              <td class="text-nowrap  table-{{ interval.wind_speed_colour_variant }}">
+              <td class="text-nowrap text-center  table-{{ interval.wind_speed_colour_variant }}">
                 {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
               </td>
 
-              <td class="text-nowrap  table-{{ interval.humid_colour_variant }}">
+              <td class="text-nowrap text-center  table-{{ interval.humid_colour_variant }}">
                 {{ interval.humid.value | round | int }} {{ interval.humid.units }}
+              </td>
+
+              <td class="text-nowrap text-center">
+                {{ interval.cloud_cover.value | round | int }} {{ interval.cloud_cover.units }}
               </td>
             </tr>
             {% endfor %}
