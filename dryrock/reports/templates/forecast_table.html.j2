@@ -130,7 +130,7 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Time</th>
+              <th scope="col" class="position-sticky" style="left: 0">Time</th>
               <th scope="col" class="text-center">Rain</th>
               <th scope="col" class="text-center">Temp.</th>
               <th scope="col" class="text-center">Wind</th>
@@ -141,7 +141,7 @@
           <tbody>
             {% for interval in forecasts[day].intervals %}
             <tr>
-              <td class="text-nowrap">
+              <td class="text-nowrap position-sticky" style="left: 0">
                 {{ interval.start_time.strftime("%H")}} - {{ interval.end_time.strftime("%H")}}
               </td>
 
