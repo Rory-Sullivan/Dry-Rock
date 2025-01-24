@@ -90,6 +90,48 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    // Global variable to store the currently active modal if any
+    let activeModal = null;
+
+    // Watch for hash changes and trigger a modal if appropriate
+    window.addEventListener("hashchange", (e) => {
+      // Close currently active modal if any
+      if (activeModal !== null) {
+        if (activeModal._isShown) {
+          activeModal.hide();
+        }
+        activeModal = null;
+      }
+
+      // Find if hash matches modal and open it
+      const hash = location.hash.substring(1); // Remove '#' at start of string
+      const modalElement = document.getElementById(hash);
+      if (modalElement !== null && modalElement.classList.contains("modal")) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modal.show();
+        activeModal = modal;
+      }
+    });
+
+    // One time script to add listener to all modals that removes hash when the
+    // modal is closed
+    const allModals = document.getElementsByClassName("modal");
+    for (const modal of allModals) {
+      modal.addEventListener("hide.bs.modal", (e) => {
+        // Check if current hash points to the currently active modal, if not
+        // then we don't need to do anything
+        const hash = location.hash.substring(1); // Remove '#' at start of string
+        if (hash === activeModal._element.id) {
+          // Use single space here so we do not match any given IDs and cause
+          // unwanted scroll (empty string will match anything)
+          location.hash = " ";
+        }
+      })
+    }
+  </script>
 </body>
 
 </html>

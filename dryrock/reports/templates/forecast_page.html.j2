@@ -30,7 +30,7 @@
         </thead>
         <tbody>
           {% for place in places %}
-          <tr onclick="window.location='#{{ place.name }}Header';" style="cursor: pointer;">
+          <tr onclick="location.hash='{{ place.name }}Header';" style="cursor: pointer;">
             <th scope="row" class="position-sticky" style="left: 0">
               <div>{{ place.name }}</div>
             </th>
