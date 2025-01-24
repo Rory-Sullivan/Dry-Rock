@@ -14,7 +14,6 @@ from .helper_functions import (
     change_units,
     get_colour_variant,
     get_time_delta,
-    max_humid_of,
     max_temp_of,
     max_wind_speed_of,
     min_humid_of,
@@ -98,7 +97,6 @@ def get_area_forecast_context(
                 days_max_wind_speed, days_max_wind_speed_direction = max_wind_speed_of(
                     days_intervals
                 )
-                days_max_humid = max_humid_of(days_intervals)
                 days_min_humid = min_humid_of(days_intervals)
 
                 intervals: List[Dict[str, Any]] = []
@@ -160,7 +158,6 @@ def get_area_forecast_context(
                     "max_wind_speed": change_units(days_max_wind_speed, unit_system),
                     "max_wind_speed_colour_variant": get_colour_variant(days_max_wind_speed),
                     "max_wind_speed_direction": cardinal_name_of(days_max_wind_speed_direction),
-                    "max_humid": days_max_humid,
                     "min_humid": days_min_humid,
                     "min_humid_colour_variant": get_colour_variant(days_min_humid),
                     "night_rain": (change_units(night_rain, unit_system) if night_rain else None),
