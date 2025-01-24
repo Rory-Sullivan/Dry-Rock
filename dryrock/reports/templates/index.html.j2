@@ -17,30 +17,31 @@
       </p>
       <ul>
         <li>
-          Select your location from the list on the top left, and select your preferred units from the dropdown on the
-          top
-          right.
+          Select your region from the list on the top left, and select your preferred units from the dropdown on the
+          top right.
         </li>
         <li>
-          The overview table for each area has a 7-day rainfall summary for popular climbing destinations in that
-          area.
+          The overview table for each region has a 7-day rainfall summary for popular climbing destinations.
         </li>
         <li>
-          Low rainfall values are shown in <span class="text-success">green</span> to make them easier to spot.
+          Weather values are given colour codes to indicate how good/bad they are for climbing;
+          <span class="bg-success-subtle">good</span>, <span class="bg-warning-subtle">okay</span>, or
+          <span class="bg-danger-subtle">bad</span> .
         </li>
         <li>
-          Clicking a row in the overview table will take you to a 7-day forecast for that place.
+          Clicking on a row in the tables will allow you to drill into more detail for that place and day.
         </li>
         <li>
-          Clicking a row in the 7-day forecast table will show you a pop up with an hourly (or 6-hourly) detailed
-          forecast
-          for that day.
+          Make sure to bookmark your favourite page! 😉
         </li>
         <li>
-          Clicking the overview button will take you back to the overview table.
-        </li>
-        <li>
-          Bookmark the page relevant to you to make it easy to find.
+          Check out the <a href="
+              {% if unit_system == 'METRIC' %}
+                {{ nav_links[-1].href_metric }}
+              {% elif unit_system == 'IMPERIAL' %}
+                {{ nav_links[-1].href_imperial }}
+              {% endif %}
+            ">news</a> page every once in a while to hear about new features.
         </li>
       </ul>
     </section>
@@ -48,9 +49,7 @@
       <h2>Is there an app?</h2>
       <p>
         There is not an app but if you go to the page relevant to you on your mobile web browser, hit the three dots on
-        the top bar and select "save to home screen" a link to the site will appear on your home screen. And of course
-        you
-        can bookmark the page to make it easier to find 😉
+        the top bar and select "save to home screen" a link to the site will appear on your home screen.
       </p>
     </section>
     <section id="info">
