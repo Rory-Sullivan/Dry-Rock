@@ -116,14 +116,15 @@
 
 {% for day in days %}
 {# Remove characters from name that break the modal toggle #}
-<div class="modal fade" id="{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" tabindex="-1"
+<div class="modal" id="{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" tabindex="-1"
   aria-labelledby="{{ place.name }}{{ day }}Label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg modal-fullscreen-lg-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="{{ place.name }}{{ day }}Label">{{ place.name }}</h5>
-        <h5 class="modal-title ms-auto">{{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b")
-            }}</small></h5>
+        <h5 class="modal-title ms-auto">
+          {{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b") }}</small>
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-0">
@@ -179,6 +180,30 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
+      <div class="modal-footer">
+        {% if loop.previtem %}
+        <a class="btn btn-outline-primary me-auto"
+          onclick="changeModal('{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ loop.previtem }}');">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+          </svg>
+          Prev. day
+        </a>
+        {% endif %}
+        {% if loop.nextitem %}
+        <a class="btn btn-outline-primary ms-auto"
+          onclick="changeModal('{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ loop.nextitem }}');">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+          </svg>
+          Next day
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>

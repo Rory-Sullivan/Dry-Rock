@@ -96,8 +96,8 @@
     // Global variable to store the currently active modal if any
     let activeModal = null;
 
-    // Watch for hash changes and trigger a modal if appropriate
-    window.addEventListener("hashchange", (e) => {
+    // Shows/hides modals based on the current state of the URL hash
+    function updateModalDisplay() {
       // Close currently active modal if any
       if (activeModal !== null) {
         if (activeModal._isShown) {
@@ -114,7 +114,25 @@
         modal.show();
         activeModal = modal;
       }
+    }
+
+    // Trigger modal update once during page load in case the user reloads while
+    // a modal is displayed.
+    updateModalDisplay();
+
+    // Watch for hash changes and trigger a modal update
+    window.addEventListener("hashchange", (e) => {
+      updateModalDisplay();
     });
+
+    // Function for switching between modals, this is used by some buttons on
+    // the application
+    function changeModal(newModalId) {
+      history.replaceState(null, '', `#${newModalId}`);
+      // Trigger modal update as 'hashchange' event is not triggered by
+      // 'replaceState' method
+      updateModalDisplay();
+    }
 
     // One time script to add listener to all modals that removes hash when the
     // modal is closed
