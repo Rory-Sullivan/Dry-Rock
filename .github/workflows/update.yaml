@@ -5,7 +5,7 @@ env:
 
 on:
   schedule:
-    - cron: "13,43 5-23 * * *"
+    - cron: "13,43 * * * *" # Run at 13 and 43 minutes past the hour every hour
 
 jobs:
   update-site:

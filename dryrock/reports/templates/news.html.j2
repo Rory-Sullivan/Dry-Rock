@@ -4,67 +4,85 @@
 <title>Dry Rock - News</title>
 {% endblock title %}
 
-{% block newsPageActive %}active{% endblock %}
-
 {% block content %}
 <div class="row">
-  <section id="news" class="section-header w-100 mb-3">
-    <h1 class="display-4 text-center pb-1">News</h1>
-  </section>
-
   <div class="col">
+    <section id="news" class="section-header w-100 mb-3">
+      <h1 class="display-4 text-center pb-1">News</h1>
+    </section>
     <p class="lead">
-      Here you will find updates about the Dry Rock site as well as upcoming features.
+      Here you will find updates about the Dry Rock site.
     </p>
     <hr class="my-4 mx-4">
-
-    <section id="v2.1.0" class="section-header w-100 mb-3">
+    <section id="v3.0.0" class="mb-5">
+      <h2>v3.0.0 <small class="text-muted">25 January 2025</small></h2>
+      <p>
+        The big news is Washington has been added as a region! After living in Washington for two years I have finally
+        got around to adding it to Dry Rock.
+      </p>
+      <p>
+        In addition this update:
+      </p>
+      <ul>
+        <li>
+          Adds the ability to switch between metric and imperial units (so that we don't confuse the Americans who will
+          be using the site now)
+        </li>
+        <li>Adds new forecast variables: humidity, and cloud cover</li>
+        <li>
+          Adds additional colour code indicators, now with three levels, <span class="bg-success-subtle">good</span>,
+          <span class="bg-warning-subtle">okay</span>, and <span class="bg-danger-subtle">bad</span>, and includes
+          additional variables temperature, wind speed, etc.
+        </li>
+        <li>Adds 'previous day' and 'next day' buttons to the detailed day forecast tables</li>
+        <li>Does a general overhaul of the UI</li>
+      </ul>
+    </section>
+    <section id="v2.1.0" class="mb-5">
       <h2>v2.1.0 <small class="text-muted">1 November 2024</small></h2>
+      <p>
+        New locations added! The following locations have been added to the Dry Rock forecast;
+      </p>
+      <ul>
+        <li>Lower Cove (Mournes)</li>
+        <li>Cruit Island</li>
+        <li>Garron Point</li>
+      </ul>
     </section>
-    <p>
-      New locations added! The following locations have been added to the Dry Rock forecast;
-    </p>
-    <ul>
-      <li>Lower Cove (Mournes)</li>
-      <li>Cruit Island</li>
-      <li>Garron Point</li>
-    </ul>
-
-    <section id="v2.0.0" class="section-header w-100 mb-3">
+    <section id="v2.0.0" class="mb-5">
       <h2>v2.0.0 <small class="text-muted">14 August 2020</small></h2>
+      <p>
+        Dry Rock version 2 is here!
+      </p>
+      <p>
+        With the Yr weather API being deprecated later this year, version 2 now uses MET Norway's
+        <a href="https://api.met.no/">weather API</a>. This means that forecast data is now exact to
+        each crag rather than being taken from the nearest town. Hopefully this will mean more
+        accurate forecasts!
+      </p>
+      <p>
+        There have also been improvements to the general design of the site:
+      </p>
+      <ul>
+        <li>The first column of tables are now fixed, this should improve viewing experiences on small devices</li>
+        <li>A new hourly forecast table has been added</li>
+        <li><a href="/pages/about.html">About</a> and <a href="/pages/news.html">News</a> pages have been added, to keep
+          you
+          all up to date</li>
+        <li>Finally, a shiny new navbar at the top of all pages has been added</li>
+      </ul>
     </section>
-    <p>
-      Dry Rock version 2 is here!
-    </p>
-    <p>
-      With the Yr weather API being deprecated later this year, version 2 now uses MET Norway's
-      <a href="https://api.met.no/">weather API</a>. This means that forecast data is now exact to
-      each crag rather than being taken from the nearest town. Hopefully this will mean more
-      accurate forecasts!
-    </p>
-    <p>
-      There have also been improvements to the general design of the site:
-    </p>
-    <ul>
-      <li>The first column of tables are now fixed, this should improve viewing experiences on small devices</li>
-      <li>A new hourly forecast table has been added</li>
-      <li><a href="/pages/about.html">About</a> and <a href="/pages/news.html">News</a> pages have been added, to keep
-        you
-        all up to date</li>
-      <li>Finally, a shiny new navbar at the top of all pages has been added</li>
-    </ul>
-
-    <section id="v1.0.0" class="section-header w-100 mb-3">
+    <section id="v1.0.0" class="mb-5">
       <h2>v1.0.0 <small class="text-muted">25 May 2020</small></h2>
+      <p>
+        The initial release of the Dry Rock site.
+      </p>
+      <p>
+        Dry Rock is a site designed to help climbers in Ireland find some dry rock to
+        climb on. Weather forecast data is collected from <a href="https://www.yr.no/en">Yr</a>,
+        provided by the <a href="https://www.met.no/en">Norwegian Meteorological Institute</a>.
+      </p>
     </section>
-    <p>
-      The initial release of the Dry Rock site.
-    </p>
-    <p>
-      Dry Rock is a site designed to help climbers in Ireland find some dry rock to
-      climb on. Weather forecast data is collected from <a href="https://www.yr.no/en">Yr</a>,
-      provided by the <a href="https://www.met.no/en">Norwegian Meteorological Institute</a>.
-    </p>
   </div>
 </div>
 {% endblock content %}

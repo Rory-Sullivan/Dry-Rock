@@ -1,7 +1,20 @@
+import copy
+import datetime as dt
+from enum import Enum
 from typing import List, Tuple
 
-from metno_locationforecast import Forecast
 from metno_locationforecast.data_containers import Interval, Variable
+
+
+class UnitSystem(Enum):
+    METRIC = 0
+    IMPERIAL = 1
+
+
+class ColourVariant(Enum):
+    GOOD = "success"
+    OKAY = "warning"
+    BAD = "danger"
 
 
 def cardinal_name_of(direction_variable: Variable) -> str:
@@ -31,51 +44,242 @@ def cardinal_name_of(direction_variable: Variable) -> str:
 
 
 def sum_rain(intervals: List[Interval]) -> Variable:
-    if len(intervals) > 0:
-        total_rain = Variable("precipitation_amount", 0.0, "mm")
-        for interval in intervals:
-            total_rain += interval.variables["precipitation_amount"]
-        return total_rain
-    raise IndexError("Intervals cannot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    total_rain = intervals[0].variables["precipitation_amount"]
+    for interval in intervals[1:]:
+        total_rain += interval.variables["precipitation_amount"]
+    return total_rain
 
 
 def max_temp_of(intervals: List[Interval]) -> Variable:
-    if len(intervals) > 0:
-        max_temp = Variable("air_temperature", float("-inf"), "celsius")
-        for interval in intervals:
-            if max_temp.value < interval.variables["air_temperature"].value:
-                max_temp = interval.variables["air_temperature"]
-        return max_temp
-    raise IndexError("Intervals connot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    max_temp = intervals[0].variables["air_temperature"]
+    for interval in intervals[1:]:
+        if max_temp.value < interval.variables["air_temperature"].value:
+            max_temp = interval.variables["air_temperature"]
+    return max_temp
 
 
 def min_temp_of(intervals: List[Interval]) -> Variable:
-    if len(intervals) > 0:
-        min_temp = Variable("air_temperature", float("inf"), "celsius")
-        for interval in intervals:
-            if min_temp.value > interval.variables["air_temperature"].value:
-                min_temp = interval.variables["air_temperature"]
-        return min_temp
-    raise IndexError("Intervals connot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    min_temp = intervals[0].variables["air_temperature"]
+    for interval in intervals[1:]:
+        if min_temp.value > interval.variables["air_temperature"].value:
+            min_temp = interval.variables["air_temperature"]
+    return min_temp
 
 
 def max_wind_speed_of(intervals: List[Interval]) -> Tuple[Variable, Variable]:
-    if len(intervals) > 0:
-        max_wind_speed = Variable("wind_speed", float("-inf"), "m/s")
-        max_wind_speed_direction = Variable("wind_from_direction", 0.0, "degrees")
-        for interval in intervals:
-            if max_wind_speed.value < interval.variables["wind_speed"].value:
-                max_wind_speed = interval.variables["wind_speed"]
-                max_wind_speed_direction = interval.variables["wind_from_direction"]
-        return max_wind_speed, max_wind_speed_direction
-    raise IndexError("Intervals connot be empty.")
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    max_wind_speed = intervals[0].variables["wind_speed"]
+    max_wind_speed_direction = intervals[0].variables["wind_from_direction"]
+    for interval in intervals[1:]:
+        if max_wind_speed.value < interval.variables["wind_speed"].value:
+            max_wind_speed = interval.variables["wind_speed"]
+            max_wind_speed_direction = interval.variables["wind_from_direction"]
+    return max_wind_speed, max_wind_speed_direction
 
 
-def change_units(forecasts: List[Forecast]) -> None:
-    """Change wind speed to km/h."""
+def max_humid_of(intervals: List[Interval]) -> Variable:
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
 
-    for forecast in forecasts:
-        for interval in forecast.data.intervals:
-            for variable in interval.variables.values():
-                if variable.name == "wind_speed":
-                    variable.convert_to("km/h")
+    max_humid = intervals[0].variables["relative_humidity"]
+    for interval in intervals[1:]:
+        if max_humid.value < interval.variables["relative_humidity"].value:
+            max_humid = interval.variables["relative_humidity"]
+    return max_humid
+
+
+def min_humid_of(intervals: List[Interval]) -> Variable:
+    if len(intervals) == 0:
+        raise ValueError("Intervals cannot be empty.")
+
+    min_humid = intervals[0].variables["relative_humidity"]
+    for interval in intervals[1:]:
+        if min_humid.value > interval.variables["relative_humidity"].value:
+            min_humid = interval.variables["relative_humidity"]
+    return min_humid
+
+
+def change_units(variable: Variable, unit_system: UnitSystem) -> Variable:
+    """Returns a new instance of the variable in the given unit system"""
+
+    variable = copy.deepcopy(variable)
+    if variable.name == "precipitation_amount":
+        match unit_system:
+            case UnitSystem.METRIC:
+                variable.convert_to("mm")
+            case UnitSystem.IMPERIAL:
+                variable.convert_to("inches")
+    if variable.name == "air_temperature":
+        match unit_system:
+            case UnitSystem.METRIC:
+                variable.convert_to("celsius")
+            case UnitSystem.IMPERIAL:
+                variable.convert_to("fahrenheit")
+    if variable.name == "wind_speed":
+        match unit_system:
+            case UnitSystem.METRIC:
+                variable.convert_to("km/h")
+            case UnitSystem.IMPERIAL:
+                variable.convert_to("mph")
+    return variable
+
+
+def sanitize_name(name: str) -> str:
+    """Returns a sanitized version of the given name for URLs and file names."""
+    return (
+        name.lower()
+        .replace(" ", "_")
+        .replace("(", "")
+        .replace(")", "")
+        .replace("\\", "")
+        .replace("/", "")
+    )
+
+
+def get_time_delta(start_time: dt.time, end_time: dt.time) -> dt.timedelta:
+    """
+    Returns the time delta in hours between two times, rounding to the nearest
+    hour.
+
+    If start_time is later than end_time assumes that end_time falls in the next
+    day.
+    """
+
+    if start_time.hour > end_time.hour or (
+        start_time.hour == end_time.hour and start_time.minute > end_time.minute
+    ):
+        hours = (24 - start_time.hour) + end_time.hour
+    else:
+        hours = end_time.hour - start_time.hour
+
+    if end_time.minute - start_time.minute >= 30:
+        hours += 1
+    if end_time.minute - start_time.minute < -30:
+        hours -= 1
+
+    return dt.timedelta(hours=hours)
+
+
+def get_time_delta_hours(time_delta: dt.timedelta) -> float:
+    return abs(time_delta.total_seconds() / 3600)
+
+
+def _get_precipitation_colour_variant(variable: Variable, time_delta: dt.timedelta) -> str:
+    PRECIPITATION_OKAY_PER_HOUR = 0.5  # millimetres
+    PRECIPITATION_BAD_PER_HOUR = 2.0  # millimetres
+
+    if variable.name != "precipitation_amount":
+        raise ValueError(
+            f"Can only be called with 'precipitation_amount' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "mm":
+        raise ValueError(
+            f"Can only be called with units set to mm, given units: {variable.units}"  # noqa E501
+        )
+
+    time_delta_hours = get_time_delta_hours(time_delta)
+    bad_value = PRECIPITATION_BAD_PER_HOUR * time_delta_hours
+    okay_value = PRECIPITATION_OKAY_PER_HOUR * time_delta_hours
+
+    if bad_value and variable.value >= bad_value:
+        return ColourVariant.BAD.value
+
+    if okay_value and variable.value >= okay_value:
+        return ColourVariant.OKAY.value
+
+    return ColourVariant.GOOD.value
+
+
+def _get_temp_colour_variant(variable: Variable) -> str:
+    TEMP_GOOD_MIN = 10  # celsius
+    TEMP_GOOD_MAX = 20  # celsius
+    TEMP_OKAY_MIN = 5  # celsius
+    TEMP_OKAY_MAX = 25  # celsius
+
+    if variable.name != "air_temperature":
+        raise ValueError(
+            f"Can only be called with 'air_temperature' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "celsius":
+        raise ValueError(
+            f"Can only be called with units set to celsius, given units: {variable.units}"  # noqa E501
+        )
+
+    if TEMP_GOOD_MIN <= variable.value <= TEMP_GOOD_MAX:
+        return ColourVariant.GOOD.value
+    if TEMP_OKAY_MIN <= variable.value <= TEMP_OKAY_MAX:
+        return ColourVariant.OKAY.value
+    return ColourVariant.BAD.value
+
+
+def _get_wind_speed_colour_variant(variable: Variable) -> str:
+    WIND_SPEED_OKAY = 5.56  # metres/second (20 km/h)
+    WIND_SPEED_BAD = 13.89  # metres/second (50 km/h)
+
+    if variable.name != "wind_speed":
+        raise ValueError(
+            f"Can only be called with 'wind_speed' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "m/s":
+        raise ValueError(
+            f"Can only be called with units set to m/s, given units: {variable.units}"  # noqa E501
+        )
+
+    if variable.value >= WIND_SPEED_BAD:
+        return ColourVariant.BAD.value
+
+    if variable.value >= WIND_SPEED_OKAY:
+        return ColourVariant.OKAY.value
+
+    return ColourVariant.GOOD.value
+
+
+def _get_humid_colour_variant(variable: Variable) -> str:
+    HUMID_OKAY = 70  # %
+    HUMID_BAD = 85  # %
+
+    if variable.name != "relative_humidity":
+        raise ValueError(
+            f"Can only be called with 'relative_humidity' variable, given variable: {variable.name}"  # noqa E501
+        )
+    if variable.units != "%":
+        raise ValueError(
+            f"Can only be called with units set to %, given units: {variable.units}"  # noqa E501
+        )
+
+    if variable.value >= HUMID_BAD:
+        return ColourVariant.BAD.value
+
+    if variable.value >= HUMID_OKAY:
+        return ColourVariant.OKAY.value
+
+    return ColourVariant.GOOD.value
+
+
+def get_colour_variant(variable: Variable, time_delta: dt.timedelta | None = None) -> str:
+    if variable.name == "precipitation_amount":
+        if time_delta is None:
+            raise ValueError("time_delta cannot be none for precipitation type variable")
+        return _get_precipitation_colour_variant(variable, time_delta)
+
+    if variable.name == "air_temperature":
+        return _get_temp_colour_variant(variable)
+
+    if variable.name == "wind_speed":
+        return _get_wind_speed_colour_variant(variable)
+
+    if variable.name == "relative_humidity":
+        return _get_humid_colour_variant(variable)
+
+    raise ValueError(f"Cannot get colour variant for variable type: {variable.name}")
