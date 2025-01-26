@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- Custom style sheets -->
+  <link rel="stylesheet" href="/static/style.css">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="/static/favicons/site.webmanifest">
+
+<title>Dry Rock - News</title>
+</head>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="
+          /pages/index.html
+">
+        Dry Rock
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link " href="
+                /pages/ireland_metric.html
+            ">
+              Ireland
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="
+                /pages/washington_metric.html
+            ">
+              Washington
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="
+                /pages/news_metric.html
+            ">
+              News
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav me-4">
+          <li class="nav-item dropdown">
+            <button class="btn dropdown-toggle btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
+              Units
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="unitsNavbarDropdown">
+              <li>
+                <a class="dropdown-item active"
+                  href="/pages/news_metric.html">Metric</a>
+              </li>
+              <li>
+                <a class="dropdown-item "
+                  href="/pages/news_imperial.html">Imperial</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="content container-fluid bg-white pb-3">
+<div class="row">
+  <div class="col">
+    <section id="news" class="section-header w-100 mb-3">
+      <h1 class="display-4 text-center pb-1">News</h1>
+    </section>
+    <p class="lead">
+      Here you will find updates about the Dry Rock site.
+    </p>
+    <hr class="my-4 mx-4">
+    <section id="v3.0.0" class="mb-5">
+      <h2>v3.0.0 <small class="text-muted">25 January 2025</small></h2>
+      <p>
+        The big news is Washington has been added as a region! After living in Washington for two years I have finally
+        got around to adding it to Dry Rock.
+      </p>
+      <p>
+        In addition this update:
+      </p>
+      <ul>
+        <li>
+          Adds the ability to switch between metric and imperial units (so that we don't confuse the Americans who will
+          be using the site now)
+        </li>
+        <li>Adds new forecast variables: humidity, and cloud cover</li>
+        <li>
+          Adds additional colour code indicators, now with three levels, <span class="bg-success-subtle">good</span>,
+          <span class="bg-warning-subtle">okay</span>, and <span class="bg-danger-subtle">bad</span>, and includes
+          additional variables temperature, wind speed, etc.
+        </li>
+        <li>Adds 'previous day' and 'next day' buttons to the detailed day forecast tables</li>
+        <li>Does a general overhaul of the UI</li>
+      </ul>
+    </section>
+    <section id="v2.1.0" class="mb-5">
+      <h2>v2.1.0 <small class="text-muted">1 November 2024</small></h2>
+      <p>
+        New locations added! The following locations have been added to the Dry Rock forecast;
+      </p>
+      <ul>
+        <li>Lower Cove (Mournes)</li>
+        <li>Cruit Island</li>
+        <li>Garron Point</li>
+      </ul>
+    </section>
+    <section id="v2.0.0" class="mb-5">
+      <h2>v2.0.0 <small class="text-muted">14 August 2020</small></h2>
+      <p>
+        Dry Rock version 2 is here!
+      </p>
+      <p>
+        With the Yr weather API being deprecated later this year, version 2 now uses MET Norway's
+        <a href="https://api.met.no/">weather API</a>. This means that forecast data is now exact to
+        each crag rather than being taken from the nearest town. Hopefully this will mean more
+        accurate forecasts!
+      </p>
+      <p>
+        There have also been improvements to the general design of the site:
+      </p>
+      <ul>
+        <li>The first column of tables are now fixed, this should improve viewing experiences on small devices</li>
+        <li>A new hourly forecast table has been added</li>
+        <li><a href="/pages/about.html">About</a> and <a href="/pages/news.html">News</a> pages have been added, to keep
+          you
+          all up to date</li>
+        <li>Finally, a shiny new navbar at the top of all pages has been added</li>
+      </ul>
+    </section>
+    <section id="v1.0.0" class="mb-5">
+      <h2>v1.0.0 <small class="text-muted">25 May 2020</small></h2>
+      <p>
+        The initial release of the Dry Rock site.
+      </p>
+      <p>
+        Dry Rock is a site designed to help climbers in Ireland find some dry rock to
+        climb on. Weather forecast data is collected from <a href="https://www.yr.no/en">Yr</a>,
+        provided by the <a href="https://www.met.no/en">Norwegian Meteorological Institute</a>.
+      </p>
+    </section>
+  </div>
+</div>
+  </div>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    // Global variable to store the currently active modal if any
+    let activeModal = null;
+
+    // Shows/hides modals based on the current state of the URL hash
+    function updateModalDisplay() {
+      // Close currently active modal if any
+      if (activeModal !== null) {
+        if (activeModal._isShown) {
+          activeModal.hide();
+        }
+        activeModal = null;
+      }
+
+      // Find if hash matches modal and open it
+      const hash = location.hash.substring(1); // Remove '#' at start of string
+      const modalElement = document.getElementById(hash);
+      if (modalElement !== null && modalElement.classList.contains("modal")) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modal.show();
+        activeModal = modal;
+      }
+    }
+
+    // Trigger modal update once during page load in case the user reloads while
+    // a modal is displayed.
+    updateModalDisplay();
+
+    // Watch for hash changes and trigger a modal update
+    window.addEventListener("hashchange", (e) => {
+      updateModalDisplay();
+    });
+
+    // Function for switching between modals, this is used by some buttons on
+    // the application
+    function changeModal(newModalId) {
+      history.replaceState(null, '', `#${newModalId}`);
+      // Trigger modal update as 'hashchange' event is not triggered by
+      // 'replaceState' method
+      updateModalDisplay();
+    }
+
+    // One time script to add listener to all modals that removes hash when the
+    // modal is closed
+    const allModals = document.getElementsByClassName("modal");
+    for (const modal of allModals) {
+      modal.addEventListener("hide.bs.modal", (e) => {
+        // Check if current hash points to the currently active modal, if not
+        // then we don't need to do anything
+        const hash = location.hash.substring(1); // Remove '#' at start of string
+        if (hash === activeModal._element.id) {
+          // Use single space here so we do not match any given IDs and cause
+          // unwanted scroll (empty string will match anything)
+          location.hash = " ";
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>
