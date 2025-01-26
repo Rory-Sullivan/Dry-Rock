@@ -1,101 +1,81 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
-  <div class="row mb-5">
-    <section id="overview" class="section-header w-100 mb-3">
-      <h1 class="display-4 text-center pb-1">Overview</h1>
+<div class="row mb-5">
+  <div class="col">
+    <section id="about" class="section-header">
+      <h1 class="display-4 text-center pb-1">Dry Rock</h1>
+      <p class="lead">
+        Ever found yourself clicking through forecast after forecast trying to figure out where
+        to go climbing at the weekend? Well then you've come to the right place!
+      </p>
     </section>
-
-    <div class="table-responsive">
-      <table class="table table-hover border-bottom">
-        <thead>
-          <tr>
-            <th scope="col" class="position-sticky bg-white" style="left: 0">Place</th>
-
-            <th scope="col">Today</th>
-            <th scope="col">Tomorrow</th>
-
-            {% for day in days[2:] %}
-              <th scope="col">{{ day.strftime("%A") }}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for place in places %}
-            <!-- Rotation of zero so that stretched link works as expected -->
-            <tr style="transform: rotate(0);">
-              <th scope="row" class="position-sticky bg-white" style="left: 0">
-                <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                <div>{{ place.name }}</div>
-              </th>
-
-              {% for day in days %}
-                {% with forecast = forecasts[place.name][day] %}
-                  {% if forecast %}
-                    <td class="text-nowrap
-                      {% if forecast.total_rain.value <= 1.0 %}
-                        text-success
-                      {% else %}
-                        text-primary
-                      {% endif %}
-                      {% if day.weekday() in [5, 6] %}
-                        font-weight-bolder
-                      {% endif %}
-                    ">
-                      <a href="#{{ place.name }}Header" class="stretched-link"></a>
-                      {{ forecast.total_rain.value | round(1) }} {{ forecast.total_rain.units }}
-                    </td>
-                  {% else %}
-                    <td></td>
-                  {% endif %}
-                {% endwith %}
-              {% endfor %}
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
+    <hr class="my-4 mx-4">
+    <section id="instructions" class="mb-4">
       <p>
-        Forecast data is provided by the <a href="https://www.met.no/en">
-        Norwegian Meteorological Institute</a>. This is an open source project,
-        the source code is available on
-        <a href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>.
+        Dry Rock is designed to be a one stop shop for figuring out where to go climbing.
+      </p>
+      <ul>
+        <li>
+          Select your region from the list on the top left, and select your preferred units from the dropdown on the
+          top right.
+        </li>
+        <li>
+          The overview table for each region has a 7-day rainfall summary for popular climbing destinations.
+        </li>
+        <li>
+          Weather values are given colour codes to indicate how good/bad they are for climbing;
+          <span class="bg-success-subtle">good</span>, <span class="bg-warning-subtle">okay</span>, or
+          <span class="bg-danger-subtle">bad</span>.
+        </li>
+        <li>
+          Clicking on a row in the tables will allow you to drill into more detail for that place and day.
+        </li>
+        <li>
+          Make sure to bookmark your favourite page! 😉
+        </li>
+        <li>
+          Check out the <a href="
+              {% if unit_system == 'METRIC' %}
+                {{ nav_links[-1].href_metric }}
+              {% elif unit_system == 'IMPERIAL' %}
+                {{ nav_links[-1].href_imperial }}
+              {% endif %}
+            ">news</a> page every once in a while to hear about new features.
+        </li>
+      </ul>
+    </section>
+    <section id="app" class="mb-4">
+      <h2>Is there an app?</h2>
+      <p>
+        There is not an app but if you go to the page relevant to you on your mobile web browser, hit the three dots on
+        the top bar and select "save to home screen" a link to the site will appear on your home screen.
+      </p>
+    </section>
+    <section id="info">
+      <h2>More Info</h2>
+      <p>
+        Forecast data is provided by the <a href="https://www.met.no/en"> Norwegian Meteorological Institute</a>. Many
+        thanks to them for making their data freely available.
+      </p>
+      <p>
+        This is an open source project, the source code is available on <a
+          href="https://github.com/Rory-Sullivan/Dry-Rock">GitHub</a>. You can get in touch with me there or just say
+        'hi'
+        at the local crag!
       </p>
 
       <div class="row align-items-center justify-content-around">
         <div class="col-auto text-center">
-          <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="./static/logos/GitHub-Mark/GitHub-Mark-64px.png" alt="GitHub logo"></a>
+          <a href="https://github.com/Rory-Sullivan/Dry-Rock"><img src="/static/logos/GitHub-Mark/GitHub-Mark-64px.png"
+              alt="GitHub logo"></a>
         </div>
         <div class="col-auto text-center">
-          <a href="https://www.met.no/en"><img src="./static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg" alt="Norwegian Meteorological Institute logo" height="120px"></a>
+          <a href="https://www.met.no/en"><img src="/static/logos/NMI-Logo/Met_RGB_Horisontal_ENG.jpg"
+              alt="Norwegian Meteorological Institute logo" height="120px"></a>
         </div>
       </div>
-    </div>
+    </section>
   </div>
-
-  {% for place in places %}
-    <div class="row">
-      <section id="{{ place.name }}Header" class="section-header w-100 mb-3">
-        <h1 class="display-4 bg-secondary text-white text-center pb-1">
-          {{ place.name }}
-        </h1>
-      </section>
-
-      <div class="w-100">
-        {% with forecasts=forecasts[place.name] %}
-          {% include "forecast_table.html.j2" %}
-        {% endwith %}
-
-        <div class="px-3">
-          <a class="btn btn-outline-primary" href="#overview">Overview</a>
-          <small class="float-right"><span class="font-weight-bolder">Updated at:</span> {{ updated_at[place.name].strftime("%H:%M %d/%m/%Y") }}</small>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
+</div>
 {% endblock content %}

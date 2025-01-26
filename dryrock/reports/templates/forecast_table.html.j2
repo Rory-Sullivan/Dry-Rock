@@ -2,78 +2,111 @@
   <table class="table table-hover border-bottom">
     <thead>
       <tr>
-        <th scope="col" class="position-sticky bg-white" style="left: 0">Date</th>
-        <th scope="col">Morning</th>
-        <th scope="col">Afternoon</th>
-        <th scope="col">Evening</th>
-        <th scope="col">Temp. <small class="text-muted d-none d-md-inline">(min / max)</small></th>
-        <th scope="col">Wind</th>
+        <th scope="col" class="position-sticky" style="left: 0">Date</th>
+        <th scope="col">
+          <div class="text-center">Night <small class="text-muted text-nowrap">(00-06)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Morning <small class="text-muted text-nowrap">(06-12)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Afternoon <small class="text-muted text-nowrap">(12-18)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Evening <small class="text-muted text-nowrap">(18-24)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Temp. <small class="text-muted text-nowrap">(min / max)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Wind <small class="text-muted text-nowrap">(max)</small></div>
+        </th>
+        <th scope="col">
+          <div class="text-center">Humidity <small class="text-muted text-nowrap">(min)</small></div>
+        </th>
       </tr>
     </thead>
     <tbody>
       {% for day in days %}
       {% with forecast = forecasts[day] %}
-      <tr style="transform: rotate(0);" {% if day.weekday() in [5, 6] %} class="font-weight-bolder" {% endif %}>
-        <th scope="row" class="position-sticky bg-white" style="left: 0">
-          {# Remove characters from name that break the modal toggle #}
-          <a href="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" data-toggle="modal"
-            class="stretched-link"></a>
+      {% if forecast %}
+      {# Remove characters from name that break the modal toggle #}
+      <tr {% if day.weekday() in [5, 6] %} class="fw-bolder" {% endif %}
+        onclick="location.hash='{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}';"
+        style="cursor: pointer;">
+        <th scope="row" class="position-sticky" style="left: 0">
           <div class="text-nowrap d-inline">
             {{ day.strftime("%a") }} <small class="text-muted d-none d-md-inline">{{ day.strftime("%d %b") }}</small>
           </div>
         </th>
 
-        {% if forecast.morning_rain %}
-        {% if forecast.morning_rain.value <= 1.0 %} <td class="text-success text-nowrap">
+        {% if forecast.night_rain %}
+        <td class="text-nowrap text-center table-{{ forecast.night_rain_colour_variant }}">
+          {% if forecast.night_rain.units == 'inches' %}
+          {{ forecast.night_rain.value | round(2) }} in
           {% else %}
-          <td class="text-primary text-nowrap">
-            {% endif %}
-            {{ forecast.morning_rain.value | round(1) }} {{ forecast.morning_rain.units }}
-          </td>
-          {% else %}
-          <td></td>
+          {{ forecast.night_rain.value | round(1) }} {{forecast.night_rain.units }}
           {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
-          {% if forecast.afternoon_rain %}
-          {% if forecast.afternoon_rain.value <= 1.0 %} <td class="text-success text-nowrap">
-            {% else %}
-            <td class="text-primary text-nowrap">
-              {% endif %}
-              {{ forecast.afternoon_rain.value | round(1) }} {{ forecast.afternoon_rain.units }}
-            </td>
-            {% else %}
-            <td></td>
-            {% endif %}
+        {% if forecast.morning_rain %}
+        <td class="text-nowrap text-center table-{{ forecast.morning_rain_colour_variant }}">
+          {% if forecast.morning_rain.units == 'inches' %}
+          {{ forecast.morning_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.morning_rain.value | round(1) }} {{forecast.morning_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
-            {% if forecast.evening_rain %}
-            {% if forecast.evening_rain.value <= 1.0 %} <td class="text-success text-nowrap">
-              {% else %}
-              <td class="text-primary text-nowrap">
-                {% endif %}
-                {{ forecast.evening_rain.value | round(1) }} {{ forecast.evening_rain.units }}
-              </td>
-              {% else %}
-              <td></td>
-              {% endif %}
+        {% if forecast.afternoon_rain %}
+        <td class="text-nowrap text-center table-{{ forecast.afternoon_rain_colour_variant }}">
+          {% if forecast.afternoon_rain.units == 'inches' %}
+          {{ forecast.afternoon_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.afternoon_rain.value | round(1) }} {{forecast.afternoon_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
 
-              <td class="text-danger text-nowrap">
-                {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
-                {% if forecast.max_temp.units == "celsius" %}
-                &deg;C
-                {% elif forecast.max_temp.units == "farenheit" %}
-                &deg;F
-                {% else %}
-                forecast.max_temp.units
-                {% endif %}
-              </td>
-              <td class="text-nowrap">
-                {# Remove characters from name that break the modal toggle #}
-                <a href="#{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}"
-                  data-toggle="modal" class="stretched-link"></a>
-                {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
-                forecast.max_wind_speed_direction }}
-              </td>
+        {% if forecast.evening_rain %}
+        <td class="text-nowrap text-center table-{{ forecast.evening_rain_colour_variant }}">
+          {% if forecast.evening_rain.units == 'inches' %}
+          {{ forecast.evening_rain.value | round(2) }} in
+          {% else %}
+          {{ forecast.evening_rain.value | round(1) }} {{forecast.evening_rain.units }}
+          {% endif %}
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
+
+        <td class="text-nowrap text-center table-{{ forecast.max_temp_colour_variant }}">
+          {{forecast.min_temp.value | round | int }} / {{ forecast.max_temp.value | round | int }}
+          {% if forecast.max_temp.units == "celsius" %}
+          &deg;C
+          {% elif forecast.max_temp.units == "fahrenheit" %}
+          &deg;F
+          {% else %}
+          {{ forecast.max_temp.units }}
+          {% endif %}
+        </td>
+        <td class="text-nowrap text-center table-{{ forecast.max_wind_speed_colour_variant }}">
+          {{ forecast.max_wind_speed.value | round | int }} {{ forecast.max_wind_speed.units }} {{
+          forecast.max_wind_speed_direction }}
+        </td>
+        <td class="text-nowrap text-center table-{{ forecast.min_humid_colour_variant }}">
+          {{forecast.min_humid.value | round | int }} {{ forecast.min_humid.units }}
+        </td>
       </tr>
+      {% endif %}
       {% endwith %}
       {% endfor %}
     </tbody>
@@ -82,60 +115,94 @@
 
 {% for day in days %}
 {# Remove characters from name that break the modal toggle #}
-<div class="modal fade" id="{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" tabindex="-1"
+<div class="modal" id="{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ day }}" tabindex="-1"
   aria-labelledby="{{ place.name }}{{ day }}Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg modal-fullscreen-lg-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="{{ place.name }}{{ day }}Label">{{ place.name }}</h5>
-        <h5 class="modal-title ml-auto">{{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b")
-            }}</small></h5>
-        <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title ms-auto">
+          {{ day.strftime("%a") }} <small class="text-muted">{{ day.strftime("%d %b") }}</small>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body px-0">
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">Time</th>
-              <th scope="col">Rain</th>
-              <th scope="col">Temp.</th>
-              <th scope="col">Wind</th>
+              <th scope="col" class="position-sticky" style="left: 0">Time</th>
+              <th scope="col" class="text-center">Rain</th>
+              <th scope="col" class="text-center">Temp.</th>
+              <th scope="col" class="text-center">Wind</th>
+              <th scope="col" class="text-center">Humid.</th>
+              <th scope="col" class="text-center">Cloud cover</th>
             </tr>
           </thead>
           <tbody>
             {% for interval in forecasts[day].intervals %}
             <tr>
-              <td class="text-nowrap">
+              <td class="text-nowrap position-sticky" style="left: 0">
                 {{ interval.start_time.strftime("%H")}} - {{ interval.end_time.strftime("%H")}}
               </td>
 
-              {% if interval.rain.value <= 0.5 %} <td class="text-success text-nowrap">
+              <td class="text-nowrap text-center table-{{ interval.rain_colour_variant }}">
+                {% if interval.rain.units == 'inches' %}
+                {{ interval.rain.value | round(2) }} in
                 {% else %}
-                <td class="text-primary text-nowrap">
-                  {% endif %}
-                  {{ interval.rain.value | round(1) }} {{ interval.rain.units }}
-                </td>
+                {{ interval.rain.value | round(1) }} {{interval.rain.units }}
+                {% endif %}
+              </td>
 
-                <td class="text-danger text-nowrap">
-                  {{interval.temp.value | round(1) }}
-                  {% if interval.temp.units == "celsius" %}
-                  &deg;C
-                  {% elif interval.temp.units == "farenheit" %}
-                  &deg;F
-                  {% else %}
-                  forecast.max_temp.units
-                  {% endif %}
-                </td>
+              <td class="text-nowrap text-center table-{{ interval.temp_colour_variant }}">
+                {{interval.temp.value | round(1) }}
+                {% if interval.temp.units == "celsius" %}
+                &deg;C
+                {% elif interval.temp.units == "fahrenheit" %}
+                &deg;F
+                {% else %}
+                {{ interval.temp.units }}
+                {% endif %}
+              </td>
 
-                <td class="text-nowrap">
-                  {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
-                </td>
+              <td class="text-nowrap text-center  table-{{ interval.wind_speed_colour_variant }}">
+                {{ interval.wind_speed.value }} {{ interval.wind_speed.units }} {{ interval.wind_from_direction }}
+              </td>
+
+              <td class="text-nowrap text-center  table-{{ interval.humid_colour_variant }}">
+                {{ interval.humid.value | round | int }} {{ interval.humid.units }}
+              </td>
+
+              <td class="text-nowrap text-center">
+                {{ interval.cloud_cover.value | round | int }} {{ interval.cloud_cover.units }}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+      </div>
+      <div class="modal-footer">
+        {% if loop.previtem %}
+        <a class="btn btn-outline-primary me-auto"
+          onclick="changeModal('{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ loop.previtem }}');">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+          </svg>
+          Prev. day
+        </a>
+        {% endif %}
+        {% if loop.nextitem %}
+        <a class="btn btn-outline-primary ms-auto"
+          onclick="changeModal('{{ place.name.replace(' ', '').replace('(', '').replace(')', '') }}{{ loop.nextitem }}');">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+          </svg>
+          Next day
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>

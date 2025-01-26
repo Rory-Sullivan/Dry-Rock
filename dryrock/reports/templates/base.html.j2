@@ -1,51 +1,155 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Custom style sheets -->
-    <link rel="stylesheet" href="/static/style.css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- Icons -->
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
-    <link rel="manifest" href="/static/favicons/site.webmanifest">
+  <!-- Custom style sheets -->
+  <link rel="stylesheet" href="/static/style.css">
 
-    {% block title %}
-      <title>Dry Rock</title>
-    {% endblock title %}
-  </head>
+  <!-- Icons -->
+  <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="/static/favicons/site.webmanifest">
 
-  <body class="bg-light">
-    <header class="navbar navbar-expand fixed-top navbar-dark bg-primary">
-      <a class="navbar-brand" href="/">Dry Rock</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+  {% block title %}
+  <title>Dry Rock</title>
+  {% endblock title %}
+</head>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="
+        {% if unit_system == 'METRIC' %}
+          {{ index_nav_link.href_metric }}
+        {% elif unit_system == 'IMPERIAL' %}
+          {{ index_nav_link.href_imperial }}
+        {% else %}
+          /
+        {% endif %}">
+        Dry Rock
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <div class="navbar-nav">
-          <a class="nav-link {% block aboutPageActive %}{% endblock %}" href="/pages/about.html">About</a>
-          <a class="nav-link {% block newsPageActive %}{% endblock %}" href="/pages/news.html">News</a>
-        </div>
+        <ul class="navbar-nav me-auto">
+          {% for nav_link in nav_links %}
+          <li class="nav-item">
+            <a class="nav-link {% if nav_link.is_active %}active{% endif %}" href="
+              {% if unit_system == 'METRIC' %}
+                {{ nav_link.href_metric }}
+              {% elif unit_system == 'IMPERIAL' %}
+                {{ nav_link.href_imperial }}
+              {% else %}
+                #
+              {% endif %}
+            ">
+              {{ nav_link.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <ul class="navbar-nav me-4">
+          <li class="nav-item dropdown">
+            <button class="btn dropdown-toggle btn-primary" data-bs-toggle="dropdown" aria-expanded="false">
+              Units
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="unitsNavbarDropdown">
+              <li>
+                <a class="dropdown-item {% if unit_system == 'METRIC' %}active{% endif %}"
+                  href="{{ units_nav_link.href_metric }}">Metric</a>
+              </li>
+              <li>
+                <a class="dropdown-item {% if unit_system == 'IMPERIAL' %}active{% endif %}"
+                  href="{{ units_nav_link.href_imperial }}">Imperial</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
-    </header>
-
-    <div class="container-md bg-white pb-3">
-      {% block content %}
-      {% endblock content %}
     </div>
+  </nav>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-  </body>
+  <div class="content container-fluid bg-white pb-3">
+    {% block content %}
+    {% endblock content %}
+  </div>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <!-- Custom JavaScript -->
+  <script>
+    // Global variable to store the currently active modal if any
+    let activeModal = null;
+
+    // Shows/hides modals based on the current state of the URL hash
+    function updateModalDisplay() {
+      // Close currently active modal if any
+      if (activeModal !== null) {
+        if (activeModal._isShown) {
+          activeModal.hide();
+        }
+        activeModal = null;
+      }
+
+      // Find if hash matches modal and open it
+      const hash = location.hash.substring(1); // Remove '#' at start of string
+      const modalElement = document.getElementById(hash);
+      if (modalElement !== null && modalElement.classList.contains("modal")) {
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modal.show();
+        activeModal = modal;
+      }
+    }
+
+    // Trigger modal update once during page load in case the user reloads while
+    // a modal is displayed.
+    updateModalDisplay();
+
+    // Watch for hash changes and trigger a modal update
+    window.addEventListener("hashchange", (e) => {
+      updateModalDisplay();
+    });
+
+    // Function for switching between modals, this is used by some buttons on
+    // the application
+    function changeModal(newModalId) {
+      history.replaceState(null, '', `#${newModalId}`);
+      // Trigger modal update as 'hashchange' event is not triggered by
+      // 'replaceState' method
+      updateModalDisplay();
+    }
+
+    // One time script to add listener to all modals that removes hash when the
+    // modal is closed
+    const allModals = document.getElementsByClassName("modal");
+    for (const modal of allModals) {
+      modal.addEventListener("hide.bs.modal", (e) => {
+        // Check if current hash points to the currently active modal, if not
+        // then we don't need to do anything
+        const hash = location.hash.substring(1); // Remove '#' at start of string
+        if (hash === activeModal._element.id) {
+          // Use single space here so we do not match any given IDs and cause
+          // unwanted scroll (empty string will match anything)
+          location.hash = " ";
+        }
+      })
+    }
+  </script>
+</body>
+
 </html>
