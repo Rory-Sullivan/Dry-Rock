@@ -613,3 +613,33 @@
 2025-01-26 16:48:06,563 : INFO : __main__ : Rendering pages
 2025-01-26 16:48:06,983 : DEBUG : __main__ : Rendered pages
 2025-01-26 16:48:06,983 : INFO : __main__ : Complete
+2025-01-26 17:27:14,446 : INFO : __main__ : Outputting files to: data/output
+2025-01-26 17:27:14,447 : INFO : __main__ : Loading areas
+2025-01-26 17:27:14,484 : DEBUG : __main__ : Loaded areas
+2025-01-26 17:27:14,484 : INFO : __main__ : Creating forecasts
+2025-01-26 17:27:14,485 : DEBUG : __main__ : Created areas
+2025-01-26 17:27:14,485 : INFO : __main__ : Updating forecasts
+2025-01-26 17:27:15,260 : DEBUG : __main__ : Forecast data for Dalkey Quarry updated
+2025-01-26 17:27:15,817 : DEBUG : __main__ : Forecast data for Glendalough updated
+2025-01-26 17:27:16,683 : DEBUG : __main__ : Forecast data for Fair Head updated
+2025-01-26 17:27:17,595 : DEBUG : __main__ : Forecast data for Ailladie updated
+2025-01-26 17:27:18,357 : DEBUG : __main__ : Forecast data for Gap of Dunloe updated
+2025-01-26 17:27:19,529 : DEBUG : __main__ : Forecast data for Muckros Head updated
+2025-01-26 17:27:20,105 : DEBUG : __main__ : Forecast data for Lower Cove (Mournes) updated
+2025-01-26 17:27:20,651 : DEBUG : __main__ : Forecast data for Cruit Island updated
+2025-01-26 17:27:21,236 : DEBUG : __main__ : Forecast data for Garron Point updated
+2025-01-26 17:27:22,278 : DEBUG : __main__ : Forecast data for Inis Mór updated
+2025-01-26 17:27:22,849 : DEBUG : __main__ : Forecast data for I90 Exit 32 updated
+2025-01-26 17:27:23,938 : DEBUG : __main__ : Forecast data for I90 Exit 38 updated
+2025-01-26 17:27:24,671 : DEBUG : __main__ : Forecast data for Index updated
+2025-01-26 17:27:25,239 : DEBUG : __main__ : Forecast data for Leavenworth (Icicle Buttress) updated
+2025-01-26 17:27:25,784 : DEBUG : __main__ : Forecast data for Mount Erie updated
+2025-01-26 17:27:26,376 : DEBUG : __main__ : Forecast data for Tieton (The Bend) updated
+2025-01-26 17:27:26,944 : DEBUG : __main__ : Forecast data for Mazama updated
+2025-01-26 17:27:27,510 : DEBUG : __main__ : Forecast data for Frenchman Coulee (Vantage) updated
+2025-01-26 17:27:28,075 : DEBUG : __main__ : Forecast data for Squamish (Grand Wall) updated
+2025-01-26 17:27:28,657 : DEBUG : __main__ : Forecast data for Smith Rock updated
+2025-01-26 17:27:28,657 : DEBUG : __main__ : Updated forecasts
+2025-01-26 17:27:28,657 : INFO : __main__ : Rendering pages
+2025-01-26 17:27:29,073 : DEBUG : __main__ : Rendered pages
+2025-01-26 17:27:29,073 : INFO : __main__ : Complete
