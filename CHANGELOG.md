@@ -3,6 +3,24 @@
 Here you can find a list of changes to the Dry Rock project as well as upcoming
 features.
 
+## [3.0.0] - 2025-01-25
+
+### Added
+
+- Ability to have multiple areas
+- Washington as an area
+- The ability to switch between metric and imperial units (so that we don't
+  confuse the Americans who will be using the site now)
+- New forecast variables: humidity, and cloud cover
+- Additional colour code indicators, now with three levels, good, okay, and bad,
+  and includes additional variables temperature, wind speed, etc.
+- 'previous day' and 'next day' buttons to the detailed day forecast tables
+
+### Changed
+
+- Does a general overhaul of the UI
+- Updated dependencies to newer versions
+
 ## [2.1.1] - 2024-11-01
 
 ### Fixed
