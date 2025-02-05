@@ -9623,3 +9623,13 @@
 2025-02-05 19:23:13,662 : INFO : __main__ : Rendering pages
 2025-02-05 19:23:14,120 : DEBUG : __main__ : Rendered pages
 2025-02-05 19:23:14,120 : INFO : __main__ : Complete
+2025-02-05 19:47:49,329 : INFO : __main__ : Outputting files to: data/output
+2025-02-05 19:47:49,329 : INFO : __main__ : Loading areas
+2025-02-05 19:47:49,330 : DEBUG : __main__ : Loaded areas
+2025-02-05 19:47:49,330 : INFO : __main__ : Creating forecasts
+2025-02-05 19:47:49,331 : DEBUG : __main__ : Created areas
+2025-02-05 19:47:49,331 : INFO : __main__ : Updating forecasts
+2025-02-05 19:47:49,379 : DEBUG : __main__ : Updated forecasts
+2025-02-05 19:47:49,379 : INFO : __main__ : Rendering pages
+2025-02-05 19:47:49,817 : DEBUG : __main__ : Rendered pages
+2025-02-05 19:47:49,817 : INFO : __main__ : Complete
