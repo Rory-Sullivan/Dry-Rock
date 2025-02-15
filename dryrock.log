@@ -18353,3 +18353,13 @@
 2025-02-15 15:26:02,739 : INFO : __main__ : Rendering pages
 2025-02-15 15:26:03,292 : DEBUG : __main__ : Rendered pages
 2025-02-15 15:26:03,292 : INFO : __main__ : Complete
+2025-02-15 15:47:47,995 : INFO : __main__ : Outputting files to: data/output
+2025-02-15 15:47:47,995 : INFO : __main__ : Loading areas
+2025-02-15 15:47:47,996 : DEBUG : __main__ : Loaded areas
+2025-02-15 15:47:47,996 : INFO : __main__ : Creating forecasts
+2025-02-15 15:47:47,997 : DEBUG : __main__ : Created areas
+2025-02-15 15:47:47,997 : INFO : __main__ : Updating forecasts
+2025-02-15 15:47:48,043 : DEBUG : __main__ : Updated forecasts
+2025-02-15 15:47:48,043 : INFO : __main__ : Rendering pages
+2025-02-15 15:47:48,474 : DEBUG : __main__ : Rendered pages
+2025-02-15 15:47:48,474 : INFO : __main__ : Complete
