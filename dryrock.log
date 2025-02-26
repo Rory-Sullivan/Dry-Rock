@@ -28133,3 +28133,13 @@
 2025-02-26 17:28:29,579 : INFO : __main__ : Rendering pages
 2025-02-26 17:28:30,011 : DEBUG : __main__ : Rendered pages
 2025-02-26 17:28:30,011 : INFO : __main__ : Complete
+2025-02-26 17:47:57,506 : INFO : __main__ : Outputting files to: data/output
+2025-02-26 17:47:57,506 : INFO : __main__ : Loading areas
+2025-02-26 17:47:57,531 : DEBUG : __main__ : Loaded areas
+2025-02-26 17:47:57,531 : INFO : __main__ : Creating forecasts
+2025-02-26 17:47:57,532 : DEBUG : __main__ : Created areas
+2025-02-26 17:47:57,532 : INFO : __main__ : Updating forecasts
+2025-02-26 17:47:57,582 : DEBUG : __main__ : Updated forecasts
+2025-02-26 17:47:57,582 : INFO : __main__ : Rendering pages
+2025-02-26 17:47:57,993 : DEBUG : __main__ : Rendered pages
+2025-02-26 17:47:57,993 : INFO : __main__ : Complete
