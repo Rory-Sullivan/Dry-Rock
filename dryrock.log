@@ -33513,3 +33513,13 @@
 2025-03-04 18:36:59,736 : INFO : __main__ : Rendering pages
 2025-03-04 18:37:00,146 : DEBUG : __main__ : Rendered pages
 2025-03-04 18:37:00,146 : INFO : __main__ : Complete
+2025-03-04 18:51:30,458 : INFO : __main__ : Outputting files to: data/output
+2025-03-04 18:51:30,458 : INFO : __main__ : Loading areas
+2025-03-04 18:51:30,459 : DEBUG : __main__ : Loaded areas
+2025-03-04 18:51:30,459 : INFO : __main__ : Creating forecasts
+2025-03-04 18:51:30,460 : DEBUG : __main__ : Created areas
+2025-03-04 18:51:30,460 : INFO : __main__ : Updating forecasts
+2025-03-04 18:51:30,505 : DEBUG : __main__ : Updated forecasts
+2025-03-04 18:51:30,505 : INFO : __main__ : Rendering pages
+2025-03-04 18:51:30,926 : DEBUG : __main__ : Rendered pages
+2025-03-04 18:51:30,926 : INFO : __main__ : Complete
