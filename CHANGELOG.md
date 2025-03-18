@@ -3,6 +3,12 @@
 Here you can find a list of changes to the Dry Rock project as well as upcoming
 features.
 
+## [3.1.0] - 2025-03-18
+
+### Added
+
+- New locations to Ireland forecast; Rocklands, and Dunmore
+
 ## [3.0.0] - 2025-01-25
 
 ### Added

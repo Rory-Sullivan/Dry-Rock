@@ -23,22 +23,10 @@
                     "altitude": 150
                 },
                 {
-                    "place_name": "Ailladie",
-                    "latitude": 53.071,
-                    "longitude": -9.357,
-                    "altitude": 25
-                },
-                {
-                    "place_name": "Gap of Dunloe",
-                    "latitude": 52.031,
-                    "longitude": -9.642,
-                    "altitude": 250
-                },
-                {
-                    "place_name": "Muckros Head",
-                    "latitude": 54.609,
-                    "longitude": -8.591,
-                    "altitude": 15
+                    "place_name": "Garron Point",
+                    "latitude": 55.057,
+                    "longitude": -5.993,
+                    "altitude": 55
                 },
                 {
                     "place_name": "Lower Cove (Mournes)",
@@ -47,16 +35,40 @@
                     "altitude": 430
                 },
                 {
+                    "place_name": "Ailladie",
+                    "latitude": 53.071,
+                    "longitude": -9.357,
+                    "altitude": 25
+                },
+                {
+                    "place_name": "Muckros Head",
+                    "latitude": 54.609,
+                    "longitude": -8.591,
+                    "altitude": 15
+                },
+                {
                     "place_name": "Cruit Island",
                     "latitude": 55.029,
                     "longitude": -8.422,
                     "altitude": 13
                 },
                 {
-                    "place_name": "Garron Point",
-                    "latitude": 55.057,
-                    "longitude": -5.993,
-                    "altitude": 55
+                    "place_name": "Dunmore",
+                    "latitude": 55.291,
+                    "longitude": -7.135,
+                    "altitude": 4
+                },
+                {
+                    "place_name": "Gap of Dunloe",
+                    "latitude": 52.031,
+                    "longitude": -9.642,
+                    "altitude": 250
+                },
+                {
+                    "place_name": "Rocklands",
+                    "latitude": 52.322,
+                    "longitude": -6.456,
+                    "altitude": 32
                 },
                 {
                     "place_name": "Inis Mór",

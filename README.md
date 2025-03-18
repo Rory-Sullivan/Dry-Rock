@@ -29,7 +29,7 @@ The gist of how to set up the project is as follows;
 - Fork this repository
 - Update the 'setup.cfg' file, particularly the 'user_agent' section under the
   'metno-locationforecast' header
-- Update the '/data/input/places.csv/' file with the places that are of interest
+- Update the '/data/input/areas.json/' file with the places that are of interest
   to you
 - Setup [GitHub Pages](https://pages.github.com/) for your repository
 
