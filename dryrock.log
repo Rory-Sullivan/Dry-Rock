@@ -50728,3 +50728,15 @@
 2025-03-23 14:27:34,515 : INFO : __main__ : Rendering pages
 2025-03-23 14:27:34,976 : DEBUG : __main__ : Rendered pages
 2025-03-23 14:27:34,976 : INFO : __main__ : Complete
+2025-03-23 14:47:53,971 : INFO : __main__ : Outputting files to: data/output
+2025-03-23 14:47:53,971 : INFO : __main__ : Loading areas
+2025-03-23 14:47:53,989 : DEBUG : __main__ : Loaded areas
+2025-03-23 14:47:53,989 : INFO : __main__ : Creating forecasts
+2025-03-23 14:47:53,989 : DEBUG : __main__ : Created areas
+2025-03-23 14:47:53,989 : INFO : __main__ : Updating forecasts
+2025-03-23 14:47:54,744 : DEBUG : __main__ : Forecast data for Dunmore updated
+2025-03-23 14:47:55,255 : DEBUG : __main__ : Forecast data for Rocklands updated
+2025-03-23 14:47:55,276 : DEBUG : __main__ : Updated forecasts
+2025-03-23 14:47:55,276 : INFO : __main__ : Rendering pages
+2025-03-23 14:47:55,798 : DEBUG : __main__ : Rendered pages
+2025-03-23 14:47:55,798 : INFO : __main__ : Complete
